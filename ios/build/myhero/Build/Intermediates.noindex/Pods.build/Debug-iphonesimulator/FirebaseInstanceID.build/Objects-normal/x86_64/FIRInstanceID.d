@@ -1,0 +1,32 @@
+dependencies: \
+  /Users/bo4/Documents/hpam/myHero/ios/Pods/FirebaseInstanceID/Firebase/InstanceID/FIRInstanceID.m \
+  /Users/bo4/Documents/hpam/myHero/ios/Pods/FirebaseInstanceID/Firebase/InstanceID/Public/FIRInstanceID.h \
+  /Users/bo4/Documents/hpam/myHero/ios/Pods/Headers/Private/FirebaseCore/FIRAppInternal.h \
+  /Users/bo4/Documents/hpam/myHero/ios/Pods/Headers/Private/FirebaseCore/FIRApp.h \
+  /Users/bo4/Documents/hpam/myHero/ios/Pods/Headers/Private/FirebaseCore/FIRErrors.h \
+  /Users/bo4/Documents/hpam/myHero/ios/Pods/Headers/Private/FirebaseCore/FIRErrorCode.h \
+  /Users/bo4/Documents/hpam/myHero/ios/Pods/Headers/Private/FirebaseCore/FIRComponent.h \
+  /Users/bo4/Documents/hpam/myHero/ios/Pods/Headers/Private/FirebaseCore/FIRComponentContainer.h \
+  /Users/bo4/Documents/hpam/myHero/ios/Pods/Headers/Private/FirebaseCore/FIRComponentType.h \
+  /Users/bo4/Documents/hpam/myHero/ios/Pods/Headers/Private/FirebaseCore/FIRLibrary.h \
+  /Users/bo4/Documents/hpam/myHero/ios/Pods/Headers/Private/FirebaseCore/FIROptions.h \
+  /Users/bo4/Documents/hpam/myHero/ios/Pods/Headers/Private/GoogleUtilities/GULAppEnvironmentUtil.h \
+  /Users/bo4/Documents/hpam/myHero/ios/Pods/Headers/Private/GoogleUtilities/GULUserDefaults.h \
+  /Users/bo4/Documents/hpam/myHero/ios/Pods/FirebaseInstanceID/Firebase/InstanceID/Private/FIRInstanceID+Private.h \
+  /Users/bo4/Documents/hpam/myHero/ios/Pods/FirebaseInstanceID/Firebase/InstanceID/Private/FIRInstanceIDCheckinPreferences.h \
+  /Users/bo4/Documents/hpam/myHero/ios/Pods/FirebaseInstanceID/Firebase/InstanceID/FIRInstanceIDAuthService.h \
+  /Users/bo4/Documents/hpam/myHero/ios/Pods/FirebaseInstanceID/Firebase/InstanceID/FIRInstanceIDCheckinService.h \
+  /Users/bo4/Documents/hpam/myHero/ios/Pods/FirebaseInstanceID/Firebase/InstanceID/FIRInstanceIDUtilities.h \
+  /Users/bo4/Documents/hpam/myHero/ios/Pods/FirebaseInstanceID/Firebase/InstanceID/FIRInstanceIDCombinedHandler.h \
+  /Users/bo4/Documents/hpam/myHero/ios/Pods/FirebaseInstanceID/Firebase/InstanceID/FIRInstanceIDConstants.h \
+  /Users/bo4/Documents/hpam/myHero/ios/Pods/FirebaseInstanceID/Firebase/InstanceID/FIRInstanceIDDefines.h \
+  /Users/bo4/Documents/hpam/myHero/ios/Pods/FirebaseInstanceID/Firebase/InstanceID/FIRInstanceIDKeyPairStore.h \
+  /Users/bo4/Documents/hpam/myHero/ios/Pods/FirebaseInstanceID/Firebase/InstanceID/FIRInstanceIDKeyPairUtilities.h \
+  /Users/bo4/Documents/hpam/myHero/ios/Pods/FirebaseInstanceID/Firebase/InstanceID/FIRInstanceIDLogger.h \
+  /Users/bo4/Documents/hpam/myHero/ios/Pods/FirebaseInstanceID/Firebase/InstanceID/FIRIMessageCode.h \
+  /Users/bo4/Documents/hpam/myHero/ios/Pods/FirebaseInstanceID/Firebase/InstanceID/FIRInstanceIDStore.h \
+  /Users/bo4/Documents/hpam/myHero/ios/Pods/FirebaseInstanceID/Firebase/InstanceID/FIRInstanceIDTokenInfo.h \
+  /Users/bo4/Documents/hpam/myHero/ios/Pods/FirebaseInstanceID/Firebase/InstanceID/FIRInstanceIDAPNSInfo.h \
+  /Users/bo4/Documents/hpam/myHero/ios/Pods/FirebaseInstanceID/Firebase/InstanceID/FIRInstanceIDTokenManager.h \
+  /Users/bo4/Documents/hpam/myHero/ios/Pods/FirebaseInstanceID/Firebase/InstanceID/FIRInstanceIDVersionUtilities.h \
+  /Users/bo4/Documents/hpam/myHero/ios/Pods/FirebaseInstanceID/Firebase/InstanceID/NSError+FIRInstanceID.h

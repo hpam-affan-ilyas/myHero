@@ -1,0 +1,56 @@
+{
+  "project_info": {
+    "project_number": "163529173995",
+    "firebase_url": "https://myhero-52a86.firebaseio.com",
+    "project_id": "myhero-52a86",
+    "storage_bucket": "myhero-52a86.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:163529173995:android:295d214c49119afe",
+        "android_client_info": {
+          "package_name": "com.hpam.myhero"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "163529173995-2i26muammvhtt64hslgl93v0e1kvlgm6.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.hpam.myhero",
+            "certificate_hash": "fd4c8cf7fe484d6a5c46015cda24b12bb272375c"
+          }
+        },
+        {
+          "client_id": "163529173995-sv7hstn9jbu7k9973ql18pfaj5rqlevd.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCKt1e_L-aPcLAcjc82YCCuR23ymvdm53A"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "163529173995-sv7hstn9jbu7k9973ql18pfaj5rqlevd.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "163529173995-2j3p387unbrgqo4r0shgp91m458vet55.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "org.reactjs.native.hpam.myhero",
+                "app_store_id": "1481831838"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

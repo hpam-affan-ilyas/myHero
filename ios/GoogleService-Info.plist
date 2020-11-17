@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CLIENT_ID</key>
+	<string>163529173995-c1bfj6pc9acsurma3cdrioia6pve8fje.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.163529173995-c1bfj6pc9acsurma3cdrioia6pve8fje</string>
+	<key>ANDROID_CLIENT_ID</key>
+	<string>163529173995-2i26muammvhtt64hslgl93v0e1kvlgm6.apps.googleusercontent.com</string>
+	<key>API_KEY</key>
+	<string>AIzaSyAcNKAQJ-_v9EsygcDCD7cMxFd9CLYDym4</string>
+	<key>GCM_SENDER_ID</key>
+	<string>163529173995</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>com.hpam.myhero</string>
+	<key>PROJECT_ID</key>
+	<string>myhero-52a86</string>
+	<key>STORAGE_BUCKET</key>
+	<string>myhero-52a86.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:163529173995:ios:a92a15159dbab5af6547ae</string>
+	<key>DATABASE_URL</key>
+	<string>https://myhero-52a86.firebaseio.com</string>
+</dict>
+</plist>
