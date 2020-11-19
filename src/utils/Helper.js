@@ -55,9 +55,6 @@ module.exports = {
     },
 
     produkListWithToken(jenis,start,jumlah){
-        console.log('Jenis', jenis);
-        console.log('Start', start);
-        console.log('Jumlah', jumlah);
         if (typeof jenis == "undefined" ) jenis = '';
         if (typeof start == "undefined" ) start = '';
         if (typeof jumlah == "undefined" ) jumlah = '';

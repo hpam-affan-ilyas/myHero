@@ -551,7 +551,7 @@ class RegistPage4 extends React.Component {
                                 <View style={styles.activeCirclePage} ><Text style={styles.btnTxtDefault}>4</Text></View>
                             </View>
 
-                            <View style={styles.inputGroup} >
+                            <View style={styles.textInputGroup} >
                                 <Text style={styles.labelText}>Bank</Text>
                                 <SearchableDropDown
                                     onTextChange={text => console.log(text)}
@@ -579,8 +579,7 @@ class RegistPage4 extends React.Component {
                                     <Text style={styles.errorMessage}>{this.state.errBankValue && this.state.errBankValue}</Text>
                                 </View>
                             </View>
-
-                            <View style={styles.inputGroup} >
+                            <View style={styles.textInputGroup} >
                                 <Text style={styles.labelText}>No Rekening Bank</Text>
                                 <View style={this.state.errNoRekValue ? styles.textInputError : styles.textInputGroup}>
                                     <TextInput placeholderTextColor="#000000" ref={this.field2} onSubmitEditing={() => {
@@ -592,8 +591,7 @@ class RegistPage4 extends React.Component {
                                     <Text style={styles.errorMessage}>{this.state.errNoRekValue && this.state.errNoRekValue}</Text>
                                 </View>
                             </View>
-
-                            <View style={styles.inputGroup} >
+                            <View style={styles.textInputGroup} >
                                 <Text style={styles.labelText}>Nama Pada Rekening Bank</Text>
                                 <View style={this.state.errNamaRekValue ? styles.textInputError : styles.textInputGroup}>
                                     <TextInput placeholderTextColor="#000000" ref={this.field3} style={styles.textInput} autoCorrect={false} placeholder="Nama Pada Rekening Bank" keyboardType='default' value={this.state.namaRekValue} onChangeText={(namaRekValue) => this.setState({ namaRekValue, errNamaRekValue: undefined })} />

@@ -39,93 +39,157 @@ class DaftarPage extends Component {
         }
     };
 
-    daftarProses = () => {
-        if (this.state.namaDepan.length == 0) {
+    emailInputChange = (emailInput) => {
+        if(!emailInput) {
+            this.setState({
+                errEmailInput : 'Email Tidak Boleh Kosong'
+            })
+        } else {
+            console.log('Valid Email', emailInput.match(GLOBAL.mailFormat));
+            if(!emailInput.match(GLOBAL.mailFormat)) {
+                this.setState({
+                    errEmailInput : 'Email Tidak Valid'
+                })
+            } else {
+                this.setState({ 
+                    emailInput,
+                    errEmailInput: undefined 
+                })
+            }
+        }
+    }
+
+    namaLengkapChange = (namaDepan) => {
+        if(!namaDepan) {
             this.setState({
                 errNamaLengkap : 'Nama Lengkap Tidak Boleh Kosong'
             })
-            // Alert.alert('Perhatian', 'Nama lengkap tidak boleh kosong',
-            //     [{ text: 'OK',
-            //     onPress: () => { const textInput = this.field1.current;
-            //         textInput.focus()} 
-            //     }],
-            //     {cancelable: false},
-            // );
-        // } else if (!this.state.namaDepan.match(GLOBAL.lettersFormat)) {
-        //     Alert.alert('Perhatian', 'Nama depan tidak valid,hanya diizinkan karakter a-z A-Z',
-        //         [{ text: 'OK',
-        //         onPress: () => { const textInput = this.field1.current;
-        //             textInput.focus()} 
-        //         }],
-        //         {cancelable: false},
-        //     );
-        } else if (this.state.emailInput.length == 0) {
-            this.setState({
-                errEmail: 'Email Tidak Boleh Kosong'
-            })
-            Alert.alert('Perhatian', 'Email tidak boleh kosong',
-                [{ text: 'OK',
-                onPress: () => { const textInput = this.field3.current;
-                    textInput.focus()} 
-                }],
-                {cancelable: false},
-            );
-        } else if (!this.state.emailInput.match(GLOBAL.mailFormat)) {
-            this.setState({
-                errEmail: 'Email Tidak Valid'
-            })
-            Alert.alert('Perhatian', 'Email tidak valid',
-                [{ text: 'OK',
-                onPress: () => { const textInput = this.field3.current;
-                    textInput.focus()} 
-                }],
-                {cancelable: false},
-            );
-        } else if (this.state.noHp.length == 0) {
-            this.setState({
-                errNoHp: 'Nomor Handphone Tidak Boleh Kosong'
-            })
-            Alert.alert('Perhatian', 'No HP tidak boleh kosong',
-                [{ text: 'OK',
-                onPress: () => { const textInput = this.field4.current;
-                    textInput.focus()} 
-                }],
-                {cancelable: false},
-            );
-        } else if (!this.state.noHp.match(GLOBAL.numbersFormat)) {
-            this.setState({
-                errNoHp: 'Nomor Handphone Tidak Valid'
-            })
-            Alert.alert('Perhatian', 'No HP tidak valid',
-                [{ text: 'OK',
-                onPress: () => { const textInput = this.field4.current;
-                    textInput.focus()} 
-                }],
-                {cancelable: false},
-            );
-        } else if (this.state.passwordInput.length == 0) {
-            this.setState({
-                errPassordInput: 'Password Tidak Boleh Kosong'
-            })
-            Alert.alert('Perhatian', 'Password tidak boleh kosong',
-                [{ text: 'OK',
-                onPress: () => { const textInput = this.field5.current;
-                    textInput.focus()} 
-                }],
-                {cancelable: false},
-            );
-        } else if (this.state.passwordKonfirm != this.state.passwordInput) {
-            this.setState({
-                errKonfirmPassword: 'Konfirmasi Password Salah'
-            })
-            Alert.alert('Perhatian', 'Konfirmasi password salah',
-                [{ text: 'OK',
-                onPress: () => { const textInput = this.field6.current;
-                    textInput.focus()} 
-                }],
-                {cancelable: false},
-            );
         } else {
+            this.setState({
+                namaDepan,
+                errNamaLengkap : undefined
+            })
+        }
+    } 
+
+    noHpChange = (noHp) => {
+        if(!noHp) {
+            this.setState({
+                errNoHp : 'Nomor Handphone Tidak Boleh Kosong'
+            })
+        } else {
+            if(!noHp.match(GLOBAL.numbersFormat)) {
+                this.setState({
+                    errNoHp : 'Nomor Handphone Tidak Valid'
+                })
+            } else {
+                this.setState({ 
+                    noHp, 
+                    errNoHp: undefined 
+                })
+            }
+        }        
+    }
+
+    passwordInputChange = (passwordInput) => {
+        if(!passwordInput) {
+            this.setState({
+                errPasswordInput : 'Password Tidak Boleh Kosong'
+            })
+        } else {
+            this.setState({ 
+                passwordInput, 
+                errPasswordInput: undefined
+            })
+        }
+    }
+
+    passwordKonfirmChange = (passwordKonfirm) => {
+        if(!passwordKonfirm) {
+            this.setState({
+                errKonfirmPassword : 'Password Konfirm Tidak Boleh Kosong'
+            })
+        } else {
+            if(this.state.passwordInput != passwordKonfirm) {
+                this.setState({
+                    errKonfirmPassword : 'Password Harus Sama'
+                })
+            } else {
+                this.setState({ 
+                    passwordKonfirm, 
+                    errKonfirmPassword: undefined 
+                })
+            }
+        }
+    }
+
+    daftarProses = () => {
+        let continueRegist = true;
+        if(this.state.errNamaLengkap) {
+            continueRegist = false;
+        }
+        if(this.state.errEmailInput) {
+            continueRegist = false;
+        }
+        if(this.state.errNoHp) {
+            continueRegist = false;
+        }
+        if(this.state.errPasswordInput) {
+            continueRegist = false;
+        }
+        if(this.state.errKonfirmPassword) {
+            continueRegist = false;
+        }
+        this.state.errNamaLengkap && continueRegist == false;
+        this.state.errEmailInput && continueRegist == false;
+        this.state.errNoHp && continueRegist == false;
+        this.state.errPasswordInput && continueRegist == false;
+        this.state.errKonfirmPassword && continueRegist == false;
+
+        !this.state.namaDepan && [this.setState({ errNamaLengkap : 'Nama Lengkap Tidak Boleh Kosong'}), continueRegist = false]
+        if(!this.state.emailInput) {
+            this.setState({
+                errEmailInput : 'Email Tidak Boleh Kosong'
+            })
+            continueRegist = false
+        } else {
+            if(!this.state.emailInput.match(GLOBAL.mailFormat)) {
+                this.setState({
+                    errEmailInput : 'Email Tidak Valid'
+                })
+                continueRegist = false
+            }
+
+        }
+        if(!this.state.noHp) {
+            this.setState({
+                errNoHp : 'Nomor Handphone Tidak Boleh Kosong'
+            })
+            continueRegist = false
+        } else {
+            if(!this.state.noHp.match(GLOBAL.numbersFormat)) {
+                this.setState({
+                    errNoHp : 'Nomor Handphone Tidak Valid'
+                })
+                continueRegist = false
+            }
+        }
+        !this.state.passwordInput && this.setState({ errPasswordInput : 'Password Tidak Boleh Kosong'})
+        if(!this.state.passwordKonfirm) {
+            this.setState({ 
+                errKonfirmPassword : 'Konfirm Password Tidak Boleh Kosong'
+            })
+            continueRegist = false
+        } else {
+            if(this.state.passwordInput != this.state.passwordKonfirm) {
+                this.setState({ 
+                    errKonfirmPassword : 'Password Harus Sama'
+                })
+                continueRegist = false
+            }
+        }
+        console.log('Continue Regist', continueRegist);
+        if(continueRegist) {
             var nama_lengkap = this.state.namaDepan.split(" ");
             var nama_lengkap_belakang;
             var nama_belakang_sebelumnya;
@@ -140,6 +204,12 @@ class DaftarPage extends Component {
                 nama_belakang_sebelumnya = nama_lengkap_belakang;
             }
             this.setState({ isLoading: true})
+            console.log('Nama Lengkap', nama_lengkap[0]);
+            console.log('Email Input', this.state.emailInput);
+            console.log('No Hp', this.state.noHp);
+            console.log('password', this.state.passwordInput);
+            console.log('password2', this.state.passwordKonfirm);
+            console.log('Nama Lengkap Belakang', nama_lengkap_belakang);
             fetch(GLOBAL.daftar(), {
                 method: 'POST',
                 headers: {
@@ -154,26 +224,21 @@ class DaftarPage extends Component {
                     password2: this.state.passwordKonfirm,
                     last_name: nama_lengkap_belakang,
                 })
-            })
-                .then((response) => response.json())
-                .then((res) => {
+            }).then((response) => response.json()).then((res) => {
                     this.setState({ isLoading: false })
+                    console.log('response sukses', res.success);
                     if (res.success === true) {
                         Alert.alert('Sukses', '' + res.message + '\nKonfirmasi email untuk aktifasi akun',
                             [{ text: 'OK', onPress: () => this.props.navigation.navigate('Login') }],
                             { cancelable: false },
                         );
-
                     } else {
-                        Alert.alert('Perhatian', '' + res.message,
-                            [{ text: 'OK', onPress: () => console.log('OK Pressed') }],
-                            { cancelable: false },
-                        );
+                        this.setState({
+                            errResopnse : res.message
+                        })
                     }
-                })
-                .done();
+                }).done();
             this.setState({ isLoading: false })
-
         }
     }
 
@@ -305,62 +370,67 @@ class DaftarPage extends Component {
                             this.state.isLoading && <Modal transparent={true}><View style={styles.loadingStyle}><ActivityIndicator size="large" color="#C1FF33" /></View></Modal>
                         }
                         <View style={{marginLeft: 20, marginRight: 20,height:'75%'}}>
-                        
                             <View style={styles.inputGroup} >
+                                {renderIf(this.state.errResopnse)(
+                                    <Text style={[styles.errorMessage, {marginTop: 10}]}>{this.state.errResopnse}</Text>
+                                )}
                                 <Text style={styles.labelText}>{this.state.LnamaDepan}</Text>
                                 <View style={this.state.errNamaLengkap ? styles.textInputError : styles.textInputGroup}>
-                                    <TextInput placeholderTextColor="#000000" autoCorrect={false} ref={this.field1} onFocus={()=>this.setFocus('namaDepan')} onBlur={()=>this.setBlur('namaDepan')} onSubmitEditing={() =>{ const textInput = this.field3.current; textInput.focus()} } style={styles.textInput} placeholder={this.state.PnamaDepan} keyboardType='default' maxLength={25} onChangeText={(namaDepan) => this.setState({ namaDepan })} />
+                                    <TextInput placeholderTextColor="#000000" autoCorrect={false} ref={this.field1} autoCapitalize = 'none' onFocus={()=>this.setFocus('namaDepan')} onBlur={()=>this.setBlur('namaDepan')} onSubmitEditing={() =>{ const textInput = this.field3.current; textInput.focus()} } style={styles.textInput} placeholder={this.state.PnamaDepan} keyboardType='default' maxLength={25} onChangeText={(namaDepan) => this.namaLengkapChange(namaDepan)} />
                                 </View>
                             </View>
                             {renderIf(this.state.errNamaLengkap)(
-                                <View>
-                                    <Text style={styles.errorMessage}>{this.state.errNamaLengkap}</Text>
-                                </View>
+                                <Text style={styles.errorMessage}>{this.state.errNamaLengkap}</Text>
                             )}
-                            {/* <View style={styles.inputGroup} >
-                                <Text style={styles.labelText}>{this.state.LnamaBelakang}</Text>
-                                <View style={styles.textInputGroup}>
-                                    <TextInput placeholderTextColor="#000000" ref={this.field2} onFocus={()=>this.setFocus('namaBelakang')} onBlur={()=>this.setBlur('namaBelakang')} onSubmitEditing={() =>{ const textInput = this.field3.current;
-                                    textInput.focus()} } style={styles.textInput} placeholder={this.state.PnamaBelakang} keyboardType="default" maxLength={25}  onChangeText={(namaBelakang) => this.setState({ namaBelakang })} />
-                                </View>
-                            </View> */}
                             <View style={styles.inputGroup} >
                                 <Text style={styles.labelText}>{this.state.Lemail}</Text>
-                                <View style={styles.textInputGroup}>
-                                    <TextInput placeholderTextColor="#000000" ref={this.field3} onFocus={()=>this.setFocus('email')} onBlur={()=>this.setBlur('email')} onSubmitEditing={() =>{ const textInput = this.field4.current;
-                                    textInput.focus()} } style={styles.textInput} placeholder={this.state.Pemail} keyboardType="email-address" onChangeText={(emailInput) => this.setState({ emailInput })} />
+                                <View style={this.state.errEmailInput ? styles.textInputError : styles.textInputGroup}>
+                                    <TextInput placeholderTextColor="#000000" ref={this.field3} autoCapitalize = 'none' onFocus={()=>this.setFocus('email')} onBlur={()=>this.setBlur('email')} onSubmitEditing={() =>{ const textInput = this.field4.current;
+                                    textInput.focus()} } style={styles.textInput} placeholder={this.state.Pemail} keyboardType="email-address" onChangeText={(emailInput) => this.emailInputChange(emailInput)} />
                                 </View>
                             </View>
+                            {renderIf(this.state.errEmailInput)(
+                                <Text style={styles.errorMessage}>{this.state.errEmailInput}</Text>
+                            )}
                             <View style={styles.inputGroup} >
                                 <Text style={styles.labelText}>{this.state.Lhp}</Text>
-                                <View style={styles.textInputGroup}>
+                                <View style={this.state.errNoHp ? styles.textInputError : styles.textInputGroup}>
                                     <TextInput placeholderTextColor="#000000" ref={this.field4} onFocus={()=>this.setFocus('hp')} onBlur={()=>this.setBlur('hp')} onSubmitEditing={() =>{ const textInput = this.field5.current;
-                                    textInput.focus()} } style={styles.textInput} placeholder={this.state.Php} keyboardType='phone-pad' maxLength={13} onChangeText={(noHp) => this.setState({ noHp })} />
+                                    textInput.focus()} } style={styles.textInput} placeholder={this.state.Php} keyboardType='phone-pad' maxLength={13} onChangeText={(noHp) => this.noHpChange(noHp)} />
                                 </View>
                             </View>
+                            {renderIf(this.state.errNoHp)(
+                                <Text style={styles.errorMessage}>{this.state.errNoHp}</Text>
+                            )}
                             <View style={styles.inputGroup} >
                                 <Text style={styles.labelText}>{this.state.Lpass}</Text>
-                                <View style={styles.textInputGroup}>
+                                <View style={this.state.errPasswordInput ? styles.textInputError : styles.textInputGroup}>
                                     <TextInput {...this.props} style={styles.textInput}
                                     placeholderTextColor="#000000"
                                        ref={this.field5} onFocus={()=>this.setFocus('pass')} onBlur={()=>this.setBlur('pass')} onSubmitEditing={() =>{ const textInput = this.field6.current;
-                                        textInput.focus()} } secureTextEntry={this.state.secureTextEntry1} placeholder={this.state.Ppass} maxLength={30}  keyboardType="default" onChangeText={(passwordInput) => this.setState({ passwordInput })} />
+                                        textInput.focus()} } secureTextEntry={this.state.secureTextEntry1} placeholder={this.state.Ppass} maxLength={30}  keyboardType="default" onChangeText={(passwordInput) => this.passwordInputChange(passwordInput)} />
                                     <TouchableOpacity onPress={this.onTongelEyesPress.bind(this, '1')} style={styles.iconGroup}>
                                         <Icon style={{color:'#7d7d7d'}} name={this.state.statusEye1} size={20} />
                                     </TouchableOpacity>
                                 </View>
                             </View>
+                            {renderIf(this.state.errPasswordInput)(
+                                <Text style={styles.errorMessage}>{this.state.errPasswordInput}</Text>
+                            )}
                             <View style={styles.inputGroup} >
                                 <Text style={styles.labelText}>{this.state.LpassKonfirm}</Text>
-                                <View style={styles.textInputGroup}>
+                                <View style={this.state.errKonfirmPassword ? styles.textInputError : styles.textInputGroup}>
                                     <TextInput {...this.props} style={styles.textInput}
                                     placeholderTextColor="#000000"
-                                       ref={this.field6} onFocus={()=>this.setFocus('passKonfirm')} onBlur={()=>this.setBlur('passKonfirm')} onSubmitEditing={ this.daftarProses } secureTextEntry={this.state.secureTextEntry2} placeholder={this.state.PpassKonfirm} keyboardType="default" maxLength={30}  onChangeText={(passwordKonfirm) => this.setState({ passwordKonfirm })} />
+                                       ref={this.field6} onFocus={()=>this.setFocus('passKonfirm')} onBlur={()=>this.setBlur('passKonfirm')} onSubmitEditing={ this.daftarProses } secureTextEntry={this.state.secureTextEntry2} placeholder={this.state.PpassKonfirm} keyboardType="default" maxLength={30}  onChangeText={(passwordKonfirm) => this.passwordKonfirmChange(passwordKonfirm)} />
                                     <TouchableOpacity onPress={this.onTongelEyesPress.bind(this, '2')} style={styles.iconGroup}>
                                         <Icon style={{color:'#7d7d7d'}} name={this.state.statusEye2} size={20} />
                                     </TouchableOpacity>
                                 </View>
                             </View>
+                            {renderIf(this.state.errKonfirmPassword)(
+                                <Text style={styles.errorMessage}>{this.state.errKonfirmPassword}</Text>
+                            )}
                             <View style={{alignItems:'center',marginTop:10,marginBottom:20}}>
                                 {/* <TouchableOpacity onPress={this.daftarProses} style={styles.btnDaftar} >
                                     <Text style={styles.btnTxtDefault}>DAFTAR</Text>

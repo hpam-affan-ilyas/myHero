@@ -1251,10 +1251,8 @@ class RegistPage3 extends React.Component {
                                             </View>
                                         ))}
                                     </View>
-                                    {renderIf(this.state.errIndexAlamatDom)(
-                                        <View>
-                                            <Text style={styles.errorMessage}>{this.state.errIndexAlamatDom && this.state.errIndexAlamatDom}</Text>
-                                        </View>
+                                {renderIf(this.state.errIndexAlamatDom)(
+                                       <Text style={styles.errorMessage}>{this.state.errIndexAlamatDom && this.state.errIndexAlamatDom}</Text>     
                                     )}
                                     {renderIf(this.state.openFormAlamatDomisili)(
                                         <View>
@@ -1349,11 +1347,6 @@ class RegistPage3 extends React.Component {
                                         </View>
                                     ))}
                                 </View>
-                                {renderIf(this.state.errIndexAlamatSurat)(
-                                    <View>
-                                        <Text style={styles.errorMessage}>{this.state.errIndexAlamatSurat && this.state.errIndexAlamatSurat}</Text>
-                                    </View>
-                                )}
                                 {renderIf(this.state.openFormAlamatSurat)(
                                     <View>
                                     <View style={this.state.errFormAlamatSuratMenyurat ? { borderRadius: 10, borderColor: "red", borderWidth: 1, padding: 10 } : { borderRadius: 10, borderColor: "#FFF", borderWidth: 1, padding: 10 }}>

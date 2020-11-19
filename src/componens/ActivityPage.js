@@ -139,10 +139,12 @@ class OrderScreen extends React.Component {
     })
       .then((response) => {
         this.setState({isLoading:false})
+        console.log('Response Order Status', response.status);
         if (response.status == '201') {
           let res;
           return response.json().then(obj => {
             res = obj;
+            console.log('Data Order', res);
             this.setState({ dataOrder: res.data.order,isLoading:false,jmlTransSub:res.data.jml_transaksi_sub})
           })
         } else if (response.status == '401') {

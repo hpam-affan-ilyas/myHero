@@ -340,6 +340,7 @@ export default class OrderDetailScreen extends React.Component {
       body: dataUpload
     })
     .then((response) => {
+      console.log('Upload Bukti Response', response);
       if (response.status == '201') {
         this.setState({isLoading:false});
         Alert.alert('Sukses', 'Upload bukti transfer sukses',
@@ -367,6 +368,7 @@ export default class OrderDetailScreen extends React.Component {
     this.setState({isLoading:false});
   }
   goActUpload(idOrder) {
+    console.log('idOrder', idOrder);
     if (this.state.imgBukti.length == 0) {
       Alert.alert('Perhatian', 'Bukti transfer harus diisi',
         [{ text: 'OK', onPress: () => console.log('OK Pressed') }],
