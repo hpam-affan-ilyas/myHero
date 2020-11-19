@@ -69,7 +69,7 @@ package-lock.json
 .DS_Store
 
 # IOS
-ios/build/*
+/ios/*/*
 
 # Test generated files
 /ReactAndroid/src/androidTest/assets/AndroidTestBundle.js
