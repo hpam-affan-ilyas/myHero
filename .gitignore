@@ -69,8 +69,7 @@ package-lock.json
 .DS_Store
 
 # IOS Build
-*.build
-*.xcactivitylog
+build
 
 # Test generated files
 /ReactAndroid/src/androidTest/assets/AndroidTestBundle.js
