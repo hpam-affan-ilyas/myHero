@@ -35,6 +35,8 @@ project.xcworkspace
 /ReactAndroid/gradlew
 /ReactAndroid/gradlew.bat
 
+ios/
+
 # Buck
 .buckd
 buck-out
