@@ -68,9 +68,6 @@ package-lock.json
 # OS X
 .DS_Store
 
-# IOS Build
-build
-
 # Test generated files
 /ReactAndroid/src/androidTest/assets/AndroidTestBundle.js
 *.js.meta
@@ -95,6 +92,7 @@ build
 
 # CocoaPods
 /template/ios/Pods/
+/template/ios/build/
 /template/ios/Podfile.lock
 /packages/rn-tester/Gemfile.lock
 
