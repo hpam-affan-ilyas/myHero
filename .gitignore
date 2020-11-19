@@ -67,6 +67,7 @@ package-lock.json
 
 # OS X
 .DS_Store
+/ios
 
 # Test generated files
 /ReactAndroid/src/androidTest/assets/AndroidTestBundle.js

@@ -6,6 +6,40 @@
 	<integer>10</integer>
 	<key>logs</key>
 	<dict>
+		<key>4B96DA3C-AD98-4B54-BE68-B8CC0BD35DB3</key>
+		<dict>
+			<key>className</key>
+			<string>IDECommandLineBuildLog</string>
+			<key>documentTypeString</key>
+			<string>&lt;nil&gt;</string>
+			<key>domainType</key>
+			<string>Xcode.IDEActivityLogDomainType.BuildLog</string>
+			<key>fileName</key>
+			<string>4B96DA3C-AD98-4B54-BE68-B8CC0BD35DB3.xcactivitylog</string>
+			<key>hasPrimaryLog</key>
+			<true/>
+			<key>primaryObservable</key>
+			<dict>
+				<key>highLevelStatus</key>
+				<string>S</string>
+			</dict>
+			<key>schemeIdentifier-containerName</key>
+			<string>myhero project</string>
+			<key>schemeIdentifier-schemeName</key>
+			<string>myhero</string>
+			<key>schemeIdentifier-sharedScheme</key>
+			<integer>1</integer>
+			<key>signature</key>
+			<string>Building workspace myhero with scheme myhero and configuration Debug</string>
+			<key>timeStartedRecording</key>
+			<real>627467413.83134103</real>
+			<key>timeStoppedRecording</key>
+			<real>627467418.19490302</real>
+			<key>title</key>
+			<string>Building workspace myhero with scheme myhero and configuration Debug</string>
+			<key>uniqueIdentifier</key>
+			<string>4B96DA3C-AD98-4B54-BE68-B8CC0BD35DB3</string>
+		</dict>
 		<key>874C1173-0CAD-4569-862D-C6E122A0C8B1</key>
 		<dict>
 			<key>className</key>
