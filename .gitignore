@@ -4,6 +4,7 @@
 
 # Xcode
 #
+ios/build/myhero/Build/Intermediates.noindex/Pods.build/Debug-iphonesimulator/BVLinearGradient.build/dgph
 .build/
 *.pbxuser
 !default.pbxuser
