@@ -67,7 +67,9 @@ package-lock.json
 
 # OS X
 .DS_Store
-!ios/build/
+
+# IOS
+/ios/build/myhero/
 
 # Test generated files
 /ReactAndroid/src/androidTest/assets/AndroidTestBundle.js
