@@ -45,7 +45,6 @@ class DaftarPage extends Component {
                 errEmailInput : 'Email Tidak Boleh Kosong'
             })
         } else {
-            console.log('Valid Email', emailInput.match(GLOBAL.mailFormat));
             if(!emailInput.match(GLOBAL.mailFormat)) {
                 this.setState({
                     errEmailInput : 'Email Tidak Valid'
@@ -188,7 +187,7 @@ class DaftarPage extends Component {
                 continueRegist = false
             }
         }
-        console.log('Continue Regist', continueRegist);
+        console.log('Continue Regist?', continueRegist);
         if(continueRegist) {
             var nama_lengkap = this.state.namaDepan.split(" ");
             var nama_lengkap_belakang;
@@ -204,12 +203,6 @@ class DaftarPage extends Component {
                 nama_belakang_sebelumnya = nama_lengkap_belakang;
             }
             this.setState({ isLoading: true})
-            console.log('Nama Lengkap', nama_lengkap[0]);
-            console.log('Email Input', this.state.emailInput);
-            console.log('No Hp', this.state.noHp);
-            console.log('password', this.state.passwordInput);
-            console.log('password2', this.state.passwordKonfirm);
-            console.log('Nama Lengkap Belakang', nama_lengkap_belakang);
             fetch(GLOBAL.daftar(), {
                 method: 'POST',
                 headers: {
@@ -226,7 +219,6 @@ class DaftarPage extends Component {
                 })
             }).then((response) => response.json()).then((res) => {
                     this.setState({ isLoading: false })
-                    console.log('response sukses', res.success);
                     if (res.success === true) {
                         Alert.alert('Sukses', '' + res.message + '\nKonfirmasi email untuk aktifasi akun',
                             [{ text: 'OK', onPress: () => this.props.navigation.navigate('Login') }],
