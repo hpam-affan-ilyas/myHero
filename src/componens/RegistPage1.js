@@ -33,20 +33,14 @@ class RegistPage1 extends React.Component {
     setTimeout(() => this.logout(), GLOBAL.timeOut);
   }
   logout = async () => {
-    await AsyncStorage.clear();
+    // await AsyncStorage.clear();
     this.props.navigation.navigate('Main')
   }
   onNext = () => {
-    console.log('Continue Proses Pertama', this.state.continueProses);
-    console.log('eKtp', this.state.eKtp.length);
-    console.log('eKtp Format', this.state.eKtp.match(GLOBAL.numbersFormat));
-    console.log('Img KTP Source', this.state.imgKtpSource);
-    console.log('Img Selfi', this.state.imgSelfiSource);
-    console.log('Img Ttd', this.state.imgTtdSource);
-    
+    this.setState({
+      disableButton: true
+    })
     let continuePage = true;
-
-    continuePage ? ['test','test1'] : 'test2';
 
     if(this.state.eKtp.length == 0) {
       continuePage = false;
@@ -84,17 +78,54 @@ class RegistPage1 extends React.Component {
 
     console.log('Continue Process', continuePage);
     if(continuePage) {  
-      AsyncStorage.setItem('eKtp', this.state.eKtp);
-      AsyncStorage.setItem('imgEktp', this.state.imgKtpSource);
-      AsyncStorage.setItem('imgSelfi', this.state.imgSelfiSource);
-      AsyncStorage.setItem('imgTtd', this.state.imgTtdSource);
-      // $dataRegistt1 = {
-      //   'eKtp': this.state.eKtp,
-      //   'imgKtpSource': this.state.imgKtpSource,
-      //   'imgSelfiSource': this.state.imgSelfiSource,
-      //   'imgTtdSource': this.state.imgTtdSource
-      // };
-      this.props.navigation.navigate('Regist2')
+      var imgNameKTP = 'imageKTP_' + this.state.noKtpValue;
+      var imgNameSelfi = 'imageSelfi_' + this.state.noKtpValue;
+      var imgNameTtd = 'imageTtd_' + this.state.noKtpValue;
+      let uploadData = new FormData();
+      uploadData.append('foto_ktp', {
+        type: 'image/jpeg',
+        name: imgNameKTP,
+        uri: this.state.imgKtpSource,
+      });
+      uploadData.append('foto_selfi', {
+        type: 'image/jpeg',
+        name: imgNameSelfi,
+        uri: this.state.imgSelfiSource,
+      });
+      uploadData.append('foto_ttd', {
+        type: 'image/jpeg',
+        name: imgNameTtd,
+        uri: this.state.imgTtdSource,
+      });
+      uploadData.append('noKtp', this.state.eKtp);
+      fetch(GLOBAL.pendaftaran(), {
+        method: 'POST',
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'multipart/form-data',
+            'Authorization': this.state.myToken,
+        },
+        body: uploadData
+      })
+      .then((response) => {
+        console.log('Response Daftar Page', response);
+        if (response.status == '201') {
+          try{
+            this.props.navigation.navigate('Regist2');
+            this.setState({
+              disableButton: false
+            })
+          }catch(e) {
+            return false;
+          }
+        } else {
+          this.setState({ isLoading: false });
+          GLOBAL.gagalKoneksi()
+          this.setState({
+            disableButton : false
+          })
+        }
+      })
     }
   }
 
@@ -106,7 +137,6 @@ class RegistPage1 extends React.Component {
           errKtp: 'No E-KTP tidak valid, hanya diizinkan angka',
           errKtpMsg: 'No E-KTP tidak valid, hanya diizinkan angka'
         })
-        console.log('states', this.state);
       } else {
         this.setState({
           eKtp: ktpText, 
@@ -126,30 +156,75 @@ class RegistPage1 extends React.Component {
 
   }
 
-  _getStore = async () => {
+  checkCustomer = async () => {
     var aksesToken = await AsyncStorage.getItem('aksesToken');
-    if (aksesToken != null) {
-      var eKtpStore = await AsyncStorage.getItem('eKtp');
-      var imgKtpStore = await AsyncStorage.getItem('imgEktp');
-      var imgSelfiStore = await AsyncStorage.getItem('imgSelfi');
-      var imgTtdStore = await AsyncStorage.getItem('imgTtd');
-      if (eKtpStore != null) {
-        this.setState({ eKtp: eKtpStore })
-      }
-      if (imgKtpStore != null) {
-        this.setState({ imgKtpSource: imgKtpStore })
-      }
-      if (imgSelfiStore != null) {
-        this.setState({ imgSelfiSource: imgSelfiStore })
-      }
-      if (imgTtdStore != null) {
-        this.setState({ imgTtdSource: imgTtdStore })
-      }
-    } else {
-      this.Unauthorized()
+    this.setState({
+      myToken: aksesToken
+    })
+    if(aksesToken) {
+      fetch(GLOBAL.checkCustomer(), {
+        method: 'GET',
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'multipart/form-data',
+            'Authorization': aksesToken,
+        }
+      })
+      .then((response) => {
+        if (response.status == '201') {
+          let res;
+          return response.json().then( obj => {
+            res = obj;
+            if(!res.nasabah) {
+              console.log('Create a New One');
+            } else {
+              this.setState({
+                eKtp: res.nasabah.no_ktp,
+                imgKtpSource: res.nasabah.url_ktp,
+                imgSelfiSource: res.nasabah.url_selfi,
+                imgTtdSource: res.nasabah.url_ttd
+              })
+            }
+          });
+        } else if (response.status == '401') {
+                
+        } else if (response.status == '400') {
+               
+        } else {
+          GLOBAL.gagalKoneksi()
+        }
+      })
     }
-
   }
+
+  // _getStore = async () => {
+  //   var aksesToken = await AsyncStorage.getItem('aksesToken');
+  //   if (aksesToken != null) {
+  //     this.setState({
+  //       myToken: aksesToken
+  //     })
+  //     var eKtpStore = await AsyncStorage.getItem('eKtp');
+  //     var imgKtpStore = await AsyncStorage.getItem('imgEktp');
+  //     var imgSelfiStore = await AsyncStorage.getItem('imgSelfi');
+  //     var imgTtdStore = await AsyncStorage.getItem('imgTtd');
+  //     if (eKtpStore != null) {
+  //       this.setState({ eKtp: eKtpStore })
+  //     }
+  //     if (imgKtpStore != null) {
+  //       this.setState({ imgKtpSource: imgKtpStore })
+  //     }
+  //     if (imgSelfiStore != null) {
+  //       this.setState({ imgSelfiSource: imgSelfiStore })
+  //     }
+  //     if (imgTtdStore != null) {
+  //       this.setState({ imgTtdSource: imgTtdStore })
+  //     }
+  //     console.log('states', this.state);
+  //   } else {
+  //     this.Unauthorized()
+  //   }
+
+  // }
 
   selectImage(imgPress) {
     var option = { title: 'Pilih Gambar',cancelButtonTitle:'Batal',maxWidth:GLOBAL.maxWidthUploadImage,maxHeight:GLOBAL.maxHeightUploadImage,quality:1, storageOption: { skipBackup: true, path: 'images'}, takePhotoButtonTitle: 'Kamera', chooseFromLibraryButtonTitle: 'Galeri' };
@@ -218,10 +293,15 @@ class RegistPage1 extends React.Component {
   componentDidMount() {
     this.backHandler = BackHandler.addEventListener("hardwareBackPress", () => {
       this.props.navigation.goBack();
+      this.setState({
+        disableButton: false
+      })
       return true;
     });
-    return this._getStore()
+    // return this._getStore()
+    return this.checkCustomer();
   }
+  
   componentWillUnmount() {
     this.backHandler.remove();
   }
@@ -276,7 +356,7 @@ class RegistPage1 extends React.Component {
                   </View>
                 </View>
                 <View style={{ justifyContent: "center", alignItems: "center", marginBottom: 10 }}>
-                  <Image source={{ uri: this.state.imgKtpSource }} onLoad={e => { this.setState({ errImgKtp: undefined, continueProses: true }) }} style={{ width: 100, height: 100, resizeMode: "stretch", backgroundColor: '#e1e4e8' }} />
+                  <Image source={{ uri: this.state.imgKtpSource }} onLoad={e => { [this.setState({ errImgKtp: undefined, continueProses: true }), console.log('source ktp', this.state.imgKtpSource)] }} style={{ width: 100, height: 100, resizeMode: "stretch", backgroundColor: '#e1e4e8' }} />
                 </View>
               </View>
               {renderIf(this.state.errImgKtp)(
@@ -333,6 +413,7 @@ class RegistPage1 extends React.Component {
               backgroundColor='#4F7942'
               backgroundShadow="#000"
               backgroundDarker="#45673a"
+              disabled={this.state.disableButton}
               height={40}
               style={{marginTop:10}}
               width={GLOBAL.DEVICE_WIDTH*0.5}

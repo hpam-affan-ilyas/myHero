@@ -11,6 +11,7 @@ import DateTimePicker from "react-native-modal-datetime-picker";
 import UnAuth from './UnauthPage';
 import renderIf from './Renderif';
 import Icon from 'react-native-vector-icons/FontAwesome';
+import { useFirstInstallTime } from 'react-native-device-info';
 var styles = require('../utils/Styles');
 var GLOBAL = require('../utils/Helper');
 var platform = Platform.OS;
@@ -119,21 +120,8 @@ class RegistPage2 extends React.Component {
         !tempatLahirValue && [continueNextPage = false, this.setState({errTempatLahir: 'Tempat Lahir Tidak Boleh Kosong'})]
         !statusNikahValue && [continueNextPage = false, this.setState({errStatusNikah: 'Status Nikah Tidak Boleh Kosong'})]
         !agamaValue && [continueNextPage = false, this.setState({errAgama: 'Agama Tidak Boleh Kosong'})]
-        // if(!namaValue || !emailValue || !noHpValue || !jenisKelaminValue || !tanggalLahirValue || !tempatLahirValue || !statusNikahValue || !agamaValue){
-        //     Alert.alert('Perhatian', 'Mohon lengkapi seluruh data');
-        //     continueNextPage = false;
-        // } else {
-        //     if(!emailValue.match(GLOBAL.mailFormat)) {
-        //         Alert.alert('Perhatian', 'Email Tidak Valid');
-        //         continueNextPage = false;
-        //     }
-        //     if(!noHpValue.match(GLOBAL.numbersFormat)) {
-        //         Alert.alert('Perhatian', 'Nomor Ponsel Tidak Valid');
-        //         continueNextPage = false;
-        //     }
-        // }
 
-        console.log('Continue to the Next Page?', continueNextPage);
+        console.log('Continue to the Page 3?', continueNextPage);
         if(continueNextPage) {
             var statusNikahId;
             var a = this.state.dataStatusNikah
@@ -151,14 +139,36 @@ class RegistPage2 extends React.Component {
                     agamaId = agama2[i].id
                 }
             }
-            AsyncStorage.setItem('jkValue', this.state.jenis_kelaminValue);
-            AsyncStorage.setItem('tglLahirValue', this.state.tglLahirValue);
-            AsyncStorage.setItem('tempatLahirValue', this.state.tempatLahirValue);
-            AsyncStorage.setItem('statusNikahValue', this.state.statusNikahValue);
-            AsyncStorage.setItem('statusNikahId', '' + statusNikahId);
-            AsyncStorage.setItem('agamaValue', this.state.agamaValue);
-            AsyncStorage.setItem('agamaId', '' + agamaId);
-            this.props.navigation.navigate('Regist3')
+            let uploadData = new FormData();
+            var tgl = this.state.tglLahirValue.split('-');
+            var tgl_lahir = tgl[2] + '-' + tgl[1] + '-' + tgl[0];
+            uploadData.append('jenisKelamin', this.state.jenis_kelaminValue);
+            uploadData.append('tanggalLahir', tgl_lahir);
+            uploadData.append('tempatLahir', this.state.tempatLahirValue);
+            uploadData.append('statusNikah', statusNikahId);
+            uploadData.append('agama', agamaId);
+            console.log("Form Upload Data", uploadData);
+            fetch(GLOBAL.pendaftaran(), {
+                method: 'POST',
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'multipart/form-data',
+                    'Authorization': this.state.myToken,
+                },
+                body: uploadData
+            })
+            .then((response) => {
+                if (response.status == '201') {
+                    try{
+                        this.props.navigation.navigate('Regist3');
+                    }catch(e) {
+                        return false;
+                    }
+                } else {
+                    this.setState({ isLoading: false });
+                    GLOBAL.gagalKoneksi()
+                }
+            })
         }
     }
     _getAgama(token) {
@@ -193,27 +203,104 @@ class RegistPage2 extends React.Component {
                 }
             })
     }
+
+    checkCustomer = async () => {
+        let aksesToken = await AsyncStorage.getItem('aksesToken');
+        this.setState({
+            myToken: aksesToken
+        })
+        if(aksesToken) {
+            fetch(GLOBAL.checkCustomer(), {
+                method: 'GET',
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'multipart/form-data',
+                    'Authorization': aksesToken,
+                }
+            })
+            .then((response) => {
+                if (response.status == '201') {
+                    let res;
+                    return response.json().then( obj => {
+                        res = obj;
+                        if(!res.nasabah) {
+                            console.log('Create a New One');
+                        } else {
+                            if(res.nasabah.status_nikah == 1) {
+                                this.setState({
+                                    statusNikahValue: "Belum Menikah"
+                                })
+                            } 
+                            if(res.nasabah.status_nikah == 2) {
+                                this.setState({
+                                    statusNikahValue: "Menikah"
+                                })
+                            }
+                            if(res.nasabah.status_nikah == 3) {
+                                this.setState({
+                                    statusNikahValue: "Janda / Duda"
+                                })
+                            }
+                            
+                            this.getNamaAgama(this.state.myToken, res.nasabah.agama);
+                            let tanggalLahir = res.nasabah.tgl_lahir;
+                            let splitTanggalLahir = tanggalLahir.split("-");
+                            let newTanggalLahir = splitTanggalLahir[2] + '-' + splitTanggalLahir[1] + '-' + splitTanggalLahir[0];
+                            console.log("Tanggal Lahir", tanggalLahir);
+                            console.log("New Tanggal Lahir", newTanggalLahir);
+                            this.setState({
+                                namaValue: res.users.name+' '+res.users.last_name,
+                                emailValue: res.users.email,
+                                noHpValue: res.users.no_hp,
+                                jenis_kelaminValue: res.nasabah.jenis_kelamin,
+                                tglLahirValue: newTanggalLahir,
+                                tempatLahirValue: res.nasabah.tempat_lahir
+                            })
+                            this._getAgama(this.state.myToken);
+                        }
+                    });
+                } else {
+                    GLOBAL.gagalKoneksi()
+                }
+            })
+        }
+    }
+
+    getNamaAgama = async (token, idAgama) => {
+        fetch(GLOBAL.getNamaAgama(), {
+            method: 'POST',
+            headers: {
+                'Accept': 'appication/json',
+                'Content-type': 'application/json',
+                'Authorization': token,
+            },
+            body: JSON.stringify({
+                idAgama: idAgama
+            })
+        })
+            .then((response) => {
+                if (response.status == '201') {
+                    let res;
+                    return response.json().then(obj => {
+                        res = obj;
+                        this.setState({
+                            agamaValue: res.data.agama.nama_agama
+                        })
+                    })
+                } else if (response.status == '401') {
+                    this.Unauthorized()
+                } else {
+                    GLOBAL.gagalKoneksi()
+                }
+            })
+    }
+
     _getToken = async () => {
-        var aksesToken = await AsyncStorage.getItem('aksesToken');
-        var eKtpStore = await AsyncStorage.getItem('eKtp');
-        var namaStore = await AsyncStorage.getItem('namaValue');
-        var emailStore = await AsyncStorage.getItem('emailValue');
-        var noHpStore = await AsyncStorage.getItem('noHpValue');
-        var jkStore = await AsyncStorage.getItem('jkValue');
-        var tglLahirStore = await AsyncStorage.getItem('tglLahirValue');
-        var tempatLahirStore = await AsyncStorage.getItem('tempatLahirValue');
-        var statusNikahStore = await AsyncStorage.getItem('statusNikahValue');
-        var statusNikahIdStore = await AsyncStorage.getItem('statusNikahId');
-        var agamaStore = await AsyncStorage.getItem('agamaValue');
-        var agamaIdStore = await AsyncStorage.getItem('agamaId');
         if (aksesToken != null) {
             this.setState({ myToken: aksesToken })
             if (namaStore != null) {
                 this.setState({ namaValue: namaStore })
             }
-            // if (eKtpStore != null) {
-            //     this._cekEktp(this.state.myToken, eKtpStore)
-            // }
             if (emailStore != null) {
                 this.setState({ emailValue: emailStore })
             }
@@ -258,7 +345,8 @@ class RegistPage2 extends React.Component {
             this.props.navigation.goBack();
             return true;
         });
-        return this._getToken();
+        return this.checkCustomer();
+        // return this._getToken();
     }
     componentWillUnmount() {
         this.backHandler.remove();

@@ -1,7 +1,7 @@
 import { Linking,Dimensions,Alert,Platform} from 'react-native';
 import { memoize } from 'react-native-really-awesome-button/src/helpers';
-var platform = Platform.OS == 'android'? 'http://api.myhero.id':'https://api.myhero.id';
-// var platform = Platform.OS == 'android'? 'http://localhost:8000/':'http://localhost:8000/';
+// var platform = Platform.OS == 'android'? 'http://api.myhero.id':'https://api.myhero.id';
+var platform = Platform.OS == 'android'? 'http://localhost:8000/':'http://localhost:8000/';
 module.exports = {
     base_url: platform,
     BackgroundApp:['#19297b', '#3b5998', '#192f6a'],  
@@ -186,6 +186,11 @@ module.exports = {
         var result = this.base_url+'/rdo/agama';
         return result;
     },
+
+    getNamaAgama(){
+        var result = this.base_url+'/rdo/namaAgama';
+        return result;
+    },
     //GET Notifikasi
     getNotifikasi(limit){
         var result = this.base_url+'/rdo/notifikasi/pesan?limit='+limit;
@@ -348,6 +353,11 @@ module.exports = {
         var result = this.base_url+'/rdo/uploadbukti';
         return result;
     },
+
+    checkCustomer() {
+        let result = this.base_url+'/rdo/checkCustomer';
+        return result;
+    },
     //POST CEK Nik
     cekNIK(){
         var result = this.base_url+'/rdo/cek_nik';
@@ -355,7 +365,7 @@ module.exports = {
     },
     //POST pendaftaran
     pendaftaran(){
-        var result = this.base_url+'/rdo/pendaftaran';
+        var result = this.base_url+'rdo/pendaftaran';
         return result;
     },
     //POST reset Password

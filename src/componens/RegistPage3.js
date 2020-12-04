@@ -117,13 +117,11 @@ class RegistPage3 extends React.Component {
             this.setState({
                 errAlamatSesuaiKtp: 'Form Alamat Sesuai KTP Harus di Lengkapi'
             })
-            console.log('Masuk Form Alamat Sesuai KTP');
         } else {
             this.setState({
                 errAlamatSesuaiKtp: undefined
             })
         }
-        console.log('Alamat Domisili', this.state.openFormAlamatDomisili);
         if(this.state.openFormAlamatDomisili) {
             if(!this.state.alamatDomValue || !this.state.kotaDomValue || !this.state.provinsiDomValue || !this.state.negaraDomValue || !this.state.kodePosDomValue) {
                 this.setState({
@@ -135,13 +133,11 @@ class RegistPage3 extends React.Component {
                 }) 
             }
         }
-        console.log('Alamat Surat Menyurat', this.state.openFormAlamatSurat);
         if(this.state.openFormAlamatSurat) {
             if(!this.state.alamatSurMerValue || !this.state.kotaSurMerValue || !this.state.provinsiSurMerValue || !this.state.negaraSurMerValue || !this.state.kodePosSurMerValue) {
                 this.setState({
                     errFormAlamatSuratMenyurat: 'Form Alamat Surat Menyurat Harus di Lengkapi'
                 })
-                console.log('Masuk Form Alamat Surat Menyurat');
             } else {
                 this.setState({
                     errFormAlamatSuratMenyurat: undefined
@@ -153,42 +149,36 @@ class RegistPage3 extends React.Component {
                 errAlamatValue : 'Alamat Tidak Boleh Kosong'
             })
             continueNextPage = false;
-            console.log('Masuk Alamat Value');
         }
         if (this.state.kotaValue.length == 0 || this.state.kotaValue == "Pilih Kota" || this.state.kotaIdValue == "") {
             this.setState({
                 errKotaValue : 'Kota Tidak Boleh Kosong'
             })
             continueNextPage = false;
-            console.log('Masuk Kota Value');
         }
         if (this.state.provinsiValue.length == 0) {
             this.setState({
                 errProvinsiValue : 'Provinsi Tidak Boleh Kosong'
             })
             continueNextPage = false;
-            console.log('Masuk Provinsi Value');
         }
         if (this.state.negaraValue.length == 0) {
             this.setState({
                 errNegaraValue : 'Negara Tidak Boleh Kosong'
             })
             continueNextPage = false;
-            console.log('Masuk Negara Value');
         }
         if (this.state.kodePosValue.length == 0) {
             this.setState({
                 errKodePosValue : 'Kode Pos Tidak Boleh Kosong'
             })
             continueNextPage = false;
-            console.log('Masuk Kode Pos Value');
         } else {
             if (!this.state.kodePosValue.match(GLOBAL.numbersFormat)) {
                 this.setState({
                     errKodePosValue : 'Kode Pos tidak valid'
                 })
                 continueNextPage = false;
-                console.log('Masuk Kode Pos Format Value');
             }
         }
         if (this.state.indexAlamatDom == '0') {
@@ -196,14 +186,12 @@ class RegistPage3 extends React.Component {
                 errIndexAlamatDom : 'Alamat Domisili Harus di Pilih'
             })
             continueNextPage = false;
-            console.log('Masuk Alamat Domisili Option');
         }
         if (this.state.indexAlamatDom == '2' && this.state.alamatDomValue.length == 0) {
             this.setState({
                 errAlamatDomValue : 'Alamat Tidak Boleh Kosong'
             })
             continueNextPage = false;
-            console.log('Masuk Alamat Domisili Value');
         }
         if(this.state.openFormAlamatDomisili) {
             if (this.state.kotaDomValue.length == 0 || this.state.kotaDomValue == "Pilih Kota" || this.state.kotaDomIdValue == "") {
@@ -211,35 +199,30 @@ class RegistPage3 extends React.Component {
                     errKotaDomValue : 'Kota Tidak Boleh Kosong'
                 })
                 continueNextPage = false;
-                console.log('Masuk Kota Domisili Value');
             }
             if (this.state.provinsiDomValue.length == 0) {
                 this.setState({
                     errProvinsiDomValue : 'Provinsi Tidak Boleh Kosong'
                 })
                 continueNextPage = false;
-                console.log('Masuk Provinsi Domisili Value');
             }
             if (this.state.negaraDomValue.length == 0) {
                 this.setState({
                     errNegaraDomValue : 'Negara Tidak Boleh Kosong'
                 })
                 continueNextPage = false;
-                console.log('Masuk Negara Domisili Value');
             }
             if(!this.state.kodePosDomValue) {
                 this.setState({
                     errKodePosDomValue : 'Kode Pos Tidak Boleh Kosong'
                 })
                 continueNextPage = false;
-                console.log('Masuk Kode Pos Domisili Value');
             } else {
                 if (!this.state.kodePosDomValue.match(GLOBAL.numbersFormat)) {
                     this.setState({
                         errKodePosDomValue : 'Kode Pos Tidak Valid'
                     })
                     continueNextPage = false;
-                    console.log('Masuk Kode Pos Domisili Format Value');
                 }
             }
         }
@@ -248,7 +231,6 @@ class RegistPage3 extends React.Component {
                 errIndexAlamatSurat : 'Alamat Harus di Pilih'
             })
             continueNextPage = false;
-            console.log('Masuk Index Alamat Surat');
         }
         if (this.state.indexAlamatSurat == '3') {
             if(this.state.alamatSurMerValue.length == 0) {
@@ -256,35 +238,30 @@ class RegistPage3 extends React.Component {
                     errAlamatSurMerValue : 'Alamat Tidak Boleh Kosong'
                 })
                 continueNextPage = false;
-                console.log('Masuk Alamat Surat Menyurat Value');
             }
             if(!this.state.kotaSurMerValue) {
                 this.setState({
                     errKotaSurMerValue : 'Kota Tidak Boleh Kosong'
                 })
                 continueNextPage = false;
-                console.log('Masuk Kota Surat Menyurat Value');
             }
             if(!this.state.provinsiSurMerValue) {
                 this.setState({
                     errProvinsiSurMerValue : 'Provinsi Tidak Boleh Kosong'
                 })
                 continueNextPage = false;
-                console.log('Masuk Provinsi Surat Menyurat Value');
             }
             if(!this.state.negaraSurMerValue) {
                 this.setState({
                     errNegaraSurMerValue : 'Negara Tidak Boleh Kosong'
                 })
                 continueNextPage = false;
-                console.log('Masuk Negara Surat Menyurat Value');
             }
             if(!this.state.kodePosSurMerValue) {
                 this.setState({
                     errKodePosSurMerValue : 'Kode Pos Tidak Boleh Kosong'
                 })
                 continueNextPage = false;
-                console.log('Masuk Kode Pos Surat Menyurat Value');
             }
         }
         if (this.state.pendidikanValue.length == 0) {
@@ -292,7 +269,6 @@ class RegistPage3 extends React.Component {
                 errPendidikanValue : 'Pendidikan Tidak Boleh Kosong'
             })
             continueNextPage = false;
-            console.log('Masuk Pendidikan Value');
         }
         if (this.state.pendidikanValue == "Lainnya" && this.state.pendidikanText.length == 0) {
             this.setState({
@@ -305,7 +281,6 @@ class RegistPage3 extends React.Component {
                 errPekerjaanValue : 'Pekerjaan Tidak Boleh Kosong'
             })
             continueNextPage = false;
-            console.log('Masuk Pekerjaan Value');
         }
         if (this.state.pekerjaanValue == "Lainnya" && this.state.pekerjaanText.length == 0) {
             this.setState({
@@ -318,14 +293,12 @@ class RegistPage3 extends React.Component {
                 errPenghasilanValue : 'Penghasilan Tidak Boleh Kosong'
             })
             continueNextPage = false;
-            console.log('Masuk Penghasilan Value');
         }
         if (this.state.sumberdanaValue.length == 0) {
             this.setState({
                 errSumberDanaValue : 'Sumberdana Tidak Boleh Kosong'
             })
             continueNextPage = false;
-            console.log('Masuk Sumber Dana Value');
         }
         if (this.state.sumberdanaValue == "Lainnya" && this.state.sumberdanaText.length == 0) {
             this.setState({
@@ -346,42 +319,49 @@ class RegistPage3 extends React.Component {
             continueNextPage = false;
         } 
         console.log('Continue To Page 4?', continueNextPage);
-        if(continueNextPage) {
-            AsyncStorage.setItem('alamatValue', this.state.alamatValue);
-            AsyncStorage.setItem('kotaIdValue', '' + this.state.kotaIdValue);
-            AsyncStorage.setItem('kotaValue', this.state.kotaValue);
-            AsyncStorage.setItem('provinsiValue', this.state.provinsiValue);
-            AsyncStorage.setItem('negaraValue', this.state.negaraValue);
-            AsyncStorage.setItem('kodePosValue', this.state.kodePosValue);
-            AsyncStorage.setItem('indexAlamatDom', this.state.indexAlamatDom);
-            AsyncStorage.setItem('alamatDomValue', this.state.alamatDomValue);
-            AsyncStorage.setItem('kotaDomIdValue', '' + this.state.kotaDomIdValue);
-            AsyncStorage.setItem('kotaDomValue', this.state.kotaDomValue);
-            AsyncStorage.setItem('provinsiDomValue', this.state.provinsiDomValue);
-            AsyncStorage.setItem('negaraDomValue', this.state.negaraDomValue);
-            AsyncStorage.setItem('kodePosDomValue', this.state.kodePosDomValue);
-            AsyncStorage.setItem('indexAlamatSurat', this.state.indexAlamatSurat);
-            AsyncStorage.setItem('alamatSuratValue', this.state.alamatSurMerValue);
-            AsyncStorage.setItem('kotaSuratValue', this.state.kotaSurMerValue);
-            AsyncStorage.setItem('kotaSurMerIdValue', this.state.kotaSurMerIdValue);
-            AsyncStorage.setItem('provinsiSuratValue', this.state.provinsiSurMerValue);
-            AsyncStorage.setItem('negaraSuratValue', this.state.negaraSurMerValue);
-            AsyncStorage.setItem('kodePosSuratValue', this.state.kodePosSurMerValue);
-            AsyncStorage.setItem('pendidikanValue', this.state.pendidikanValue);
-            AsyncStorage.setItem('pendidikanId', '' + this.state.pendidikanId);
-            AsyncStorage.setItem('pendidikanText', this.state.pendidikanText);
-            AsyncStorage.setItem('pekerjaanValue', this.state.pekerjaanValue);
-            AsyncStorage.setItem('pekerjaanId', '' + this.state.pekerjaanId);
-            AsyncStorage.setItem('pekerjaanText', this.state.pekerjaanText);
-            AsyncStorage.setItem('penghasilanValue', this.state.penghasilanValue);
-            AsyncStorage.setItem('penghasilanId', '' + this.state.penghasilanId);
-            AsyncStorage.setItem('sumberdanaValue', this.state.sumberdanaValue);
-            AsyncStorage.setItem('sumberdanaId', '' + this.state.sumberdanaId);
-            AsyncStorage.setItem('sumberdanaText', this.state.sumberdanaText);
-            AsyncStorage.setItem('tujInvestValue', this.state.tujInvestValue);
-            AsyncStorage.setItem('tujInvestId', '' + this.state.tujInvestId);
-            AsyncStorage.setItem('tujInvestText', this.state.tujInvestText);
-            this.props.navigation.navigate('Regist4');
+        if(continueNextPage) {          
+            let dataPost = new FormData();
+            dataPost.append('alamatKtp', this.state.alamatValue);
+            dataPost.append("kotaKtp", this.state.kotaIdValue);
+            dataPost.append("negaraValue", this.state.negaraValue);
+            dataPost.append("kodePosKtp", this.state.kodePosValue);
+            dataPost.append("alamatDomisili", this.state.alamatDomValue);
+            dataPost.append("kotaDomisili", this.state.kotaDomIdValue);
+            dataPost.append("kodePosDomisili", this.state.kodePosDomValue);
+            dataPost.append("kotaSurat", this.state.kotaSurMerIdValue);
+            dataPost.append("kodePosSurat", this.state.kodePosSurMerValue);
+            dataPost.append("alamatSurat", this.state.alamatSurMerValue);
+            dataPost.append("pendidikan", this.state.pendidikanId);
+            dataPost.append("pendidikanText", this.state.pendidikanValue);
+            dataPost.append("pekerjaan", this.state.pekerjaanId);
+            dataPost.append("pekerjaanText", this.state.pekerjaanValue);
+            dataPost.append("penghasilan", this.state.penghasilanId);
+            dataPost.append("sumberDana", this.state.sumberdanaId);
+            dataPost.append("sumberDanaText", this.state.sumberdanaValue);
+            dataPost.append("tujuanInvestasi", this.state.tujInvestId);
+            dataPost.append("tujuanInvestasiText", this.state.tujInvestValue);
+            console.log("Data Post", dataPost);
+            fetch(GLOBAL.pendaftaran(), {
+                method: 'POST',
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'multipart/form-data',
+                    'Authorization': this.state.myToken,
+                },
+                body: dataPost
+            })
+            .then((response) => {
+                if (response.status == '201') {
+                    try{
+                        this.props.navigation.navigate('Regist4');
+                    }catch(e) {
+                        return false;
+                    }
+                } else {
+                    this.setState({ isLoading: false });
+                    GLOBAL.gagalKoneksi()
+                }
+            })
         }
     }
     onKotaSelected = async (isSelect, isKotaType) => {
@@ -544,11 +524,18 @@ class RegistPage3 extends React.Component {
                         { label: 'Tambah Alamat Lain', value: '3' }
                     ];
                     this.setState({
-                        indexAlamatSurat: '0'
+                        indexAlamatSurat: '0',
+                        alamatDomValue: this.state.alamatValue,
+                        kotaDomIdValue: this.state.kotaIdValue,
+                        kodePosDomValue: this.state.kodePosValue
                     })
                 }
                 break;
             case '2':
+                this.setState({
+                    alamatDomValue: undefined,
+                    kodePosDomValue: undefined
+                })
                 if (!this.state.alamatValue || !this.state.kotaValue || !this.state.provinsiValue || !this.state.negaraValue || !this.state.kodePosValue) {
                     this.setState({ indexAlamatDom: '0' })
                     this.setState({
@@ -622,7 +609,10 @@ class RegistPage3 extends React.Component {
                     this.setState({
                         indexAlamatSurat: isOpen,
                         errAlamatSesuaiKtp: undefined,
-                        errIndexAlamatSurat: undefined
+                        errIndexAlamatSurat: undefined,
+                        alamatSurMerValue: this.state.alamatValue,
+                        kotaSurMerIdValue: this.state.kotaIdValue,
+                        kodePosSurMerValue: this.state.kodePosValue
                     })
                 }
                 break;
@@ -666,7 +656,10 @@ class RegistPage3 extends React.Component {
                     this.setState({
                         indexAlamatSurat: isOpen,
                         errFormAlamatDomisili: undefined,
-                        errIndexAlamatSurat : undefined
+                        errIndexAlamatSurat : undefined,
+                        alamatSurMerValue: this.state.alamatDomValue,
+                        kotaSurMerIdValue: this.state.kotaDomIdValue,
+                        kodePosSurMerValue: this.state.kodePosDomValue
                     })
                 }
                 break;
@@ -678,7 +671,9 @@ class RegistPage3 extends React.Component {
                     errAlamatSurMerValue: undefined,
                     errKotaSurMerValue: undefined,
                     errProvinsiSurMerValue: undefined,
-                    errNegaraSurMerValue: undefined
+                    errNegaraSurMerValue: undefined,
+                    alamatSurMerValue: undefined,
+                    kodePosSurMerValue: undefined
                 })
                 break;
         }
@@ -1116,7 +1111,6 @@ class RegistPage3 extends React.Component {
         this.setState({ screenHeight: contentHeight })
     }
     componentDidMount() {
-        console.log('Semua State', this.state);
         this.backHandler = BackHandler.addEventListener("hardwareBackPress", () => {
             this.props.navigation.goBack();
             return true;

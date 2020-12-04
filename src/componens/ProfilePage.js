@@ -539,14 +539,10 @@ class ProfilePage extends React.Component {
   takeAvatar() {
     var option = { title: 'Pilih Gambar',cancelButtonTitle:'Batal',maxWidth:GLOBAL.maxWidthUploadImage,maxHeight:GLOBAL.maxHeightUploadImage,quality:1, storageOption: { skipBackup: true, path: 'images' }, takePhotoButtonTitle: 'Kamera', chooseFromLibraryButtonTitle: 'Galeri' };
     ImagePicker.showImagePicker(option, (response) => {
-      console.log('Response = ', response);
       if (response.didCancel) {
-        console.log('User cancelled image picker');
       } else if (response.error) {
-        console.log('ImagePicker Error: ', response.error);
         alert(response.error)
       } else if (response.customButton) {
-        console.log('User tapped custom button: ', response.customButton);
       } else {
         var uri = response.uri;
         // if(Platform.OS == 'android' && response.width > 720){
@@ -766,7 +762,6 @@ class ProfilePage extends React.Component {
           let res;
           return response.json().then(obj => {
             res = obj;
-            console.log('Resonse Profile', res);
             if (res.data.status_nasabah != null) {
               this.setState({ statusNasabah: res.data.status_nasabah })
               if (res.data.status_nasabah != 'aktif') {

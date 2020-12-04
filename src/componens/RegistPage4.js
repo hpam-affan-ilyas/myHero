@@ -560,7 +560,7 @@ class RegistPage4 extends React.Component {
                                         bankValue:item.name,
                                         errBankValue: undefined
                                     })}
-                                    textInputStyle={this.state.errBankValue ? styles.dropdownError : styles.textInputSearchDropdown}
+                                    textInputStyle={styles.textInputSearchDropdown}
                                     itemStyle={styles.itemSearchDropdown}
                                     itemTextStyle={{
                                         color: '#222'
