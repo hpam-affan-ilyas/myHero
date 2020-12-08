@@ -187,6 +187,36 @@ module.exports = {
         return result;
     },
 
+    getNamaKota() {
+        var result = this.base_url+'/rdo/namaKota';
+        return result;
+    },
+
+    getNamaPendidikan() {
+        var result = this.base_url+'/rdo/namaPendidikan';
+        return result;
+    },
+
+    getNamaBank() {
+        var result = this.base_url+'/rdo/namaBank';
+        return result;
+    },
+
+    getNamaSumberDana() {
+        var result = this.base_url+'/rdo/namaSumberDana';
+        return result;
+    },
+
+    getNamaPenghasilan() {
+        var result = this.base_url+'/rdo/namaPenghasilan';
+        return result;
+    },
+
+    getNamaPekerjaan() {
+        var result = this.base_url+'/rdo/namaPekerjaan';
+        return result;
+    },
+
     getNamaAgama(){
         var result = this.base_url+'/rdo/namaAgama';
         return result;

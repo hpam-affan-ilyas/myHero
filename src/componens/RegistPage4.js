@@ -153,59 +153,15 @@ class RegistPage4 extends React.Component {
         } 
         // else {
             if(finishPage) {
-                this.setState({ isLoading: true });
-                var tgl = this.state.tglLahirValue.split('-');
-                var tgl_lahir = tgl[2] + '-' + tgl[1] + '-' + tgl[0];
-                var imgNameKTP = 'imageKTP_' + this.state.noKtpValue;
-                var imgNameSelfi = 'imageSelfi_' + this.state.noKtpValue;
-                var imgNameTtd = 'imageTtd_' + this.state.noKtpValue;
+                this.setState({ isLoading: true }); 
                 let uploadData = new FormData();
-                uploadData.append('foto_ktp', {
-                    type: 'image/jpeg',
-                    name: imgNameKTP,
-                    uri: this.state.fotoKtpValue,
-                });
-                uploadData.append('foto_selfi', {
-                    type: 'image/jpeg',
-                    name: imgNameSelfi,
-                    uri: this.state.fotoSelfiValue,
-                });
-                uploadData.append('foto_ttd', {
-                    type: 'image/jpeg',
-                    name: imgNameTtd,
-                    uri: this.state.fotoTtdValue,
-                });
-                uploadData.append('no_ktp', this.state.noKtpValue);
-                uploadData.append('jenis_kelamin', this.state.jkId);
-                uploadData.append('tgl_lahir', tgl_lahir);
-                uploadData.append('tempat_lahir', this.state.tempatLahirValue);
-                uploadData.append('status_nikah', this.state.statusNikahId);
-                uploadData.append('agama', this.state.agamaId);
-                uploadData.append('alamat_ktp', this.state.alamatValue);
-                uploadData.append('kota_ktp', this.state.kotaId);
-                uploadData.append('kode_pos_ktp', this.state.kodePosValue);
-                uploadData.append('alamat_domisili', this.state.alamatDomValue);
-                uploadData.append('kota_domisili', this.state.kotaDomId);
-                uploadData.append('kode_pos_domisili', this.state.kodePosDomValue);
-                uploadData.append('alamat_surat', this.state.alamatSuratValue);
-                uploadData.append('kota_surat', this.state.kotaSurMerIdValue);
-                uploadData.append('kode_pos_surat', this.state.kodePosSuratValue);
-                uploadData.append('pendidikan', this.state.pendidikanId);
-                uploadData.append('pendidikan_lainnya', this.state.pendidikanText);
-                uploadData.append('pekerjaan', this.state.pekerjaanId);
-                uploadData.append('pekerjaan_lainnya', this.state.pekerjaanText);
-                uploadData.append('penghasilan', this.state.penghasilanId);
-                uploadData.append('sumberdana', this.state.sumberdanaId);
-                uploadData.append('sumberdana_lainnya', this.state.sumberdanaText);
-                uploadData.append('tujuan_investasi', this.state.tujInvestId);
-                uploadData.append('tujuan_investasi_lainnya', this.state.tujInvestText);
-                uploadData.append('profil_risiko', this.state.profileRisikoId);
-                uploadData.append('bank_id', this.state.bankId);
-                uploadData.append('no_rek', this.state.noRekValue);
-                uploadData.append('nama_rekening_bank', this.state.namaRekValue);
+                uploadData.append('profilRisiko', this.state.profileRisikoId);
+                uploadData.append('bankId', this.state.bankId);
+                uploadData.append('noRek', this.state.noRekValue);
+                uploadData.append('namaRekeningBank', this.state.namaRekValue);
                 uploadData.append('pin', this.state.pinValue);
-                uploadData.append('kode_agen', this.state.kodeAgenValue);
-                console.log('Data Post', uploadData);
+                uploadData.append('statusNasabah', 'Pending');
+                uploadData.append('kodeAgen', this.state.kodeAgenValue);
                 fetch(GLOBAL.pendaftaran(), {
                     method: 'POST',
                     headers: {
@@ -220,32 +176,8 @@ class RegistPage4 extends React.Component {
                             let res;
                             return response.json().then(obj => {
                                 res = obj;
-                                console.log('response save data register', res);
-                                Alert.alert('Sukses', 'Registrasi berhasil, data sudah dilengkapi',
-                                    [{ text: 'OK', onPress: () => this.props.navigation.navigate('Home') }],
-                                    { cancelable: false },
-                                );
-
-                                AsyncStorage.setItem('profRiskValue', this.state.profileRisikoValue);
-                                AsyncStorage.setItem('profRiskId', '' + this.state.profileRisikoId);
-                                AsyncStorage.setItem('bankValue', this.state.bankValue);
-                                AsyncStorage.setItem('bankId', '' + this.state.bankId);
-                                AsyncStorage.setItem('noRekValue', this.state.noRekValue);
-                                AsyncStorage.setItem('namaRekValue', this.state.namaRekValue);
-                                AsyncStorage.setItem('kodeAgenValue', this.state.kodeAgenValue);
-                                console.log("ok")
-                            })
-                        } else if (response.status == '401') {
-                            this.setState({ isLoading: false });
-                            this.Unauthorized()
-                        } else if (response.status == '400') {
-                            this.setState({ isLoading: false });
-                            let res;
-                            return response.json().then(obj => {
-                                res = obj;
-                                Alert.alert('Gagal', res.message,
-                                    [{ text: 'OK', onPress: () => console.log('OK Pressed') }],
-                                    { cancelable: false },
+                                Alert.alert('Pendaftaran Sudah Selesai', res.message,
+                                    [{ text: 'OK', onPress: () => this.props.navigation.navigate('HomeScreen') }],
                                 );
                             })
                         } else {
@@ -482,10 +414,102 @@ class RegistPage4 extends React.Component {
             this.props.navigation.goBack();
             return true;
         });
-        return this._getToken();
+        console.log("State pin", this.state.pinValue);
+        console.log("State Kode Agen", this.state.kodeAgenValue);
+        return this.checkCustomer();
+        // return this._getToken();
     }
     componentWillUnmount() {
         this.backHandler.remove();
+    }
+
+    checkCustomer = async () => {
+        let aksesToken = await AsyncStorage.getItem('aksesToken');
+        this.setState({
+            myToken: aksesToken
+        })
+        if(aksesToken) {
+            fetch(GLOBAL.checkCustomer(), {
+                method: 'GET',
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'multipart/form-data',
+                    'Authorization': aksesToken,
+                }
+            })
+            .then((response) => {
+                if (response.status == '201') {
+                    let res;
+                    return response.json().then( obj => {
+                        res = obj;
+                        if(!res.nasabah) {
+                            console.log('Create a New One');
+                        } else {
+                           let idBank = res.nasabah.bank_id;
+                           this.getNamaBank(idBank);
+                           let noRek = res.nasabah.no_rek;
+                           let namaRekening = res.nasabah.nama_rekening_bank;
+                           let profilRisiko = res.nasabah.profil_risiko;
+                           let profilRisikoValue = 'Konservatif';
+                           if(profilRisiko == 2) {
+                            profilRisikoValue = 'Moderat'
+                           }
+                           if(profilRisiko == 3) {
+                               profilRisikoValue = 'Agresif'
+                           }
+                           this.manageCheckbox(profilRisikoValue);
+                           let pin = res.nasabah.pin;
+                           let kodeAgen = res.nasabah.kode_agen;
+                           this.setState({
+                               noRekValue: noRek,
+                               namaRekValue: namaRekening,
+                               pinValue: pin,
+                               kodeAgenValue: kodeAgen
+                           })
+                           console.log("State Pin 2", this.state.pinValue);
+                           console.log("State Kode Agen 2", this.state.kodeAgenValue);
+                        }
+                    });
+                } else {
+                    GLOBAL.gagalKoneksi()
+                }
+            })
+        }
+    }
+
+    getNamaBank = async (idBank) => {
+        let aksesToken = await AsyncStorage.getItem('aksesToken');
+        this.setState({
+            myToken: aksesToken
+        })
+        let dataPost = new FormData();
+        dataPost.append("idBank", idBank)
+        fetch(GLOBAL.getNamaBank(), {
+            method: 'POST',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'multipart/form-data',
+                'Authorization': this.state.myToken,
+            },
+            body: dataPost
+        }).then((response) => {
+            if (response.status == '201') {
+                let res;
+                return response.json().then( obj => {
+                    res = obj;
+                    this.setState({
+                        bankValue: res.bank.nama_bank,
+                        bankId: res.bank.id
+                    })
+                });
+            } else {
+                return response.json().then( obj => {
+                    res = obj;
+                    console.log("Res Failed", res); 
+                });
+                GLOBAL.gagalKoneksi()
+            }
+        })
     }
 
     manageCheckbox(isChecked) {
@@ -551,7 +575,7 @@ class RegistPage4 extends React.Component {
                                 <View style={styles.activeCirclePage} ><Text style={styles.btnTxtDefault}>4</Text></View>
                             </View>
 
-                            <View style={styles.textInputGroup} >
+                            <View style={styles.inputGroup} >
                                 <Text style={styles.labelText}>Bank</Text>
                                 <SearchableDropDown
                                     onTextChange={text => console.log(text)}
@@ -560,7 +584,7 @@ class RegistPage4 extends React.Component {
                                         bankValue:item.name,
                                         errBankValue: undefined
                                     })}
-                                    textInputStyle={styles.textInputSearchDropdown}
+                                    textInputStyle={this.state.errBankValue ? styles.dropdownError : styles.textInputSearchDropdown}
                                     itemStyle={styles.itemSearchDropdown}
                                     itemTextStyle={{
                                         color: '#222'
@@ -579,7 +603,8 @@ class RegistPage4 extends React.Component {
                                     <Text style={styles.errorMessage}>{this.state.errBankValue && this.state.errBankValue}</Text>
                                 </View>
                             </View>
-                            <View style={styles.textInputGroup} >
+
+                            <View style={styles.inputGroup} >
                                 <Text style={styles.labelText}>No Rekening Bank</Text>
                                 <View style={this.state.errNoRekValue ? styles.textInputError : styles.textInputGroup}>
                                     <TextInput placeholderTextColor="#000000" ref={this.field2} onSubmitEditing={() => {
@@ -591,7 +616,8 @@ class RegistPage4 extends React.Component {
                                     <Text style={styles.errorMessage}>{this.state.errNoRekValue && this.state.errNoRekValue}</Text>
                                 </View>
                             </View>
-                            <View style={styles.textInputGroup} >
+
+                            <View style={styles.inputGroup} >
                                 <Text style={styles.labelText}>Nama Pada Rekening Bank</Text>
                                 <View style={this.state.errNamaRekValue ? styles.textInputError : styles.textInputGroup}>
                                     <TextInput placeholderTextColor="#000000" ref={this.field3} style={styles.textInput} autoCorrect={false} placeholder="Nama Pada Rekening Bank" keyboardType='default' value={this.state.namaRekValue} onChangeText={(namaRekValue) => this.setState({ namaRekValue, errNamaRekValue: undefined })} />

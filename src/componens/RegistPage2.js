@@ -147,7 +147,6 @@ class RegistPage2 extends React.Component {
             uploadData.append('tempatLahir', this.state.tempatLahirValue);
             uploadData.append('statusNikah', statusNikahId);
             uploadData.append('agama', agamaId);
-            console.log("Form Upload Data", uploadData);
             fetch(GLOBAL.pendaftaran(), {
                 method: 'POST',
                 headers: {

@@ -534,7 +534,9 @@ class RegistPage3 extends React.Component {
             case '2':
                 this.setState({
                     alamatDomValue: undefined,
-                    kodePosDomValue: undefined
+                    kodePosDomValue: undefined,
+                    kotaDomValue: undefined, 
+                    provinsiDomValue: undefined
                 })
                 if (!this.state.alamatValue || !this.state.kotaValue || !this.state.provinsiValue || !this.state.negaraValue || !this.state.kodePosValue) {
                     this.setState({ indexAlamatDom: '0' })
@@ -570,7 +572,8 @@ class RegistPage3 extends React.Component {
     }
     onSetPilAlamatSurat(isOpen) {
         this.setState({
-            openFormAlamatSurat: false
+            openFormAlamatSurat: false,
+            indexAlamatSurat: isOpen
         })
         switch (isOpen) {
             case '1':
@@ -1115,11 +1118,280 @@ class RegistPage3 extends React.Component {
             this.props.navigation.goBack();
             return true;
         });
-        return this._getToken();
+        return this.checkCustomer();
+
+        // return this._getToken();
     }
+    checkCustomer = async () => {
+        let aksesToken = await AsyncStorage.getItem('aksesToken');
+        this.setState({
+            myToken: aksesToken
+        })
+        if(aksesToken) {
+            fetch(GLOBAL.checkCustomer(), {
+                method: 'GET',
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'multipart/form-data',
+                    'Authorization': aksesToken,
+                }
+            })
+            .then((response) => {
+                this._getKota(this.state.myToken, null);
+                this._getPendidikan(this.state.myToken);
+                this._getPekerjaan(this.state.myToken);
+                this._getPenghasilan(this.state.myToken);
+                this._getSumberdana(this.state.myToken);
+                this._getTujInvest(this.state.myToken);
+                if (response.status == '201') {
+                    let res;
+                    return response.json().then( obj => {
+                        res = obj;
+                        if(!res.nasabah) {
+                            console.log('Create a New One');
+                        } else {
+                            let dataNasabah = res.nasabah;
+                            this.setState({
+                                alamatValue: dataNasabah.alamat_ktp,
+                                kodePosValue: dataNasabah.kode_pos_ktp
+                            })
+                            let kotaKtp = this.getNamaKota(address = "ktp", dataNasabah.kota_ktp);
+                            if(dataNasabah.alamat_domisili == dataNasabah.alamat_ktp && dataNasabah.kota_domisili == dataNasabah.kota_ktp && dataNasabah.kode_pos_domisili == dataNasabah.kode_pos_ktp) {
+                                this.onSetPilAlamatDomisili(1);
+                            } else {
+                                this.onSetPilAlamatDomisili(2);
+                                this.setState({
+                                    alamatDomValue: dataNasabah.alamat_domisili,
+                                    kodePosDomValue: dataNasabah.kode_pos_domisili,
+                                    openFormAlamatDomisili: true
+                                })
+                                let kotaDomisili = this.getNamaKota(address = "domisili", dataNasabah.kota_domisili);
+                            }
+                            if(dataNasabah.alamat_surat == dataNasabah.alamat_ktp && dataNasabah.kota_surat && dataNasabah.kota_ktp && dataNasabah.kode_pos_surat && dataNasabah.kode_pos_ktp) {
+                                this.onSetPilAlamatSurat(1);
+                            } else if(dataNasabah.alamat_surat == dataNasabah.alamat_domisili && dataNasabah.kota_surat && dataNasabah.kota_domisili && dataNasabah.kode_pos_surat && dataNasabah.kode_pos_domisili) {
+                                this.onSetPilAlamatSurat(2);
+                            } else {
+                                this.onSetPilAlamatSurat(3);
+                                this.setState({
+                                    alamatSurMerValue: dataNasabah.alamat_surat,
+                                    kodePosSurMerValue: dataNasabah.kode_pos_surat,
+                                    openFormAlamatSurat: true,
+                                    tujInvestValue: dataNasabah.tujuan_investasi_text
+                                })
+                                let kotaSurat = this.getNamaKota(address = "surat", dataNasabah.kota_surat);
+                            }
+                            let pendidikan = this.getNamaPendidikan(dataNasabah.pendidikan);
+                            let pekerjaan = this.getNamaPekerjaan(dataNasabah.pekerjaan);
+                            let penghasilan = this.getNamaPenghasilan(dataNasabah.penghasilan);
+                            let sumberDana = this.getNamaSumberDana(dataNasabah.sumberdana);
+                        }
+                    });
+                } else {
+                    GLOBAL.gagalKoneksi()
+                }
+            })
+        }
+    }
+
+    getNamaPendidikan = async (idPendidikan) => {
+        let aksesToken = await AsyncStorage.getItem('aksesToken');
+        this.setState({
+            myToken: aksesToken
+        })
+        let dataPost = new FormData();
+        dataPost.append("idPendidikan", idPendidikan)
+        fetch(GLOBAL.getNamaPendidikan(), {
+            method: 'POST',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'multipart/form-data',
+                'Authorization': this.state.myToken,
+            },
+            body: dataPost
+        }).then((response) => {
+            if (response.status == '201') {
+                let res;
+                return response.json().then( obj => {
+                    res = obj;
+                    console.log("Response Nama Pendidikan", res.pendidikan);
+                    this.setState({
+                        pendidikanValue: res.pendidikan.nama_pendidikan
+                    })
+                });
+            } else {
+                return response.json().then( obj => {
+                    res = obj;
+                    console.log("Res Failed", res); 
+                });
+                GLOBAL.gagalKoneksi()
+            }
+        })
+    }
+
+    getNamaPekerjaan = async (idPekerjaan) => {
+        let aksesToken = await AsyncStorage.getItem('aksesToken');
+        this.setState({
+            myToken: aksesToken
+        })
+        let dataPost = new FormData();
+        dataPost.append("idPekerjaan", idPekerjaan)
+        fetch(GLOBAL.getNamaPekerjaan(), {
+            method: 'POST',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'multipart/form-data',
+                'Authorization': this.state.myToken,
+            },
+            body: dataPost
+        }).then((response) => {
+            if (response.status == '201') {
+                let res;
+                return response.json().then( obj => {
+                    res = obj;
+                    console.log("Response Nama Pekerjaan", res.pekerjaan);
+                    this.setState({
+                        pekerjaanValue: res.pekerjaan.nama_pekerjaan
+                    })
+                });
+            } else {
+                return response.json().then( obj => {
+                    res = obj;
+                    console.log("Res Failed", res); 
+                });
+                GLOBAL.gagalKoneksi()
+            }
+        })
+    }
+
+    getNamaSumberDana = async (idSumberDana) => {
+        let aksesToken = await AsyncStorage.getItem('aksesToken');
+        this.setState({
+            myToken: aksesToken
+        })
+        let dataPost = new FormData();
+        dataPost.append("idSumberDana", idSumberDana)
+        fetch(GLOBAL.getNamaSumberDana(), {
+            method: 'POST',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'multipart/form-data',
+                'Authorization': this.state.myToken,
+            },
+            body: dataPost
+        }).then((response) => {
+            if (response.status == '201') {
+                let res;
+                return response.json().then( obj => {
+                    res = obj;
+                    console.log("Response Nama Sumberdana", res.sumberDana);
+                    this.setState({
+                        sumberdanaValue: res.sumberDana.nama_sumberdana
+                    })
+                });
+            } else {
+                return response.json().then( obj => {
+                    res = obj;
+                    console.log("Res Failed", res); 
+                });
+                GLOBAL.gagalKoneksi()
+            }
+        })
+    }
+
+    getNamaPenghasilan = async (idPenghasilan) => {
+        let aksesToken = await AsyncStorage.getItem('aksesToken');
+        this.setState({
+            myToken: aksesToken
+        })
+        let dataPost = new FormData();
+        dataPost.append("idPenghasilan", idPenghasilan)
+        fetch(GLOBAL.getNamaPenghasilan(), {
+            method: 'POST',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'multipart/form-data',
+                'Authorization': this.state.myToken,
+            },
+            body: dataPost
+        }).then((response) => {
+            if (response.status == '201') {
+                let res;
+                return response.json().then( obj => {
+                    res = obj;
+                    console.log("Response Nama Penghasilan", res.penghasilan);
+                    this.setState({
+                        penghasilanValue: res.penghasilan.nama_penghasilan
+                    })
+                });
+            } else {
+                return response.json().then( obj => {
+                    res = obj;
+                    console.log("Res Failed", res); 
+                });
+                GLOBAL.gagalKoneksi()
+            }
+        })
+    }
+
+    getNamaKota = async (address, idKota) => {
+        let aksesToken = await AsyncStorage.getItem('aksesToken');
+        this.setState({
+            myToken: aksesToken
+        })
+        let dataPost = new FormData();
+        dataPost.append("idKota", idKota)
+        fetch(GLOBAL.getNamaKota(), {
+            method: 'POST',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'multipart/form-data',
+                'Authorization': this.state.myToken,
+            },
+            body: dataPost
+        })
+        .then((response) => {
+            if (response.status == '201') {
+                let res;
+                return response.json().then( obj => {
+                    res = obj;
+                    if(address == 'ktp') {
+                        this.setState({
+                            kotaValue: res.kota.kotamadya,
+                            kotaIdValue: idKota,
+                            provinsiValue: res.kota.propinsi,
+                            negaraValue: res.kota.negara
+                        })
+                    } else if (address == 'domisili') {
+                        this.setState({
+                            kotaDomValue: res.kota.kotamadya,
+                            kotaDomIdValue: idKota,
+                            provinsiDomValue: res.kota.propinsi,
+                            negaraDomValue: res.kota.negara
+                        })
+                    } else {
+                        this.setState({
+                            kotaSurMerValue: res.kota.kotamadya,
+                            kotaSurMerIdValue: idKota,
+                            provinsiSurMerValue: res.kota.propinsi,
+                            negaraSurMerValue: res.kota.negara
+                        })
+                    }
+                });
+            } else {
+                return response.json().then( obj => {
+                    res = obj;
+                    console.log("Res Failed", res); 
+                });
+                GLOBAL.gagalKoneksi()
+            }
+        })  
+    }
+
     componentWillUnmount() {
         this.backHandler.remove();
     }
+    
     render() {
         return (
             <LinearGradient colors={GLOBAL.BackgroundApp} style={styles.wrapper} >
