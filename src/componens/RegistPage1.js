@@ -12,6 +12,7 @@ import UnAuth from './UnauthPage';
 import renderIf from './Renderif';
 var GLOBAL = require('../utils/Helper');
 var styles = require('../utils/Styles');
+const citizenShipOption = [{ label: 'WNI', value: '1' }, { label: 'WNA', value: '2' }];
 
 class RegistPage1 extends React.Component {
   constructor(props) {
@@ -41,6 +42,13 @@ class RegistPage1 extends React.Component {
       disableButton: true
     })
     let continuePage = true;
+
+    if(!this.state.citizenValue) {
+      continuePage = false;
+      this.setState({ 
+        errCitizen: 'Kewarganegaraan Harus Dipilih'
+      });
+    }
 
     if(this.state.eKtp.length == 0) {
       continuePage = false;
@@ -82,6 +90,7 @@ class RegistPage1 extends React.Component {
       var imgNameSelfi = 'imageSelfi_' + this.state.noKtpValue;
       var imgNameTtd = 'imageTtd_' + this.state.noKtpValue;
       let uploadData = new FormData();
+      uploadData.append('citizenValue', this.state.citizenValue);
       uploadData.append('foto_ktp', {
         type: 'image/jpeg',
         name: imgNameKTP,
@@ -98,6 +107,7 @@ class RegistPage1 extends React.Component {
         uri: this.state.imgTtdSource,
       });
       uploadData.append('noKtp', this.state.eKtp);
+      console.log("Upload Data", uploadData);
       fetch(GLOBAL.pendaftaran(), {
         method: 'POST',
         headers: {
@@ -290,11 +300,23 @@ class RegistPage1 extends React.Component {
     });
   }
 
+  onSetCitizen(itemValue) {
+    this.setState({citizenValue: itemValue, errCitizen: undefined})
+    let labelIdentityNumber = "No E-KTP";
+    if(itemValue == 2) {
+      labelIdentityNumber = "No PASPOR";
+    }
+    this.setState({
+      identityNumberLabel: labelIdentityNumber
+    })
+  }
+
   componentDidMount() {
     this.backHandler = BackHandler.addEventListener("hardwareBackPress", () => {
       this.props.navigation.goBack();
       this.setState({
-        disableButton: false
+        disableButton: false,
+        identityNumberLabel: 'No E-KTP'
       })
       return true;
     });
@@ -331,8 +353,30 @@ class RegistPage1 extends React.Component {
                 <View style={styles.whiteCirclePage} ><Text style={styles.btnTxtDefault}>4</Text></View>
               </View>
 
+              <View style={!this.state.errCitizen ? styles.inputGroup : styles.errorBorder}>
+                  <Text style={styles.labelText}>Kewarganegaraan</Text>
+                  <View style={{flexDirection:'row'}}>
+                    {citizenShipOption.map(item =>(
+                      <View key={item.value} style={styles.radioBtnContainer} >
+                          <TouchableOpacity onPress={() =>{
+                            this.onSetCitizen(item.value) } } style={styles.radioBtnCircle} > 
+                            {renderIf(this.state.citizenValue == item.value)(
+                              <View style={styles.radioBtnChecked} />
+                            )}
+                          </TouchableOpacity>
+                          <Text style={styles.txtLittle}>{item.label}</Text>
+                      </View>
+                    )) }
+                  </View>
+              </View>
+              {renderIf(this.state.errCitizen)(
+                <View>
+                  <Text style={styles.errorMessage}>{this.state.errCitizen && this.state.errCitizen}</Text>
+                </View>
+              )}
+
               <View style={styles.inputGroup} >
-                <Text style={styles.labelText}>No E-KTP</Text>
+                <Text style={styles.labelText}>{this.state.identityNumberLabel}</Text>
                 <View style={this.state.errKtp ? styles.textInputError : styles.textInputGroup}>
                   <TextInput placeholderTextColor="#000000" ref={this.field1} style={styles.textInput} placeholder="No E-KTP" keyboardType="number-pad" value={this.state.eKtp} onChangeText={(eKtp) => this.changeTextEktp(eKtp)} />
                   <View style={styles.iconGroup} >
