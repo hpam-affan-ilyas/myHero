@@ -90,7 +90,7 @@ class RegistPage1 extends React.Component {
       var imgNameSelfi = 'imageSelfi_' + this.state.noKtpValue;
       var imgNameTtd = 'imageTtd_' + this.state.noKtpValue;
       let uploadData = new FormData();
-      uploadData.append('citizenValue', this.state.citizenValue);
+      uploadData.append('citizen', this.state.citizenValue);
       uploadData.append('foto_ktp', {
         type: 'image/jpeg',
         name: imgNameKTP,
@@ -135,6 +135,10 @@ class RegistPage1 extends React.Component {
             disableButton : false
           })
         }
+      })
+    } else {
+      this.setState({
+        disableButton : false
       })
     }
   }
@@ -353,21 +357,23 @@ class RegistPage1 extends React.Component {
                 <View style={styles.whiteCirclePage} ><Text style={styles.btnTxtDefault}>4</Text></View>
               </View>
 
-              <View style={!this.state.errCitizen ? styles.inputGroup : styles.errorBorder}>
+              <View style={this.state.errCitizen && styles.wrapperImageError}>
+                <View style={styles.inputGroup} >
                   <Text style={styles.labelText}>Kewarganegaraan</Text>
                   <View style={{flexDirection:'row'}}>
                     {citizenShipOption.map(item =>(
-                      <View key={item.value} style={styles.radioBtnContainer} >
-                          <TouchableOpacity onPress={() =>{
-                            this.onSetCitizen(item.value) } } style={styles.radioBtnCircle} > 
-                            {renderIf(this.state.citizenValue == item.value)(
-                              <View style={styles.radioBtnChecked} />
-                            )}
-                          </TouchableOpacity>
-                          <Text style={styles.txtLittle}>{item.label}</Text>
-                      </View>
-                    )) }
+                        <View key={item.value} style={styles.radioBtnContainer} >
+                            <TouchableOpacity onPress={() =>{
+                              this.onSetCitizen(item.value) } } style={styles.radioBtnCircle} > 
+                              {renderIf(this.state.citizenValue == item.value)(
+                                <View style={styles.radioBtnChecked} />
+                              )}
+                            </TouchableOpacity>
+                            <Text style={styles.txtLittle}>{item.label}</Text>
+                        </View>
+                      )) }
                   </View>
+                </View>
               </View>
               {renderIf(this.state.errCitizen)(
                 <View>
