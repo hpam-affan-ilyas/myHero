@@ -57,6 +57,8 @@
 			</dict>
 		</dict>
 	</dict>
+	<key>NSFaceIDUsageDescription</key>
+	<string>Enabling Face ID allows you quick and secure access to your account.</string>
 	<key>NSCameraUsageDescription</key>
 	<string>$(PRODUCT_NAME) used to take selfy pictures, pictures of identity cards according to the procedures of the financial services authority</string>
 	<key>NSMicrophoneUsageDescription</key>

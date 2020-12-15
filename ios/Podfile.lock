@@ -203,6 +203,8 @@ PODS:
     - React
   - RNVectorIcons (6.6.0):
     - React
+  - TouchID (4.4.1):
+    - React
   - yoga (0.60.4.React)
   - YoutubePlayer-in-WKWebView (0.3.4)
 
@@ -248,6 +250,7 @@ DEPENDENCIES:
   - RNSVG (from `../node_modules/react-native-svg`)
   - RNUncontrolledDatePickerIOS (from `../node_modules/react-native-uncontrolled-date-picker-ios`)
   - RNVectorIcons (from `../node_modules/react-native-vector-icons`)
+  - TouchID (from `../node_modules/react-native-touch-id`)
   - yoga (from `../node_modules/react-native/ReactCommon/yoga`)
 
 SPEC REPOS:
@@ -347,6 +350,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native-uncontrolled-date-picker-ios"
   RNVectorIcons:
     :path: "../node_modules/react-native-vector-icons"
+  TouchID:
+    :path: "../node_modules/react-native-touch-id"
   yoga:
     :path: "../node_modules/react-native/ReactCommon/yoga"
 
@@ -404,9 +409,10 @@ SPEC CHECKSUMS:
   RNSVG: 90c76b7cf235654d45e54655b6c189ea4041057c
   RNUncontrolledDatePickerIOS: fe14888be90717d80d179ff4b3fd04e4046e3600
   RNVectorIcons: 0bb4def82230be1333ddaeee9fcba45f0b288ed4
+  TouchID: ba4c656d849cceabc2e4eef722dea5e55959ecf4
   yoga: c2c050f6ae6e222534760cc82f559b89214b67e2
   YoutubePlayer-in-WKWebView: af2f5929fc78882d94bfdfeea999b661b78d9717
 
-PODFILE CHECKSUM: 712978aa9d73aa5f457c61d170402c70ca3d653f
+PODFILE CHECKSUM: 13f4c9c24f59bec6d9e2157f87b45e70eb93f8d4
 
 COCOAPODS: 1.9.3

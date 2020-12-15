@@ -36,6 +36,8 @@ target 'myhero' do
   # ]
 
 
+  pod 'TouchID', :path => '../node_modules/react-native-touch-id'
+
   target 'myheroTests' do
     inherit! :search_paths
     # Pods for testing
