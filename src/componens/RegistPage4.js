@@ -720,6 +720,7 @@ class RegistPage4 extends React.Component {
                                         placeholderTextColor="#000000"
                                         onFocus={() => this.setState({ pinFocus: true })}
                                         onBlur={() => this.setState({ pinFocus: false })}
+                                        autoCapitalize="characters"
                                         style={styles.textInput} keyboardType="default" placeholder="Kode Agen (Opsional)" maxLength={10}
                                         onChangeText={(kodeAgenValue) => this.setState({ kodeAgenValue:kodeAgenValue})} />
                                 </View>
