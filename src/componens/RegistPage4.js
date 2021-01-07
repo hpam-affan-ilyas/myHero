@@ -575,9 +575,12 @@ class RegistPage4 extends React.Component {
                                     resetValue={false}
                                     underlineColorAndroid='transparent' 
                                 />
-                                <View>
-                                    <Text style={styles.errorMessage}>{this.state.errBankValue && this.state.errBankValue}</Text>
-                                </View>
+                                {renderIf(this.state.errBankValue)(
+                                    <View>
+                                        <Text style={styles.errorMessage}>{this.state.errBankValue && this.state.errBankValue}</Text>
+                                    </View>
+                                )}
+                                
                             </View>
                             <Text style={styles.labelText}>No Rekening Bank</Text>
                             <View style={styles.textInputGroup} >
@@ -587,9 +590,11 @@ class RegistPage4 extends React.Component {
                                         textInput.focus()
                                     }} style={styles.textInput} placeholder="No Rekening Bank" returnKeyType="done" keyboardType="numeric" value={this.state.noRekValue} onChangeText={(noRekValue) => this.setState({ noRekValue, errNoRekValue: undefined})} />
                                 </View>
-                                <View>
-                                    <Text style={styles.errorMessage}>{this.state.errNoRekValue && this.state.errNoRekValue}</Text>
-                                </View>
+                                {renderIf(this.state.errNoRekValue)(
+                                    <View>
+                                        <Text style={styles.errorMessage}>{this.state.errNoRekValue && this.state.errNoRekValue}</Text>
+                                    </View>
+                                )}
                             </View>
                             <Text style={styles.labelText}>Nama Pada Rekening Bank</Text>
                             <View style={styles.textInputGroup} >
@@ -600,6 +605,7 @@ class RegistPage4 extends React.Component {
                                     <Text style={styles.errorMessage}>{this.state.errNamaRekValue && this.state.errNamaRekValue}</Text>
                                 </View>
                             </View>
+                            <View></View>
                             <View style={this.state.errProfileResiko ? styles.errorBorder : [styles.inputGroup, { paddingRight: 10 }]} >
                                 <Text style={styles.labelText}>Pilih Profil Risiko</Text>
                                 <CheckBox
@@ -686,9 +692,12 @@ class RegistPage4 extends React.Component {
                                         <Icon name={this.state.iconEye1} size={20} style={styles.colorIconInput} />
                                     </TouchableOpacity>
                                 </View>
-                                <View>
-                                    <Text style={styles.errorMessage}>{this.state.errPinValue && this.state.errPinValue}</Text>
-                                </View>
+                                {renderIf(this.state.errPinValue)(
+                                    <View>
+                                        <Text style={styles.errorMessage}>{this.state.errPinValue && this.state.errPinValue}</Text>
+                                    </View>
+                                )}
+                                
                             </View>
                             <View style={styles.inputGroup} >
                                 <Text style={styles.labelText}>Konfirmasi PIN</Text>

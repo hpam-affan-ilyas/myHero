@@ -992,7 +992,7 @@ module.exports = StyleSheet.create({
         borderWidth: 1
     },
     errorMessage: {
-        marginTop: -10,
+        marginTop: 0,
         color: "red",
     },
     btnContainer: {
