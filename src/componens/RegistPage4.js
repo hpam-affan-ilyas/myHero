@@ -552,7 +552,7 @@ class RegistPage4 extends React.Component {
                             </View>
 
                             <Text style={styles.labelText}>Bank</Text>
-                            <View style={styles.textInputGroup} >
+                            <View >
                                 <SearchableDropDown
                                     onTextChange={text => console.log(text)}
                                     onItemSelect={(item) => this.setState({
@@ -706,12 +706,16 @@ class RegistPage4 extends React.Component {
                                         <Icon name={this.state.iconEye2} size={20} style={styles.colorIconInput} />
                                     </TouchableOpacity>
                                 </View>
-                                <View>
-                                    <Text style={this.state.errPinKonfirmValue && styles.errorMessage}>{this.state.errPinKonfirmValue && this.state.errPinKonfirmValue}</Text>
-                                </View>
-                                <View>
-                                    <Text style={this.state.errKonfirmasiPin && styles.errorMessage}>{this.state.errKonfirmasiPin && this.state.errKonfirmasiPin}</Text>
-                                </View>
+                                {renderIf(this.state.errPinKonfirmValue)(
+                                    <View>
+                                        <Text style={this.state.errPinKonfirmValue && styles.errorMessage}>{this.state.errPinKonfirmValue && this.state.errPinKonfirmValue}</Text>
+                                    </View>
+                                )}
+                                {renderIf(this.state.errKonfirmasiPin)(
+                                    <View>
+                                        <Text style={this.state.errKonfirmasiPin && styles.errorMessage}>{this.state.errKonfirmasiPin && this.state.errKonfirmasiPin}</Text>
+                                    </View>
+                                )}
                             </View>
                             <View style={styles.inputGroup} >
                                 <Text style={styles.labelText}>Kode Agen</Text>
