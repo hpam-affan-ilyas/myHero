@@ -215,6 +215,7 @@ class BuyPage extends Component {
                     let res;
                     return response.json().then(obj => {
                         res = obj;
+                        console.log("Response Metode Bayar", res);
                         this.setState({
                             metodeBayarList: res.data.metode,
                         });
@@ -264,9 +265,6 @@ class BuyPage extends Component {
     }
 
     _getMetodeBayar(token, id, idProduk) {
-        console.log("Token Metode Bayar", token);
-        console.log("ID Metode Bayar", id);
-        console.log("ID Produk Metode Bayar", idProduk);
         fetch(GLOBAL.metodeBayar(id, idProduk), {
             method: 'GET',
             headers: {
