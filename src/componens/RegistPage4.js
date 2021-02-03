@@ -551,8 +551,8 @@ class RegistPage4 extends React.Component {
                                 <View style={styles.activeCirclePage} ><Text style={styles.btnTxtDefault}>4</Text></View>
                             </View>
 
-                            <View style={styles.textInputGroup} >
-                                <Text style={styles.labelText}>Bank</Text>
+                            <Text style={styles.labelText}>Bank</Text>
+                            <View >
                                 <SearchableDropDown
                                     onTextChange={text => console.log(text)}
                                     onItemSelect={(item) => this.setState({
@@ -575,24 +575,29 @@ class RegistPage4 extends React.Component {
                                     resetValue={false}
                                     underlineColorAndroid='transparent' 
                                 />
-                                <View>
-                                    <Text style={styles.errorMessage}>{this.state.errBankValue && this.state.errBankValue}</Text>
-                                </View>
+                                {renderIf(this.state.errBankValue)(
+                                    <View>
+                                        <Text style={styles.errorMessage}>{this.state.errBankValue && this.state.errBankValue}</Text>
+                                    </View>
+                                )}
+                                
                             </View>
+                            <Text style={styles.labelText}>No Rekening Bank</Text>
                             <View style={styles.textInputGroup} >
-                                <Text style={styles.labelText}>No Rekening Bank</Text>
                                 <View style={this.state.errNoRekValue ? styles.textInputError : styles.textInputGroup}>
                                     <TextInput placeholderTextColor="#000000" ref={this.field2} onSubmitEditing={() => {
                                         const textInput = this.field3.current;
                                         textInput.focus()
                                     }} style={styles.textInput} placeholder="No Rekening Bank" returnKeyType="done" keyboardType="numeric" value={this.state.noRekValue} onChangeText={(noRekValue) => this.setState({ noRekValue, errNoRekValue: undefined})} />
                                 </View>
-                                <View>
-                                    <Text style={styles.errorMessage}>{this.state.errNoRekValue && this.state.errNoRekValue}</Text>
-                                </View>
+                                {renderIf(this.state.errNoRekValue)(
+                                    <View>
+                                        <Text style={styles.errorMessage}>{this.state.errNoRekValue && this.state.errNoRekValue}</Text>
+                                    </View>
+                                )}
                             </View>
+                            <Text style={styles.labelText}>Nama Pada Rekening Bank</Text>
                             <View style={styles.textInputGroup} >
-                                <Text style={styles.labelText}>Nama Pada Rekening Bank</Text>
                                 <View style={this.state.errNamaRekValue ? styles.textInputError : styles.textInputGroup}>
                                     <TextInput placeholderTextColor="#000000" ref={this.field3} style={styles.textInput} autoCorrect={false} placeholder="Nama Pada Rekening Bank" keyboardType='default' value={this.state.namaRekValue} onChangeText={(namaRekValue) => this.setState({ namaRekValue, errNamaRekValue: undefined })} />
                                 </View>
@@ -600,6 +605,7 @@ class RegistPage4 extends React.Component {
                                     <Text style={styles.errorMessage}>{this.state.errNamaRekValue && this.state.errNamaRekValue}</Text>
                                 </View>
                             </View>
+                            <View></View>
                             <View style={this.state.errProfileResiko ? styles.errorBorder : [styles.inputGroup, { paddingRight: 10 }]} >
                                 <Text style={styles.labelText}>Pilih Profil Risiko</Text>
                                 <CheckBox
@@ -686,9 +692,12 @@ class RegistPage4 extends React.Component {
                                         <Icon name={this.state.iconEye1} size={20} style={styles.colorIconInput} />
                                     </TouchableOpacity>
                                 </View>
-                                <View>
-                                    <Text style={styles.errorMessage}>{this.state.errPinValue && this.state.errPinValue}</Text>
-                                </View>
+                                {renderIf(this.state.errPinValue)(
+                                    <View>
+                                        <Text style={styles.errorMessage}>{this.state.errPinValue && this.state.errPinValue}</Text>
+                                    </View>
+                                )}
+                                
                             </View>
                             <View style={styles.inputGroup} >
                                 <Text style={styles.labelText}>Konfirmasi PIN</Text>
@@ -706,12 +715,16 @@ class RegistPage4 extends React.Component {
                                         <Icon name={this.state.iconEye2} size={20} style={styles.colorIconInput} />
                                     </TouchableOpacity>
                                 </View>
-                                <View>
-                                    <Text style={this.state.errPinKonfirmValue && styles.errorMessage}>{this.state.errPinKonfirmValue && this.state.errPinKonfirmValue}</Text>
-                                </View>
-                                <View>
-                                    <Text style={this.state.errKonfirmasiPin && styles.errorMessage}>{this.state.errKonfirmasiPin && this.state.errKonfirmasiPin}</Text>
-                                </View>
+                                {renderIf(this.state.errPinKonfirmValue)(
+                                    <View>
+                                        <Text style={this.state.errPinKonfirmValue && styles.errorMessage}>{this.state.errPinKonfirmValue && this.state.errPinKonfirmValue}</Text>
+                                    </View>
+                                )}
+                                {renderIf(this.state.errKonfirmasiPin)(
+                                    <View>
+                                        <Text style={this.state.errKonfirmasiPin && styles.errorMessage}>{this.state.errKonfirmasiPin && this.state.errKonfirmasiPin}</Text>
+                                    </View>
+                                )}
                             </View>
                             <View style={styles.inputGroup} >
                                 <Text style={styles.labelText}>Kode Agen</Text>
@@ -720,6 +733,7 @@ class RegistPage4 extends React.Component {
                                         placeholderTextColor="#000000"
                                         onFocus={() => this.setState({ pinFocus: true })}
                                         onBlur={() => this.setState({ pinFocus: false })}
+                                        autoCapitalize="characters"
                                         style={styles.textInput} keyboardType="default" placeholder="Kode Agen (Opsional)" maxLength={10}
                                         onChangeText={(kodeAgenValue) => this.setState({ kodeAgenValue:kodeAgenValue})} />
                                 </View>

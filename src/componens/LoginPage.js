@@ -122,6 +122,7 @@ class LoginPage extends Component {
       })
       .then((response) => {
         this.setState({isLoading:false})
+        console.log("Response Status", response.status);
         if (response.status == '201') {
           let res;
           return response.json().then(obj => {
