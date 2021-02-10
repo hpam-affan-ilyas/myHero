@@ -34,6 +34,7 @@ import RegistScreen3 from './src/componens/RegistPage3';
 import RegistScreen4 from './src/componens/RegistPage4';
 import SummaryKalkulator from './src/componens/SummeryKalkulator';
 import NotifikasiInvest from './src/componens/NotifikasiInvest';
+import TouchPage from './src/componens/TouchPage';
 import NotifikasiScreen from './src/componens/Notifikasi';
 import FormNotifInvest from './src/componens/FormNotifInvest';
 import SimulasiScreen from './src/componens/SimulasiInvestasi';
@@ -41,6 +42,8 @@ import VideoScreen from './src/componens/VideoPage';
 import firebase from 'react-native-firebase';
 import DeviceInfo from 'react-native-device-info';
 import { getModel,getDeviceName } from 'react-native-device-info';
+import LoginPage from './src/componens/LoginPage';
+import PinPage from './src/componens/PinPage';
 
 var model = DeviceInfo.getModel();
 var version = DeviceInfo.getVersion();
@@ -563,16 +566,16 @@ const RootStack = createStackNavigator(
   {
     Main: MainPage,
     Login:{
-      screen: LoginScreen,
-      navigationOptions: ({ navigation }) => {
-          let headerTitle = 'MASUK';
-          let headerBackTitle = null;
-          let headerLeft = null;
-          let headerRight = null;
-          let headerStyle = styles.headerWhite;
-          let headerTitleStyle = {color: '#0843bf', fontWeight: '600', fontSize: 16,flex:1,textAlign:'center',justifyContent:'center'}
-          return { headerTitle, headerBackTitle, headerStyle, headerTitleStyle,headerLeft,headerRight };
-      },
+      screen: LoginPage,
+      // navigationOptions: ({ navigation }) => {
+      //     let headerTitle = 'MASUK';
+      //     let headerBackTitle = null;
+      //     let headerLeft = null;
+      //     let headerRight = null;
+      //     let headerStyle = styles.headerWhite;
+      //     let headerTitleStyle = {color: '#0843bf', fontWeight: '600', fontSize: 16,flex:1,textAlign:'center',justifyContent:'center'}
+      //     return { headerTitle, headerBackTitle, headerStyle, headerTitleStyle,headerLeft,headerRight };
+      // },
     },
     Activity: {
       screen: ActivityPage

@@ -1,5 +1,5 @@
 
-import React, { Component } from 'react';
+import React, { Componentk, useState } from 'react';
 import { Text, Image, View, TouchableOpacity, ActivityIndicator,TextInput, Alert, Modal, StatusBar, RefreshControl,BackHandler} from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 import AwesomeButton from "react-native-really-awesome-button";
@@ -8,6 +8,7 @@ import PinView from 'react-native-pin-view';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import IconBack from 'react-native-vector-icons/Feather';
 import AsyncStorage from '@react-native-community/async-storage';
+import TouchID from 'react-native-touch-id';
 var styles = require('../utils/Styles');
 var GLOBAL = require('../utils/Helper');
 import UnAuth from './UnauthPage';
@@ -16,6 +17,7 @@ var titleValue = null;
 
 class PinPage extends React.Component {
 
+  
   static navigationOptions = ({ navigation }) => {
     headers = null
   }
@@ -53,6 +55,7 @@ class PinPage extends React.Component {
       goBack:'',
     }
   }
+
   Unauthorized() {
     this.setState({ isLoading: false, modalVisibleUnAuth: true })
     setTimeout(() => this.logout(), GLOBAL.timeOut);
@@ -63,6 +66,7 @@ class PinPage extends React.Component {
   }
 
   _buy(token, idProduk, nominal,kodeMetode,noVa,promo,clear) {
+    cconsole.log("Debug 8");
     fetch(GLOBAL.beliSimpan(), {
       method: 'POST',
       headers: {
@@ -79,6 +83,7 @@ class PinPage extends React.Component {
       })
     })
       .then((response) => {
+        alert('Response Status', response.status);
         if (response.status == '201') {
           let res;
           return response.json().then(obj => {
@@ -196,6 +201,7 @@ class PinPage extends React.Component {
   }
   _cekPin(token, pinValue,clear) {
     const { params } = this.props.navigation.state;
+    console.log('Params Cek Pin', params);
     if (pinValue.length != 6) {
       Alert.alert('Perhatian', 'PIN tidak valid',
         [{ text: 'OK', onPress: () => console.log('OK Pressed') }],
@@ -230,7 +236,6 @@ class PinPage extends React.Component {
                 this.props.navigation.navigate('Home')
               }
             }
-
           } else if (response.status == '401') {
             this.Unauthorized()
           } else if (response.status == '400') {
@@ -382,7 +387,58 @@ class PinPage extends React.Component {
       this.setState({ refreshing: false })
     });
   }
+
+  touchFunc() {
+    TouchID.isSupported()
+        .then(success => {
+          console.log('masuk sukses');
+        })
+        .catch(error => {
+          console.log('Error Touch : ' + error);
+          // alert('Touch ID not supported on this device');
+        });
+        this.handleLogin();
+  }
+
+  handleLogin() {
+    const { params } = this.props.navigation.state;
+    const configs = {
+      title: 'Fingerprint Authentication',
+      color: '#FF0000',
+      sensorErrorDescription: 'Fingerprint invalid',
+    };
+    TouchID.authenticate('Login', configs)
+      .then(success => {
+        console.log("Debug 1");
+        if(params.switch) {
+          console.log("Debug 2");
+          this._switch(this.state.myToken, params.switch);
+          console.log("Debug 3");
+        } else {
+          console.log("Debug 4");
+          if (params.id != null && params.value != null && params.title != null) {
+            console.log("Debug 5");
+            if(params.title == 'SUB') {
+              console.log("Debug 6");
+              if(params.kodeMetode != null && params.no_va != null && params.kode_promo != null){
+                console.log("Debug 7");
+                this._buy(this.state.myToken, params.id, params.value,params.kodeMetode,params.no_va,params.kode_promo,clear)
+              }
+            }else if(params.title == 'RED') {
+              this._sell(this.state.myToken, params.id, params.value,clear)
+            }
+          }else {
+            this.props.navigation.navigate('Home')
+          }
+        }
+        alert('Authentication Successful');
+      })
+      .catch(error => {
+        console.log('Authentication Failed' + error);
+      });
+  }
   componentDidMount() {
+    this.touchFunc();
     this.backHandler = BackHandler.addEventListener("hardwareBackPress", () => {
       Alert.alert("Perhatian", "Apakah Anda yakin ingin keluar aplikasi?",
           [{ text: "Tidak", onPress: () => { } }, { text: "Ya", onPress: () => BackHandler.exitApp() }],
