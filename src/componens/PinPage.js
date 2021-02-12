@@ -66,7 +66,7 @@ class PinPage extends React.Component {
   }
 
   _buy(token, idProduk, nominal,kodeMetode,noVa,promo,clear) {
-    cconsole.log("Debug 8");
+    console.log("Debug 8");
     fetch(GLOBAL.beliSimpan(), {
       method: 'POST',
       headers: {
@@ -425,6 +425,7 @@ class PinPage extends React.Component {
                 this._buy(this.state.myToken, params.id, params.value,params.kodeMetode,params.no_va,params.kode_promo,clear)
               }
             }else if(params.title == 'RED') {
+              var clear = '';
               this._sell(this.state.myToken, params.id, params.value,clear)
             }
           }else {
