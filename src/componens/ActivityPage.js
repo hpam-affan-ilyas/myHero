@@ -139,7 +139,6 @@ class OrderScreen extends React.Component {
     })
       .then((response) => {
         this.setState({isLoading:false})
-        console.log('Response Order Status', response.status);
         if (response.status == '201') {
           let res;
           return response.json().then(obj => {
@@ -205,7 +204,12 @@ class OrderScreen extends React.Component {
                 <View style={styles.boxContenListWhite}>
                   <View style={{ flexDirection: 'row', flex: 1, width: '100%', marginBottom: 10 }}>
                     <View style={{ width: "50%",justifyContent:'center',flex:1 }}>
-                      <Text style={styles.txtBlackHead3}>{GLOBAL.currencyByTipeTrans(item.nominal, item.unit, item.tipe, '.')}</Text>
+                      {renderIf(item.tipe != 'SWTIN' || item.tipe != 'SWTOUT') (
+                        <Text style={styles.txtBlackHead3}>{GLOBAL.currencyByTipeTrans(item.nominal, item.unit, item.tipe, '.')}</Text>
+                      )}
+                      {renderIf(item.tipe == 'SWTOUT') (
+                        <Text style={styles.txtBlackHead3}>Unit: {item.unit}</Text>
+                      )}
                       {/* <Text style={styles.txtContenListWhite}>Status</Text> */}
                       {/* <Text style={{ color: GLOBAL.colorStatus(item.status_transaksi), fontSize: 14, fontWeight: '400' }} >{item.last_status}</Text> */}
                     </View>
