@@ -263,7 +263,12 @@ class HistoryScreen extends React.Component {
                 <View style={styles.boxContenListWhite}>
                   <View style={{ flexDirection: 'row', flex: 1, width: '100%', marginBottom: 10 }}>
                     <View style={{ width: "50%" }}>
-                      <Text style={styles.txtBlackHead}>{GLOBAL.currencyByTipeTrans(item.nominal, item.unit, item.tipe,item.status_transaksi, '.')}</Text>
+                      {renderIf(item.tipe == 'SUB' || item.tipe == 'RED')(
+                        <Text style={styles.txtBlackHead}>{GLOBAL.currencyByTipeTrans(item.nominal, item.unit, item.tipe,item.status_transaksi, '.')}</Text>
+                      )}
+                      {renderIf(item.tipe == 'SWTIN' || item.tipe == 'SWTOUT')(
+                        <Text style={styles.txtBlackHead}>{GLOBAL.currencyByTipeTrans(item.nominal)}</Text>
+                      )}
                       {/* <Text style={styles.txtContenListWhite}>Status</Text>
                       <Text style={{ color: GLOBAL.colorStatus(item.status_transaksi), fontSize: 14, fontWeight: '400' }} >{GLOBAL.manageStatus(item.status_transaksi, item.tipe, item.flag_upload)}</Text> */}
                     </View>
