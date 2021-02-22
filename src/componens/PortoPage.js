@@ -90,9 +90,9 @@ class PortoPage extends React.Component {
                 </View>
                 <View style={{ width: '50%', justifyContent: 'flex-end', alignItems: 'flex-end' }}>
                   <Text style={styles.txtContenListWhite}>NAB</Text>
-                  <Text style={{ fontSize: 16, fontWeight: '800', color: GLOBAL.manageColorKinerja(item.saldo_nav) }}>{GLOBAL.currency(item.saldo_nav, '.', false)}</Text>
+                  <Text style={{ fontSize: 16, fontWeight: '800', color: GLOBAL.manageColorKinerja(item.saldo_nav) }}>{GLOBAL.currency(item.saldo_nav, '.', true)}</Text>
                   <Text style={styles.txtContenListWhite}>Imbal hasil</Text>
-                  <Text style={{ fontSize: 16, fontWeight: '800', color: GLOBAL.manageColorKinerja(item.ratio_return) }} >{GLOBAL.currency(item.ratio_return, '.', false)} %</Text>
+                  <Text style={{ fontSize: 16, fontWeight: '800', color: GLOBAL.manageColorKinerja(item.ratio_return) }} >{item.ratio_return} %</Text>
                 </View>
               </View>
               <View style={{ flexDirection: 'row', flex: 1, width: '100%', marginTop: 5, marginBottom: 5, justifyContent: 'space-between' }}>
@@ -236,6 +236,7 @@ class PortoPage extends React.Component {
           let res;
           return response.json().then(obj => {
             res = obj;
+
             this.setState({
               dataProduk: res.data.produk,
               //state: this.state["dataImg"].push(responseJson.data.slide[x][0])
@@ -267,6 +268,7 @@ class PortoPage extends React.Component {
           let res;
           return response.json().then(obj => {
             res = obj;
+            console.log("Response List Porto ",res);
             this.setState({ dataPorto: res.data.portofolio })
           })
         } else if (response.status == '400') {
@@ -280,7 +282,7 @@ class PortoPage extends React.Component {
           this.Unauthorized()
         } else {
           GLOBAL.gagalKoneksi()
-        }
+        } 
       })
     this.setState({ isLoading: false })
   }
@@ -295,7 +297,6 @@ class PortoPage extends React.Component {
       this._getProdukList(this.state.myToken);
       if (statusNasabah == 'aktif') {
         this._getSummery(this.state.myToken);
-        console.log('Continue get list');
         this._getPorto(this.state.myToken);
       }
     } else {
@@ -423,9 +424,9 @@ class PortoPage extends React.Component {
               </View>
             )}
             {renderIf(this.state.dataPorto.length < 1)(
-              <View style={styles.boxNoData}>
-                <Text style={styles.txtHeight}>Kamu belum mempunyai portofolio investasi</Text>
-                <Image source={require('../img/no_activity.png')} style={{ width: '100%', height: GLOBAL.DEVICE_HEIGHT * 0.25, resizeMode: 'contain', justifyContent: 'flex-end' }} />
+                <View style={styles.boxNoData}>
+                  <Text style={styles.txtHeight}>Kamu belum mempunyai portofolio investasi</Text>
+                  <Image source={require('../img/no_activity.png')} style={{ width: '100%', height: GLOBAL.DEVICE_HEIGHT * 0.25, resizeMode: 'contain', justifyContent: 'flex-end' }} />
                 {/* <View style={styles.boxBtnBottom}>
                   <AwesomeButton
                     borderRadius={15}
