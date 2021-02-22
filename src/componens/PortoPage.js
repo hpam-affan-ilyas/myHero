@@ -90,7 +90,7 @@ class PortoPage extends React.Component {
                 </View>
                 <View style={{ width: '50%', justifyContent: 'flex-end', alignItems: 'flex-end' }}>
                   <Text style={styles.txtContenListWhite}>NAB</Text>
-                  <Text style={{ fontSize: 16, fontWeight: '800', color: GLOBAL.manageColorKinerja(item.saldo_nav) }}>{GLOBAL.currency(item.saldo_nav, '.', true)}</Text>
+                  <Text style={{ fontSize: 16, fontWeight: '800', color: GLOBAL.manageColorKinerja(item.saldo_nav) }}>{GLOBAL.currency(item.saldo_nav, '.', false)}</Text>
                   <Text style={styles.txtContenListWhite}>Imbal hasil</Text>
                   <Text style={{ fontSize: 16, fontWeight: '800', color: GLOBAL.manageColorKinerja(item.ratio_return) }} >{item.ratio_return} %</Text>
                 </View>

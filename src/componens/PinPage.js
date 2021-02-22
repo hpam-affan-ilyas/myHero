@@ -83,7 +83,6 @@ class PinPage extends React.Component {
       })
     })
       .then((response) => {
-        alert('Response Status', response.status);
         if (response.status == '201') {
           let res;
           return response.json().then(obj => {
