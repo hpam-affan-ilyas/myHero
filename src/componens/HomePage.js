@@ -111,6 +111,7 @@ export default class HomeScreen extends React.Component {
                 } else if (response.status == '401') {
                     this.Unauthorized()
                 } else {
+                    console.log("masuk sini 1", "masuk sini");
                    GLOBAL.gagalKoneksi()
                 }
             })
@@ -135,6 +136,7 @@ export default class HomeScreen extends React.Component {
             } else if (response.status == '401') {
                 this.Unauthorized()
             } else {
+                console.log("masuk sini 2", "masuk sini");
                 GLOBAL.gagalKoneksi()
             }
         })
@@ -150,6 +152,7 @@ export default class HomeScreen extends React.Component {
             },
         })
             .then((response) => {
+                console.log("Response Status", response.status)
                 if (response.status == '201') {
                     let res;
                     return response.json().then(obj => {
@@ -200,7 +203,7 @@ export default class HomeScreen extends React.Component {
                 } else if (response.status == '401') {
                     this.Unauthorized()
                 } else {
-
+                    console.log("masuk sini 4", "masuk sini");
                     GLOBAL.gagalKoneksi()
                 }
             })
@@ -261,6 +264,7 @@ export default class HomeScreen extends React.Component {
                 } else if (response.status == '401') {
                     this.Unauthorized()
                 } else {
+                    console.log("masuk sini 4", "masuk sini");
                     GLOBAL.gagalKoneksi()
                 }
             })

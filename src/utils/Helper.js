@@ -1,7 +1,7 @@
 import { Linking,Dimensions,Alert,Platform} from 'react-native';
 import { memoize } from 'react-native-really-awesome-button/src/helpers';
-var platform = Platform.OS == 'android'? 'http://api.myhero.id':'https://api.myhero.id';
-// var platform = Platform.OS == 'android'? 'http://localhost:8000/':'http://localhost:8000/';
+// var platform = Platform.OS == 'android'? 'http://api.myhero.id':'https://api.myhero.id';
+var platform = Platform.OS == 'android'? 'http://localhost:8000/':'http://localhost:8000/';
 module.exports = {
     base_url: platform,
     BackgroundApp:['#19297b', '#3b5998', '#192f6a'],  
@@ -166,7 +166,7 @@ module.exports = {
     },
     //GET Portofolio list
     listPorto(){
-        var result = this.base_url+'/rdo/portofolio/list2';
+        var result = this.base_url+'/rdo/portofolio/list3';
         return result;
     },
     //GET order detail

@@ -90,7 +90,7 @@ class PortoPage extends React.Component {
                 </View>
                 <View style={{ width: '50%', justifyContent: 'flex-end', alignItems: 'flex-end' }}>
                   <Text style={styles.txtContenListWhite}>NAB</Text>
-                  <Text style={{ fontSize: 16, fontWeight: '800', color: GLOBAL.manageColorKinerja(item.saldo_nav) }}>{GLOBAL.currency(item.saldo_nav, '.', false)}</Text>
+                  <Text style={{ fontSize: 16, fontWeight: '800', color: GLOBAL.manageColorKinerja(item.saldo_nav) }}>{GLOBAL.currency(item.saldo_nav, '.', true)}</Text>
                   <Text style={styles.txtContenListWhite}>Imbal hasil</Text>
                   <Text style={{ fontSize: 16, fontWeight: '800', color: GLOBAL.manageColorKinerja(item.ratio_return) }} >{item.ratio_return} %</Text>
                 </View>
@@ -175,6 +175,7 @@ class PortoPage extends React.Component {
         } else if (response.status == '401') {
             this.Unauthorized()
         } else {
+          console.log("Masuk sini 4", "masuk sini");
             GLOBAL.gagalKoneksi()
         }
     })
@@ -217,6 +218,7 @@ class PortoPage extends React.Component {
         } else if (response.status == '401') {
           this.Unauthorized()
         } else {
+          console.log("Masuk sini 1", "masuk sini");
           GLOBAL.gagalKoneksi()
         }
       })
@@ -247,6 +249,7 @@ class PortoPage extends React.Component {
         } else if (response.status == '401') {
           this.Unauthorized()
         } else {
+          console.log("Masuk sini 2", "masuk sini");
           GLOBAL.gagalKoneksi()
         }
       })
@@ -281,6 +284,7 @@ class PortoPage extends React.Component {
         else if (response.status == '401') {
           this.Unauthorized()
         } else {
+          console.log("Masuk sini 3", "masuk sini");
           GLOBAL.gagalKoneksi()
         } 
       })
