@@ -166,7 +166,7 @@ module.exports = {
     },
     //GET Portofolio list
     listPorto(){
-        var result = this.base_url+'/rdo/portofolio/list2';
+        var result = this.base_url+'/rdo/portofolio/list3';
         return result;
     },
     //GET order detail
