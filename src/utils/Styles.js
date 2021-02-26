@@ -1068,7 +1068,7 @@ module.exports = StyleSheet.create({
         color: '#FFF',
         fontWeight: '600',
         textAlignVertical: "center",
-        position: 'absolute'
+        // position: 'absolute'
     },
     loadingStyle: {
         flex: 1,

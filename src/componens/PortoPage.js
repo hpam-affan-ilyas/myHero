@@ -96,57 +96,54 @@ class PortoPage extends React.Component {
                 </View>
               </View>
               <View style={{ flexDirection: 'row', flex: 1, width: '100%', marginTop: 5, marginBottom: 5, justifyContent: 'space-between' }}>
-                <View>
-                  {/* <TouchableOpacity style={styles.btnJualLittle} onPress={() => this.props.navigation.navigate('Sell', { id: item.produk_id })}>
-                      <Text style={styles.txtLittle}>JUAL</Text>
-                    </TouchableOpacity> */}
-                  <AwesomeButton
-                    borderRadius={8}
-                    backgroundColor="#00a95c"
-                    backgroundDarker="#be254b"
-                    backgroundShadow="#000"
-                    width={80}
-                    height={30}
-                    onPress={() => this.props.navigation.navigate('Sell', { id: item.produk_id })}
-                  >
-                    <Image source={require('./../img/btnJual.png')} style={[styles.btnBeliLittleTemp, { resizeMode: 'stretch' }]} />
-                    <Text style={[{ position: 'absolute' }, styles.btnTextWhite]}>JUAL</Text>
-                  </AwesomeButton>
-                </View>
-                <View>
-                  {/* <TouchableOpacity style={styles.btnJualLittle} onPress={() => this.props.navigation.navigate('Sell', { id: item.produk_id })}>
-                      <Text style={styles.txtLittle}>JUAL</Text>
-                    </TouchableOpacity> */}
-                  <AwesomeButton
-                    borderRadius={8}
-                    backgroundColor="#00a95c"
-                    backgroundDarker="#FA8E14"
-                    backgroundShadow="#000"
-                    width={80}
-                    height={30}
-                    onPress={() => this.props.navigation.navigate('Switch', { id: item.produk_id, kodeProduk: item.kode_produk })}
-                  >
-                    <Image source={require('./../img/btnSwitch.png')} style={[styles.btnBeliLittleTemp, { resizeMode: 'stretch' }]} />
-                    <Text style={[{ position: 'absolute' }, styles.btnTextWhite]}>SWITCH</Text>
-                  </AwesomeButton>
-                </View>
-                <View>
-                  {/* <TouchableOpacity style={styles.btnBeliLittle} onPress={() => this.props.navigation.navigate('ProductDetail', { id: item.produk_id })}>
-                      <Text style={styles.txtLittle}>BELI</Text>
-                    </TouchableOpacity> */}
-                  <AwesomeButton
-                    borderRadius={8}
-                    backgroundColor="#00a95c"
-                    backgroundDarker="#039251"
-                    backgroundShadow="#000"
-                    width={80}
-                    height={30}
-                    onPress={() => this.props.navigation.navigate('ProductDetail', { id: item.produk_id })}
-                  >
-                    <Image source={require('./../img/btnBeli.png')} style={[styles.btnBeliLittleTemp, { resizeMode: 'stretch' }]} />
-                    <Text style={[{ position: 'absolute' }, styles.btnTextWhite]}>BELI</Text>
-                  </AwesomeButton>
-                </View>
+                {renderIf(item.holdTransaction == 0 || item.holdTransaction == 1)(
+                  <View>
+                    <AwesomeButton
+                      borderRadius={8}
+                      backgroundColor="#00a95c"
+                      backgroundDarker="#be254b"
+                      backgroundShadow="#000"
+                      width={80}
+                      height={30}
+                      onPress={() => this.props.navigation.navigate('Sell', { id: item.produk_id })}
+                    >
+                      <Image source={require('./../img/btnJual.png')} style={[styles.btnBeliLittleTemp, { resizeMode: 'stretch' }]} />
+                      <Text style={[{ position: 'absolute' }, styles.btnTextWhite]}>JUAL</Text>
+                    </AwesomeButton>
+                  </View>
+                )}
+                {renderIf(item.holdTransaction == 0 || item.holdTransaction == 1)(
+                  <View>
+                    <AwesomeButton
+                      borderRadius={8}
+                      backgroundColor="#00a95c"
+                      backgroundDarker="#FA8E14"
+                      backgroundShadow="#000"
+                      width={80}
+                      height={30}
+                      onPress={() => this.props.navigation.navigate('Switch', { id: item.produk_id, kodeProduk: item.kode_produk })}
+                    >
+                      <Image source={require('./../img/btnSwitch.png')} style={[styles.btnBeliLittleTemp, { resizeMode: 'stretch' }]} />
+                      <Text style={[{ position: 'absolute' }, styles.btnTextWhite]}>SWITCH</Text>
+                    </AwesomeButton>
+                  </View>
+                )}
+                {renderIf(item.holdTransaction == 0 || item.holdTransaction == 2)(
+                    <View>
+                      <AwesomeButton
+                        borderRadius={8}
+                        backgroundColor="#00a95c"
+                        backgroundDarker="#039251"
+                        backgroundShadow="#000"
+                        width={80}
+                        height={30}
+                        onPress={() => this.props.navigation.navigate('ProductDetail', { id: item.produk_id })}
+                      >
+                        <Image source={require('./../img/btnBeli.png')} style={[styles.btnBeliLittleTemp, { resizeMode: 'stretch' }]} />
+                        <Text style={[{ position: 'absolute' }, styles.btnTextWhite]}>BELI</Text>
+                      </AwesomeButton>
+                  </View>
+                )}
               </View>
             </View>
           </View>
