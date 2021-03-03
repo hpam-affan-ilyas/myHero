@@ -54,6 +54,7 @@ class HistoriStatusTransaksi extends Component{
           let res;
           return response.json().then(obj => {
             res = obj;
+            console.log("Response Get History Status", res);
             var count = Object.keys(res.data.histori).length;
             let data_histori = [];
             for (var i = 0; i < count; i++) {
@@ -269,6 +270,12 @@ class HistoryScreen extends React.Component {
                       {renderIf(item.tipe == 'SWTIN' || item.tipe == 'SWTOUT')(
                         <Text style={styles.txtBlackHead}>{GLOBAL.currencyByTipeTrans(item.nominal)}</Text>
                       )}
+                      {renderIf(item.unit)(
+                        <Text style={styles.txtBlueLittle}>Unit : {item.unit}</Text>
+                      )}
+                      {renderIf(item.nav)(
+                        <Text style={styles.txtBlueLittle}>NAV : {item.nav}</Text>
+                      )}
                       {/* <Text style={styles.txtContenListWhite}>Status</Text>
                       <Text style={{ color: GLOBAL.colorStatus(item.status_transaksi), fontSize: 14, fontWeight: '400' }} >{GLOBAL.manageStatus(item.status_transaksi, item.tipe, item.flag_upload)}</Text> */}
                     </View>
@@ -363,6 +370,7 @@ class HistoryScreen extends React.Component {
           let res;
           return response.json().then(obj => {
             res = obj;
+            console.log("Response Get History", res);
             this.setState({ dataHistory: res.data.order })
           })
         } else if (response.status == '401') {
