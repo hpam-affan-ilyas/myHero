@@ -1,6 +1,6 @@
 
 import React, { Component } from 'react';
-import { Image, StatusBar, Text, FlatList, RefreshControl, Alert, Animated, View, Modal, ActivityIndicator, Platform, BackHandler } from 'react-native';
+import { Image, StatusBar, Text, FlatList, RefreshControl, Alert, Animated, View, Modal, ActivityIndicator, Platform, BackHandler, Button} from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 import AwesomeButton from "react-native-really-awesome-button";
 import { ScrollView } from 'react-native-gesture-handler';
@@ -172,7 +172,6 @@ class PortoPage extends React.Component {
         } else if (response.status == '401') {
             this.Unauthorized()
         } else {
-          console.log("Masuk sini 4", "masuk sini");
             GLOBAL.gagalKoneksi()
         }
     })
@@ -215,7 +214,6 @@ class PortoPage extends React.Component {
         } else if (response.status == '401') {
           this.Unauthorized()
         } else {
-          console.log("Masuk sini 1", "masuk sini");
           GLOBAL.gagalKoneksi()
         }
       })
@@ -246,7 +244,6 @@ class PortoPage extends React.Component {
         } else if (response.status == '401') {
           this.Unauthorized()
         } else {
-          console.log("Masuk sini 2", "masuk sini");
           GLOBAL.gagalKoneksi()
         }
       })
@@ -268,7 +265,6 @@ class PortoPage extends React.Component {
           let res;
           return response.json().then(obj => {
             res = obj;
-            console.log("Response List Porto ",res);
             this.setState({ dataPorto: res.data.portofolio })
           })
         } else if (response.status == '400') {
@@ -281,7 +277,42 @@ class PortoPage extends React.Component {
         else if (response.status == '401') {
           this.Unauthorized()
         } else {
-          console.log("Masuk sini 3", "masuk sini");
+          GLOBAL.gagalKoneksi()
+        } 
+      })
+    this.setState({ isLoading: false })
+  }
+
+  _getDisclaimer(token) {
+    this.setState({ isLoading: true })
+    fetch(GLOBAL.getWordingPorto(), {
+      method: 'GET',
+      headers: {
+        'Accept': 'appication/json',
+        'Content-type': 'application/json',
+        'Authorization': token,
+      },
+    })
+      .then((response) => {
+        this.setState({ isLoading: false })
+        console.log("Response Status Disclaimer", response.status);
+        if (response.status == '201') {
+          let res;
+          return response.json().then(obj => {
+            res = obj;
+            console.log("Data Disclaimer", res.data.disclaimer[0].text);
+            this.setState({ disclaimer: res.data.disclaimer[0].text })
+          })
+        } else if (response.status == '400') {
+          let res2;
+          return response.json().then(obj => {
+            res2 = obj;
+            this.setState({ dataPorto: res2.data.portofolio })
+          })
+        }
+        else if (response.status == '401') {
+          this.Unauthorized()
+        } else {
           GLOBAL.gagalKoneksi()
         } 
       })
@@ -291,11 +322,11 @@ class PortoPage extends React.Component {
   _getToken = async () => {
     var aksesToken = await AsyncStorage.getItem('aksesToken');
     statusNasabah = await AsyncStorage.getItem('statusNasabah');
-    console.log('aksesToken', aksesToken);
     if (aksesToken != null) {
       this.setState({ myToken: aksesToken })
       this._getPromo();
       this._getProdukList(this.state.myToken);
+      this._getDisclaimer(this.state.myToken);
       if (statusNasabah == 'aktif') {
         this._getSummery(this.state.myToken);
         this._getPorto(this.state.myToken);
@@ -444,9 +475,12 @@ class PortoPage extends React.Component {
                 </View> */}
               </View>
             )}
+            <View style={{marginBottom:10}}>
+                <Text style={styles.txtDisclaimer}>{this.state.disclaimer}</Text>
+            </View>
             <View style={[styles.whiteLine, { marginBottom: 10 }]} ></View>
             <View style={{marginBottom:10}}>
-            <ProductList produkMap={produkMap} nav={navigate} pageId={2} promo={this.state.promo}/>
+              <ProductList produkMap={produkMap} nav={navigate} pageId={2} promo={this.state.promo}/>
             </View>
            
           </View>
