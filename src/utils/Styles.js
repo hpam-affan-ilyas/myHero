@@ -232,6 +232,12 @@ module.exports = StyleSheet.create({
         color: '#FFF',
         fontWeight:platform=='android' ? '800':'600',
     },
+    txtDisclaimer: {
+        fontSize: 13,
+        color: '#FFF',
+        textAlign: 'justify',
+        fontWeight:platform=='android' ? '800':'600',
+    },
     //btn
     
     btnLogin:{

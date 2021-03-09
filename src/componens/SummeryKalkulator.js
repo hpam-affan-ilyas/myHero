@@ -75,6 +75,7 @@ class SummeryKalkulator extends Component {
     _getToken = async () => {
         const { params } = this.props.navigation.state;
         var aksesToken = await AsyncStorage.getItem('aksesToken');
+        this._getDisclaimer(aksesToken);
         var statusNb = await AsyncStorage.getItem('statusNasabah');
         if (statusNb != null && statusNb != '') {
             this.setState({ statusNasabah: statusNb })
@@ -109,6 +110,41 @@ class SummeryKalkulator extends Component {
             this.Unauthorized()
         }
     }
+    _getDisclaimer(token) {
+        this.setState({ isLoading: true })
+        fetch(GLOBAL.getWordingSummary(), {
+          method: 'GET',
+          headers: {
+            'Accept': 'appication/json',
+            'Content-type': 'application/json',
+            'Authorization': token,
+          },
+        })
+          .then((response) => {
+            this.setState({ isLoading: false })
+            console.log("Response Status Disclaimer", response.status);
+            if (response.status == '201') {
+              let res;
+              return response.json().then(obj => {
+                res = obj;
+                console.log("Data Disclaimer", res.data.disclaimer[0].text);
+                this.setState({ disclaimer: res.data.disclaimer[0].text })
+              })
+            } else if (response.status == '400') {
+              let res2;
+              return response.json().then(obj => {
+                res2 = obj;
+                this.setState({ dataPorto: res2.data.portofolio })
+              })
+            }
+            else if (response.status == '401') {
+              this.Unauthorized()
+            } else {
+              GLOBAL.gagalKoneksi()
+            } 
+          })
+        this.setState({ isLoading: false })
+      }
     _onRefresh() {
         this.setState({ refreshing: true });
         this._getToken().then(() => {
@@ -222,8 +258,9 @@ class SummeryKalkulator extends Component {
                         </View>
                         <View style={[styles.whiteLine,{marginTop:-5}]} ></View>
                         <View style={{marginTop:5}}>
-                            <Text style={styles.txtHeight}>Disclaimer</Text>
-                            <Text style={[styles.txtLittle, { textAlign: 'justify' }]}>Kalkulator ini disediakan hanya sebagai alat bantu simulasi investasi dan tidak dimaksudkan untuk menyediakan rekomendasi atau saran apa pun.{"\n"}{"\n"}PT Henan Putihrai Asset Management tidak bertanggung jawab atas keakuratan hasil simulasi ini. Segala akibat yang timbul dari penggunaan hasil simulasi menjadi tanggung jawab investor / calon investor sepenuhnya.{"\n"}{"\n"}Nilai estimasi hasil investasi bukan merupakan jaminan hasil investasi yang akan diperoleh Investor, namun hanya merupakan indikasi. Dalam hal Investor / calon Investor memilih profil risiko, maka nilai estimasi hasil investasi yang ditampilkan merupakan nilai hasil investasi historis rata-rata dari jenis produk investasi sesuai dengan profil risiko yang dipilih.</Text>
+                            <Text style={[styles.txtLittle, { textAlign: 'justify' }]}>
+                                {this.state.disclaimer}
+                            </Text>
                         </View>
                     </View>
                     <View style={[styles.boxBtnBottom, { flexDirection: 'row', paddingLeft: 15, paddingRight: 15,marginTop:20 }]}>

@@ -1,7 +1,7 @@
 import { Linking,Dimensions,Alert,Platform} from 'react-native';
 import { memoize } from 'react-native-really-awesome-button/src/helpers';
-var platform = Platform.OS == 'android'? 'http://api.myhero.id':'https://api.myhero.id';
-// var platform = Platform.OS == 'android'? 'http://localhost:8000/':'http://localhost:8000/';
+// var platform = Platform.OS == 'android'? 'http://api.myhero.id':'https://api.myhero.id';
+var platform = Platform.OS == 'android'? 'http://localhost:8000/':'http://localhost:8000/';
 module.exports = {
     base_url: platform,
     BackgroundApp:['#19297b', '#3b5998', '#192f6a'],  
@@ -69,6 +69,15 @@ module.exports = {
     // GET Data Nasabah
     dataNasabah(){
         var result = this.base_url+'/rdo/dataNasabah';
+        return result;
+    },
+// kalkulator_investasi getWordingPorto
+    getWordingSummary(){
+        var result = this.base_url+'/rdo/kalkulator_investasi';
+        return result;
+    },
+    getWordingPorto(){
+        var result = this.base_url+'/rdo/disclaimer_portofolio_akses_ksei';
         return result;
     },
      //GET Profile
