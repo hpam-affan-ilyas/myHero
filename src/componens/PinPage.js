@@ -408,19 +408,12 @@ class PinPage extends React.Component {
     };
     TouchID.authenticate('Login', configs)
       .then(success => {
-        console.log("Debug 1");
         if(params.switch) {
-          console.log("Debug 2");
           this._switch(this.state.myToken, params.switch);
-          console.log("Debug 3");
         } else {
-          console.log("Debug 4");
           if (params.id != null && params.value != null && params.title != null) {
-            console.log("Debug 5");
             if(params.title == 'SUB') {
-              console.log("Debug 6");
               if(params.kodeMetode != null && params.no_va != null && params.kode_promo != null){
-                console.log("Debug 7");
                 this._buy(this.state.myToken, params.id, params.value,params.kodeMetode,params.no_va,params.kode_promo,clear)
               }
             }else if(params.title == 'RED') {
@@ -431,7 +424,6 @@ class PinPage extends React.Component {
             this.props.navigation.navigate('Home')
           }
         }
-        alert('Authentication Successful');
       })
       .catch(error => {
         console.log('Authentication Failed' + error);
