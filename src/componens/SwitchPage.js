@@ -412,7 +412,7 @@ class SwitchPage extends Component {
                         onPress={()=> this._goActSwitch()}
                     >
                     <Image source={require('./../img/btnSwitch.png')} style={{width:GLOBAL.DEVICE_WIDTH*0.5,height:40,resizeMode:'stretch'}} />
-                    <Text style={[{position: 'absolute'},styles.btnTextWhite]}>PINDAHKAN</Text>
+                    <Text style={[{position: 'absolute'},styles.btnTextWhite]}>SWITCH</Text>
                     </AwesomeButton>
                 </View>
                     </ScrollView>
