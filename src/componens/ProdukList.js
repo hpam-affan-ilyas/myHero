@@ -208,7 +208,7 @@ export default class ProductList extends Component {
                                                 </View>
                                                 {renderIf(pageId == 2)(
                                                     <AwesomeButton
-                                                        borderRadius={8}
+                                                        borderRadius={5}
                                                         backgroundColor="#00a95c"
                                                         backgroundDarker="#039251"
                                                         backgroundShadow="#000"

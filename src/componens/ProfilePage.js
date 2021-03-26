@@ -766,7 +766,6 @@ class ProfilePage extends React.Component {
           let res;
           return response.json().then(obj => {
             res = obj;
-            console.log('Resonse Profile', res);
             if (res.data.status_nasabah != null) {
               this.setState({ statusNasabah: res.data.status_nasabah })
               if (res.data.status_nasabah != 'aktif') {
@@ -844,7 +843,7 @@ class ProfilePage extends React.Component {
           >
             <View style={{flexDirection:'row',justifyContent:'center',marginTop:20}}>
               <Image source={this.state.avatar == null ? require('../img/user.png'): { uri: this.state.avatar }} style={{ width: 120, height: 120,resizeMode:'cover',borderRadius:60}} />
-              <TouchableOpacity style={{alignItems:'flex-end',justifyContent:'flex-end',marginLeft:-30}} onPress={()=>this.takeAvatar()}>
+              <TouchableOpacity disabled={true} style={{alignItems:'flex-end',justifyContent:'flex-end',marginLeft:-30}} onPress={()=>this.takeAvatar()}>
                 <Icon name="camera" size={20} style={[{backgroundColor:'#FFF',padding:10,borderRadius:20,justifyContent:'center',width:40,height:40},styles.colorIconInput]} />
               </TouchableOpacity>
             </View>
@@ -854,19 +853,19 @@ class ProfilePage extends React.Component {
               }
               <View style={styles.inputGroup} >
                 <Text style={styles.labelText}>Nama </Text>
-                <TouchableOpacity style={styles.textInputGroup} onPress={() => this.setState({ modalVisible1: true })}>
+                <TouchableOpacity disabled={true} style={styles.textInputGroup} onPress={() => this.setState({ modalVisible1: true })}>
                   <Text style={styles.textInput} >{this.state.namaValue}</Text>
                   <View style={styles.iconImgGroup} >
-                    <Image source={require('../img/edit.png')} style={{ width: 30, height: 30 }} />
+                    <Image source={require('../img/lock.png')} style={{ width: 30, height: 30 }} />
                   </View>
                 </TouchableOpacity>
               </View>
               <View style={styles.inputGroup} >
                 <Text style={styles.labelText}>Email</Text>
-                <TouchableOpacity style={styles.textInputGroup} onPress={() => this.setModalVisible('2', true)}>
+                <TouchableOpacity disabled={true} style={styles.textInputGroup} onPress={() => this.setModalVisible('2', true)}>
                   <Text style={styles.textInput} >{this.state.emailValue}</Text>
                   <View style={styles.iconImgGroup} >
-                    <Image source={require('../img/edit.png')} style={{ width: 30, height: 30 }} />
+                    <Image source={require('../img/lock.png')} style={{ width: 30, height: 30 }} />
                   </View>
                 </TouchableOpacity>
               </View>
