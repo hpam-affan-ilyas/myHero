@@ -157,13 +157,7 @@ class RegistPage4 extends React.Component {
             if(finishPage) {
                 this.setState({ isLoading: true });
                 var tgl = this.state.tglLahirValue.split('-');
-                var tgl1 = tgl[1];
-                if(tgl1.length == 1){
-                    tgl1 = '0'+tgl[1]
-                } else {
-                    tgl1 = tgl[1]
-                }
-                var tgl_lahir = tgl[2] + '-' + tgl1 + '-' + tgl[0];
+                var tgl_lahir = tgl[2] + '-' + tgl[1] + '-' + tgl[0];
                 var imgNameKTP = 'imageKTP_' + this.state.noKtpValue;
                 var imgNameSelfi = 'imageSelfi_' + this.state.noKtpValue;
                 var imgNameTtd = 'imageTtd_' + this.state.noKtpValue;
@@ -184,6 +178,7 @@ class RegistPage4 extends React.Component {
                     uri: this.state.fotoTtdValue,
                 });
                 let splitAgentValue = this.state.AgentValue.split(" : ");
+                let newAgentValue = splitAgentValue[1];
                 this.setState({
                     AgentValue : splitAgentValue[1]
                 })
@@ -216,11 +211,9 @@ class RegistPage4 extends React.Component {
                 uploadData.append('no_rek', this.state.noRekValue);
                 uploadData.append('nama_rekening_bank', this.state.namaRekValue);
                 uploadData.append('pin', this.state.pinValue);
-                uploadData.append('kode_agen', this.state.AgentValue);
+                uploadData.append('kode_agen', newAgentValue);
                 console.log("AgenValue", this.state.AgentValue);
                 console.log("ready to hit pendaftaran");
-                console.log("Selangkah lagi masuk pendaftaran");
-                console.log("Upload Data", uploadData);
                 fetch(GLOBAL.pendaftaran(), {
                     method: 'POST',
                     headers: {
@@ -230,7 +223,7 @@ class RegistPage4 extends React.Component {
                     },
                     body: uploadData
                 }).then((response) => {
-                    console.log("Response Pendaftaran", repsonse.status);
+                    console.log("Response Status Pendaftaran", response.status);
                         if (response.status == '201') {
                             this.setState({ isLoading: false });
                             let res;
