@@ -219,10 +219,8 @@ class RegistPage4 extends React.Component {
                 uploadData.append('kode_agen', this.state.AgentValue);
                 console.log("AgenValue", this.state.AgentValue);
                 console.log("ready to hit pendaftaran");
-                Alert.alert('Sukses', 'Masuk Pendaftaran',
-                                    [{ text: 'OK', onPress: () => this.props.navigation.navigate('Home') }],
-                                    { cancelable: false },
-                                );
+                console.log("Selangkah lagi masuk pendaftaran");
+                console.log("Upload Data", uploadData);
                 fetch(GLOBAL.pendaftaran(), {
                     method: 'POST',
                     headers: {
@@ -232,10 +230,7 @@ class RegistPage4 extends React.Component {
                     },
                     body: uploadData
                 }).then((response) => {
-                    Alert.alert('Response', response.status,
-                    [{ text: 'OK', onPress: () => this.props.navigation.navigate('Home') }],
-                    { cancelable: false },
-                );
+                    console.log("Response Pendaftaran", repsonse.status);
                         if (response.status == '201') {
                             this.setState({ isLoading: false });
                             let res;
