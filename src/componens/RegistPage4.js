@@ -67,6 +67,8 @@ class RegistPage4 extends React.Component {
             profileRisikoValue: '',
             bankId: '',
             bankValue: '',
+            AgentId: '',
+            AgentValue: '',
             noRekValue: '',
             namaRekValue: '',
             pinValue: '',
@@ -175,6 +177,11 @@ class RegistPage4 extends React.Component {
                     name: imgNameTtd,
                     uri: this.state.fotoTtdValue,
                 });
+                let splitAgentValue = this.state.AgentValue.split(" : ");
+                let newAgentValue = splitAgentValue[1];
+                this.setState({
+                    AgentValue : splitAgentValue[1]
+                })
                 uploadData.append('no_ktp', this.state.noKtpValue);
                 uploadData.append('jenis_kelamin', this.state.jkId);
                 uploadData.append('tgl_lahir', tgl_lahir);
@@ -204,8 +211,9 @@ class RegistPage4 extends React.Component {
                 uploadData.append('no_rek', this.state.noRekValue);
                 uploadData.append('nama_rekening_bank', this.state.namaRekValue);
                 uploadData.append('pin', this.state.pinValue);
-                uploadData.append('kode_agen', this.state.kodeAgenValue);
-                console.log('Data Post', uploadData);
+                uploadData.append('kode_agen', newAgentValue);
+                console.log("AgenValue", this.state.AgentValue);
+                console.log("ready to hit pendaftaran");
                 fetch(GLOBAL.pendaftaran(), {
                     method: 'POST',
                     headers: {
@@ -215,17 +223,16 @@ class RegistPage4 extends React.Component {
                     },
                     body: uploadData
                 }).then((response) => {
+                    console.log("Response Status Pendaftaran", response.status);
                         if (response.status == '201') {
                             this.setState({ isLoading: false });
                             let res;
                             return response.json().then(obj => {
                                 res = obj;
-                                console.log('response save data register', res);
                                 Alert.alert('Sukses', 'Registrasi berhasil, data sudah dilengkapi',
                                     [{ text: 'OK', onPress: () => this.props.navigation.navigate('Home') }],
                                     { cancelable: false },
                                 );
-
                                 AsyncStorage.setItem('profRiskValue', this.state.profileRisikoValue);
                                 AsyncStorage.setItem('profRiskId', '' + this.state.profileRisikoId);
                                 AsyncStorage.setItem('bankValue', this.state.bankValue);
@@ -233,7 +240,6 @@ class RegistPage4 extends React.Component {
                                 AsyncStorage.setItem('noRekValue', this.state.noRekValue);
                                 AsyncStorage.setItem('namaRekValue', this.state.namaRekValue);
                                 AsyncStorage.setItem('kodeAgenValue', this.state.kodeAgenValue);
-                                console.log("ok")
                             })
                         } else if (response.status == '401') {
                             this.setState({ isLoading: false });
@@ -243,6 +249,7 @@ class RegistPage4 extends React.Component {
                             let res;
                             return response.json().then(obj => {
                                 res = obj;
+                                console.log("Res 400", res);
                                 Alert.alert('Gagal', res.message,
                                     [{ text: 'OK', onPress: () => console.log('OK Pressed') }],
                                     { cancelable: false },
@@ -254,7 +261,6 @@ class RegistPage4 extends React.Component {
                         }
                     })
             }
-        // }
     }
     onTongelEyesPress(StringHolder) {
         switch (StringHolder) {
@@ -315,6 +321,7 @@ class RegistPage4 extends React.Component {
                             })
                         }
                         this.setState({ dataBank: data_bank })
+                        console.log("Data Bank 1", this.state.dataBank);
                     })
                 } else if (response.status == '401') {
                     this.Unauthorized()
@@ -322,6 +329,42 @@ class RegistPage4 extends React.Component {
                     GLOBAL.gagalKoneksi()
                 }
             })
+    }
+
+    _getNamaAgen(token) {
+        this.setState({ isLoading: true })
+        fetch(GLOBAL.getAgen(), {
+            method: 'GET',
+            headers: {
+                'Accept': 'appication/json',
+                'Content-type': 'application/json',
+                'Authorization': token
+            }
+        })
+        .then((response) => {
+            this.setState({ isLoading: false })
+            console.log("Response Status Agent", response.status);
+            if (response.status == '201') {
+                let res;
+                return response.json().then(obj => {
+                    res = obj;
+                    var count = Object.keys(res.data.agent).length;
+                    let data_bank = [];
+                    for (var i = 0; i < count; i++) {
+                        data_bank.push({
+                            id: res.data.agent[i].id,
+                            name: res.data.agent[i].nama_agen+' : '+res.data.agent[i].kode_agen
+                        })
+                    }
+                    this.setState({ dataBank2: data_bank })
+                    console.log("Data Bank 2", this.state.dataBank2);
+                })
+            } else if (response.status == '401') {
+                this.Unauthorized()
+            } else {
+                GLOBAL.gagalKoneksi()
+            }
+        })
     }
     _getToken = async () => {
         var aksesToken = await AsyncStorage.getItem('aksesToken');
@@ -331,6 +374,7 @@ class RegistPage4 extends React.Component {
         var imgTtdStore = await AsyncStorage.getItem('imgTtd');
         var jkStore = await AsyncStorage.getItem('jkValue');
         var tglLahirStore = await AsyncStorage.getItem('tglLahirValue');
+        console.log("tglLahirStore", tglLahirStore);
         var tempatLahirStore = await AsyncStorage.getItem('tempatLahirValue');
         var statusNikahIdStore = await AsyncStorage.getItem('statusNikahId');
         var agamaIdStore = await AsyncStorage.getItem('agamaId');
@@ -467,6 +511,7 @@ class RegistPage4 extends React.Component {
             }
 
             this._getNamaBank(aksesToken)
+            this._getNamaAgen(aksesToken)
         } else {
             this.Unauthorized()
         }
@@ -585,11 +630,12 @@ class RegistPage4 extends React.Component {
                             <Text style={styles.labelText}>No Rekening Bank</Text>
                             <View style={styles.textInputGroup} >
                                 <View style={this.state.errNoRekValue ? styles.textInputError : styles.textInputGroup}>
-                                    <TextInput placeholderTextColor="#000000" ref={this.field2} onSubmitEditing={() => {
+                                    
+                                </View>
+                                <TextInput placeholderTextColor="#000000" ref={this.field2} onSubmitEditing={() => {
                                         const textInput = this.field3.current;
                                         textInput.focus()
                                     }} style={styles.textInput} placeholder="No Rekening Bank" returnKeyType="done" keyboardType="numeric" value={this.state.noRekValue} onChangeText={(noRekValue) => this.setState({ noRekValue, errNoRekValue: undefined})} />
-                                </View>
                                 {renderIf(this.state.errNoRekValue)(
                                     <View>
                                         <Text style={styles.errorMessage}>{this.state.errNoRekValue && this.state.errNoRekValue}</Text>
@@ -599,8 +645,9 @@ class RegistPage4 extends React.Component {
                             <Text style={styles.labelText}>Nama Pada Rekening Bank</Text>
                             <View style={styles.textInputGroup} >
                                 <View style={this.state.errNamaRekValue ? styles.textInputError : styles.textInputGroup}>
-                                    <TextInput placeholderTextColor="#000000" ref={this.field3} style={styles.textInput} autoCorrect={false} placeholder="Nama Pada Rekening Bank" keyboardType='default' value={this.state.namaRekValue} onChangeText={(namaRekValue) => this.setState({ namaRekValue, errNamaRekValue: undefined })} />
+                                    
                                 </View>
+                                <TextInput placeholderTextColor="#000000" ref={this.field3} style={styles.textInput} autoCorrect={false} placeholder="Nama Pada Rekening Bank" keyboardType='default' value={this.state.namaRekValue} onChangeText={(namaRekValue) => this.setState({ namaRekValue, errNamaRekValue: undefined })} />
                                 <View>
                                     <Text style={styles.errorMessage}>{this.state.errNamaRekValue && this.state.errNamaRekValue}</Text>
                                 </View>
@@ -725,6 +772,37 @@ class RegistPage4 extends React.Component {
                                         <Text style={this.state.errKonfirmasiPin && styles.errorMessage}>{this.state.errKonfirmasiPin && this.state.errKonfirmasiPin}</Text>
                                     </View>
                                 )}
+                            </View>
+                            <Text style={styles.labelText}>Nama Agen</Text>
+                            <View >
+                                <SearchableDropDown
+                                    onTextChange={text => console.log(text)}
+                                    onItemSelect={(item) => this.setState({
+                                        AgentId:item.id,
+                                        AgentValue:item.name,
+                                        errBankValue: undefined
+                                    })}
+                                    textInputStyle={this.state.errBankValue ? styles.dropdownError : styles.textInputSearchDropdown}
+                                    itemStyle={styles.itemSearchDropdown}
+                                    itemTextStyle={{
+                                        color: '#222'
+                                    }}
+                                    itemsContainerStyle={{
+                                        maxHeight: 220
+                                    }}
+                                    items={this.state.dataBank2}
+                                    placeholder={this.state.AgentValue ==''?'Pilih Agent':this.state.AgentValue}
+                                    placeholderTextColor="#000"
+                                    value={this.state.AgentValue}
+                                    resetValue={false}
+                                    underlineColorAndroid='transparent' 
+                                />
+                                {renderIf(this.state.errBankValue)(
+                                    <View>
+                                        <Text style={styles.errorMessage}>{this.state.errBankValue && this.state.errBankValue}</Text>
+                                    </View>
+                                )}
+                                
                             </View>
                             <View style={styles.inputGroup} >
                                 <Text style={styles.labelText}>Kode Agen</Text>

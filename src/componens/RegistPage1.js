@@ -37,65 +37,67 @@ class RegistPage1 extends React.Component {
     this.props.navigation.navigate('Main')
   }
   onNext = () => {
-    console.log('Continue Proses Pertama', this.state.continueProses);
-    console.log('eKtp', this.state.eKtp.length);
-    console.log('eKtp Format', this.state.eKtp.match(GLOBAL.numbersFormat));
-    console.log('Img KTP Source', this.state.imgKtpSource);
-    console.log('Img Selfi', this.state.imgSelfiSource);
-    console.log('Img Ttd', this.state.imgTtdSource);
+    this.props.navigation.navigate('Regist2');
+    // console.log('Continue Proses Pertama', this.state.continueProses);
+    // console.log('eKtp', this.state.eKtp.length);
+    // console.log('eKtp Format', this.state.eKtp.match(GLOBAL.numbersFormat));
+    // console.log('Img KTP Source', this.state.imgKtpSource);
+    // console.log('Img Selfi', this.state.imgSelfiSource);
+    // console.log('Img Ttd', this.state.imgTtdSource);
     
-    let continuePage = true;
+    // let continuePage = true;
 
-    continuePage ? ['test','test1'] : 'test2';
+    // continuePage ? ['test','test1'] : 'test2';
 
-    if(this.state.eKtp.length == 0) {
-      continuePage = false;
-      this.setState({ 
-        errKtp: 'No E-KTP tidak boleh kosong', 
-        errKtpMsg: 'No E-KTP tidak boleh kosong'
-      });
-    } else {
-      if(!this.state.eKtp.match(GLOBAL.numbersFormat)) {
-        continuePage = false;
-        this.setState({ 
-          errKtp: 'No E-KTP tidak valid, hanya diizinkan angka',
-          errKtpMsg: 'No E-KTP tidak valid, hanya diizinkan angka'
-        });
-      }
-    }
-    if(this.state.imgKtpSource == null) {
-      continuePage = false;
-      this.setState({ 
-        errImgKtp: 'Foto KTP tidak boleh kosong'
-      });
-    }
-    if(this.state.imgSelfiSource == null) {
-      continuePage = false;
-      this.setState({ 
-        errImgSelfi: 'Foto Selfi tidak boleh kosong'
-      });
-    }
-    if(this.state.imgTtdSource == null) {
-      continuePage = false;
-      this.setState({ 
-        errImgTtd: 'Foto tanda tangan tidak boleh kosong'
-      });
-    }
+    // if(this.state.eKtp.length == 0) {
+    //   continuePage = false;
+    //   this.setState({ 
+    //     errKtp: 'No E-KTP tidak boleh kosong', 
+    //     errKtpMsg: 'No E-KTP tidak boleh kosong'
+    //   });
+    // } else {
+    //   if(!this.state.eKtp.match(GLOBAL.numbersFormat)) {
+    //     continuePage = false;
+    //     this.setState({ 
+    //       errKtp: 'No E-KTP tidak valid, hanya diizinkan angka',
+    //       errKtpMsg: 'No E-KTP tidak valid, hanya diizinkan angka'
+    //     });
+    //   }
+    // }
+    // if(this.state.imgKtpSource == null) {
+    //   continuePage = false;
+    //   this.setState({ 
+    //     errImgKtp: 'Foto KTP tidak boleh kosong'
+    //   });
+    // }
+    // if(this.state.imgSelfiSource == null) {
+    //   continuePage = false;
+    //   this.setState({ 
+    //     errImgSelfi: 'Foto Selfi tidak boleh kosong'
+    //   });
+    // }
+    // if(this.state.imgTtdSource == null) {
+    //   continuePage = false;
+    //   this.setState({ 
+    //     errImgTtd: 'Foto tanda tangan tidak boleh kosong'
+    //   });
+    // }
 
-    console.log('Continue Process', continuePage);
-    if(continuePage) {  
-      AsyncStorage.setItem('eKtp', this.state.eKtp);
-      AsyncStorage.setItem('imgEktp', this.state.imgKtpSource);
-      AsyncStorage.setItem('imgSelfi', this.state.imgSelfiSource);
-      AsyncStorage.setItem('imgTtd', this.state.imgTtdSource);
-      // $dataRegistt1 = {
-      //   'eKtp': this.state.eKtp,
-      //   'imgKtpSource': this.state.imgKtpSource,
-      //   'imgSelfiSource': this.state.imgSelfiSource,
-      //   'imgTtdSource': this.state.imgTtdSource
-      // };
-      this.props.navigation.navigate('Regist2')
-    }
+    // console.log('Continue Process', continuePage);
+    // continuePage = true;
+    // if(continuePage) {  
+    //   AsyncStorage.setItem('eKtp', this.state.eKtp);
+    //   AsyncStorage.setItem('imgEktp', this.state.imgKtpSource);
+    //   AsyncStorage.setItem('imgSelfi', this.state.imgSelfiSource);
+    //   AsyncStorage.setItem('imgTtd', this.state.imgTtdSource);
+    //   // $dataRegistt1 = {
+    //   //   'eKtp': this.state.eKtp,
+    //   //   'imgKtpSource': this.state.imgKtpSource,
+    //   //   'imgSelfiSource': this.state.imgSelfiSource,
+    //   //   'imgTtdSource': this.state.imgTtdSource
+    //   // };
+    //   this.props.navigation.navigate('Regist2')
+    // }
   }
 
   changeTextEktp = (ktpText) => {

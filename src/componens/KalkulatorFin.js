@@ -311,12 +311,12 @@ class KalkulatorFin extends Component {
                         </View>
                         <View style={{flexDirection:'row'}}>
                             <TouchableOpacity style={{width:"50%",height:50}} onPress={()=>{this.pressBtn('1')}}>
-                                <LinearGradient colors={this.state.colorBtn1} style={{height: 40,marginRight:10,marginBottom: 10,borderRadius: 20,alignItems: 'center',padding:3,justifyContent: 'center',padding:5}} >
+                                <LinearGradient colors={this.state.colorBtn1} style={{height: 40,marginRight:10,marginBottom: 10,borderRadius: 10,alignItems: 'center',padding:3,justifyContent: 'center',padding:5}} >
                                     <Text style={styles.btnTextSmallDefault}>Hitung Target Hasil</Text>
                                 </LinearGradient>
                             </TouchableOpacity>
                             <TouchableOpacity style={{width:"50%",height:50}} onPress={()=>{this.pressBtn('2')}}>
-                                <LinearGradient colors={this.state.colorBtn2} style={{height: 40,marginLeft:10,marginBottom: 10,borderRadius: 20,alignItems: 'center',padding:3,justifyContent: 'center',padding:5}} >
+                                <LinearGradient colors={this.state.colorBtn2} style={{height: 40,marginLeft:10,marginBottom: 10,borderRadius: 10,alignItems: 'center',padding:3,justifyContent: 'center',padding:5}} >
                                     <Text style={styles.btnTextSmallDefault}>Hitung Dana</Text>
                                 </LinearGradient>
                             </TouchableOpacity>
@@ -324,7 +324,7 @@ class KalkulatorFin extends Component {
                         <View style={styles.inputGroup} >
                             <Text style={styles.labelText}>{this.state.labelInvest} Investasi</Text>
                             <View style={styles.textInputGroup}>
-                                <View style={{backgroundColor:'#28ccfb',width:50,height:40,borderTopLeftRadius:20,borderBottomLeftRadius:20,alignItems:'center',justifyContent:'center'}}>
+                                <View style={{backgroundColor:'#28ccfb',width:50,height:40,borderTopLeftRadius:10,borderBottomLeftRadius:10,alignItems:'center',justifyContent:'center'}}>
                                     <Text style={styles.txtMed}>Rp </Text>
                                 </View>
                                 <TextInput placeholderTextColor="#000000" maxLength={17} ref={this.field1} style={styles.textInput} placeholder="0" keyboardType="number-pad" value={this.state.danaInvestasi.toString().replace(/[^\d]+/g, "").replace(/\B(?=(?:\d{3})+(?!\d))/g,'.')} onChangeText={(danaInvestasi) => this.setState({ danaInvestasi })} />
@@ -335,7 +335,7 @@ class KalkulatorFin extends Component {
                             <Text style={styles.labelText}>Jangka Waktu</Text>
                             <View style={[styles.textInputGroup,{width:150}]}>
                                 <TextInput placeholderTextColor="#000000" maxLength={2} ref={this.field2} style={styles.textInput} placeholder="0" keyboardType="number-pad" value={this.state.jangkaWaktu} onChangeText={(jangkaWaktu) => this.setState({ jangkaWaktu })} />
-                                <View style={{backgroundColor:'#28ccfb',width:60,height:40,borderTopRightRadius:20,borderBottomRightRadius:20,alignItems:'center',justifyContent:'center'}}>
+                                <View style={{backgroundColor:'#28ccfb',width:60,height:40,borderTopRightRadius:10,borderBottomRightRadius:10,alignItems:'center',justifyContent:'center'}}>
                                     <Text style={styles.txtMed}> {this.state.satuanWaktu} </Text>
                                 </View>
                             </View>
@@ -410,7 +410,7 @@ class KalkulatorFin extends Component {
                             <Text style={styles.labelText}>Estimasi Imbal Balik {this.state.satuanWaktuReturn}</Text>
                             <View style={styles.textInputGroup}>
                                 <Text style={styles.textInput}>{GLOBAL.currency(this.state.estimasiReturn,'.',false)}</Text>
-                                <View style={{backgroundColor:'#28ccfb',width:50,height:40,borderTopRightRadius:20,borderBottomRightRadius:20,alignItems:'center',justifyContent:'center'}}>
+                                <View style={{backgroundColor:'#28ccfb',width:50,height:40,borderTopRightRadius:10,borderBottomRightRadius:10,alignItems:'center',justifyContent:'center'}}>
                                     <Text style={styles.txtMed}> % </Text>
                                 </View>
                             </View>
