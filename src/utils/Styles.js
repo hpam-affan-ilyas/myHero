@@ -29,76 +29,8 @@ module.exports = StyleSheet.create({
         backgroundColor: '#fff',
         color: "#415566",
         padding: 10,
-        borderRadius: 10,
+        borderRadius: 20,
         marginBottom: 5
-    },
-    textInputSearchDropdownDate:{
-        borderColor: '#fff',
-        backgroundColor: '#fff',
-        color: "#415566",
-        padding: 10,
-        borderRadius: 10,
-        width: 60,
-        textAlign: 'center',
-        marginRight: 10,
-        borderColor: '#000',
-    },
-    itemSearchDropdownDate:{
-        padding: 10,
-        marginTop: 2,
-        width: 60,
-        backgroundColor: '#fff',
-        borderColor: '#fff',
-        borderRadius: 5,
-        textAlign: 'center'
-    },
-    textInputSearchDropdownMonth:{
-        borderColor: '#fff',
-        backgroundColor: '#fff',
-        color: "#415566",
-        padding: 10,
-        borderRadius: 10,
-        width: 200,
-        textAlign: 'center',
-        marginRight: 10,
-        borderColor: '#000',
-    },
-    itemSearchDropdownMonth:{
-        padding: 10,
-        marginTop: 2,
-        width: 200,
-        backgroundColor: '#fff',
-        borderColor: '#fff',
-        borderRadius: 5,
-        textAlign: 'center'
-    },
-    textInputSearchDropdownYear:{
-        borderColor: '#fff',
-        backgroundColor: '#fff',
-        color: "#415566",
-        padding: 10,
-        borderRadius: 10,
-        width: 100,
-        textAlign: 'center',
-        marginRight: 10,
-        borderColor: '#000'
-    },
-    itemSearchDropdownYear:{
-        padding: 10,
-        marginTop: 2,
-        width: 100,
-        backgroundColor: '#fff',
-        borderColor: '#fff',
-        borderRadius: 5,
-        textAlign: 'center'
-    },
-    itemSearchDropdown:{
-        padding: 10,
-        marginTop: 2,
-        backgroundColor: '#ddd',
-        borderColor: '#bbb',
-        borderWidth: 1,
-        borderRadius: 5
     },
     dropdownError:{
         borderWidth: 1,
@@ -109,14 +41,14 @@ module.exports = StyleSheet.create({
         borderRadius: 20,
         marginBottom: 5
     },
-    dropdownErrorTanggal:{
-        borderWidth: 1,
-        borderColor: 'red',
-        backgroundColor: '#fff',
-        color: "#415566",
+
+    itemSearchDropdown:{
         padding: 10,
-        borderRadius: 20,
-        marginBottom: 5
+        marginTop: 2,
+        backgroundColor: '#ddd',
+        borderColor: '#bbb',
+        borderWidth: 1,
+        borderRadius: 5
     },
     
     wrapperLandscape: {
@@ -983,41 +915,10 @@ module.exports = StyleSheet.create({
     textInputGroup: {
         borderColor: '#efefef',
         backgroundColor: '#FFF',
-        borderRadius: 10,
+        borderRadius: 20,
+        width: "100%",
         height: 40,
         flexDirection: "row",
-    },
-    textInputGroupDate: {
-        flexDirection: "column",
-    },
-    textInputDate: {
-        color: "#000",
-        borderColor: 'black',
-        width: '100%',
-        borderRadius: 10,
-        borderWidth: 1,
-        marginRight: 5,
-        textAlign: 'center'
-    },
-    
-    textInputMonth: {
-        color: "#000",
-        borderRadius: 10,
-        borderColor: 'black',
-        marginRight: 5,
-        width: '57%',
-        borderWidth: 1,
-        borderColor: 'black',
-        textAlign: 'center'
-    },
-    textInputYear: {
-        color: "#000",
-        borderRadius: 10,
-        borderColor: 'black',
-        width: '25%',
-        borderWidth: 1,
-        borderColor: 'black',
-        textAlign: 'center'
     },
     dropdownStyle: {
         borderColor: '#efefef',
@@ -1072,7 +973,6 @@ module.exports = StyleSheet.create({
         color: "#415566",
         padding: 10,
         flex: 1,
-        borderColor: 'black'
     },
     textInputErrorTempatLahir: {
         borderColor: 'red',
