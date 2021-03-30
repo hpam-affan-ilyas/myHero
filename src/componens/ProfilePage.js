@@ -854,19 +854,19 @@ class ProfilePage extends React.Component {
               }
               <View style={styles.inputGroup} >
                 <Text style={styles.labelText}>Nama </Text>
-                <TouchableOpacity style={styles.textInputGroup} onPress={() => this.setState({ modalVisible1: true })}>
+                <TouchableOpacity style={styles.textInputGroup} onPress={() => this.setState({ modalVisible1: true })} disabled={true}>
                   <Text style={styles.textInput} >{this.state.namaValue}</Text>
                   <View style={styles.iconImgGroup} >
-                    <Image source={require('../img/edit.png')} style={{ width: 30, height: 30 }} />
+                    <Image source={require('../img/lock.png')} style={{ width: 30, height: 30 }} />
                   </View>
                 </TouchableOpacity>
               </View>
               <View style={styles.inputGroup} >
                 <Text style={styles.labelText}>Email</Text>
-                <TouchableOpacity style={styles.textInputGroup} onPress={() => this.setModalVisible('2', true)}>
+                <TouchableOpacity style={styles.textInputGroup} onPress={() => this.setModalVisible('2', true)} disabled={true}>
                   <Text style={styles.textInput} >{this.state.emailValue}</Text>
                   <View style={styles.iconImgGroup} >
-                    <Image source={require('../img/edit.png')} style={{ width: 30, height: 30 }} />
+                    <Image source={require('../img/lock.png')} style={{ width: 30, height: 30 }} />
                   </View>
                 </TouchableOpacity>
               </View>
@@ -959,7 +959,7 @@ class ProfilePage extends React.Component {
                   <View style={styles.inputGroup} >
                     <Text style={styles.ttxtBlackHead}>Nama Depan</Text>
                     <View style={styles.textInputGroupModal}>
-                      <TextInput placeholderTextColor="#000000" ref={this.field1} onSubmitEditing={() =>{ const textInput = this.field2.current;
+                      <TextInput  placeholderTextColor="#000000" ref={this.field1} onSubmitEditing={() =>{ const textInput = this.field2.current;
                         textInput.focus()} } style={styles.textInput} placeholder="Nama Depan" value={this.state.firstName} onChangeText={(firstName) => this.setState({ firstName })} />
                     </View>
                   </View>
