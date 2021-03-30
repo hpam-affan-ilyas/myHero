@@ -53,12 +53,12 @@ export default class ImpianPage extends Component {
                         </View>
                         <View style={styles.contenCenter}>
                             <AwesomeButton
-                                borderRadius={10}
+                                borderRadius={15}
                                 backgroundColor='#4F7942'
                                 backgroundShadow="#000"
                                 backgroundDarker="#45673a"
                                 height={40}
-                                width={GLOBAL.DEVICE_WIDTH*0.5+45}
+                                width={GLOBAL.DEVICE_WIDTH*0.5+60}
                                 onPress={() => nav('SimulasiInvestasi',{dream:'',pageId:this.state.pageId}) }
                             >
                             <Image source={require('./../img/btnLogin.png')} style={{width:GLOBAL.DEVICE_WIDTH*0.5+60,height:40,resizeMode:'stretch'}} />

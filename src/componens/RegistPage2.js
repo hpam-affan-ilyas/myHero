@@ -4,7 +4,6 @@ import { Image, TouchableOpacity, Text, StatusBar,Platform, View, KeyboardAvoidi
 import LinearGradient from 'react-native-linear-gradient';
 import { Dropdown } from 'react-native-material-dropdown';
 import AsyncStorage from '@react-native-community/async-storage';
-import SearchableDropDown from 'react-native-searchable-dropdown';
 import AwesomeButton from "react-native-really-awesome-button";
 import { ScrollView } from 'react-native-gesture-handler';
 // import { useDarkMode } from 'react-native-dark-mode';
@@ -52,16 +51,6 @@ class RegistPage2 extends React.Component {
             jenis_kelaminValue:'0',
             isCheckedPria:false,
             isCheckedWanita:false,
-            tanggalId: '',
-            tanggalValue: '',
-            errTanggalValue: '',
-            tanggal: '',
-            yearId: '',
-            yearValue: '',
-            bulanId: '',
-            bulanValue: '',
-            errBulanValue: '',
-            dataBulan: ''
         }
     }
     Unauthorized(){
@@ -93,7 +82,7 @@ class RegistPage2 extends React.Component {
             a = (dateChoosed.getMonth() + 1)
         }
         let formatted_date = dateChoosed.getDate() + "-" + a + "-" + dateChoosed.getFullYear()
-        // this.setState({ tglLahirValue: formatted_date })
+        this.setState({ tglLahirValue: formatted_date })
         this.hideDateTimePicker();
         const textInput = this.field5.current;
         textInput.focus()
@@ -108,14 +97,10 @@ class RegistPage2 extends React.Component {
         let emailValue = states.emailValue;
         let noHpValue = states.noHpValue;
         let jenisKelaminValue = states.jenis_kelaminValue;
-        let tanggalLahirValue = states.tanggalValue+'-'+states.bulanId+'-'+states.yearValue;
+        let tanggalLahirValue = states.tglLahirValue;
         let tempatLahirValue = states.tempatLahirValue;
         let statusNikahValue = states.statusNikahValue;
         let agamaValue = states.agamaValue;
-        let tanggalValue = states.tanggalValue;
-        let bulanValue = states.bulanValue;
-        let yearValue = states.yearValue;
-        console.log("Tanggal Lahir Value", tanggalLahirValue);
         
         let continueNextPage = true;
         !namaValue && [continueNextPage = false, this.setState({errNama: 'Nama Tidak Boleh Kosong'})]
@@ -128,18 +113,12 @@ class RegistPage2 extends React.Component {
                 this.setState({errEmail: 'Email Tidak Valid'})
             }
         }
-        console.log("Tanggal Value", tanggalValue);
-        console.log("Bulan Value", bulanValue);
-        console.log("Tahun Value", yearValue);
         !noHpValue && [continueNextPage = false, this.setState({errNoHp: 'Nomor Handphone Tidak Boleh Kosong'})]
         jenisKelaminValue == 0 && [continueNextPage = false, this.setState({errJenisKelamin: 'Jenis Kelamin Harus di Pilih'})]
         !tanggalLahirValue && [continueNextPage = false, this.setState({errTglLahir: 'Tanggal Lahir Harus di Isi'})]
         !tempatLahirValue && [continueNextPage = false, this.setState({errTempatLahir: 'Tempat Lahir Tidak Boleh Kosong'})]
         !statusNikahValue && [continueNextPage = false, this.setState({errStatusNikah: 'Status Nikah Tidak Boleh Kosong'})]
         !agamaValue && [continueNextPage = false, this.setState({errAgama: 'Agama Tidak Boleh Kosong'})]
-        !tanggalValue && [continueNextPage = false, this.setState({errTanggalValue: 'Tanggal Harus Lengkap'})]
-        !bulanValue && [continueNextPage = false, this.setState({errTanggalValue: 'Tanggal Harus Lengkap'})]
-        !yearValue && [continueNextPage = false, this.setState({errTanggalValue: 'Tanggal Harus Lengkap'})]
         // if(!namaValue || !emailValue || !noHpValue || !jenisKelaminValue || !tanggalLahirValue || !tempatLahirValue || !statusNikahValue || !agamaValue){
         //     Alert.alert('Perhatian', 'Mohon lengkapi seluruh data');
         //     continueNextPage = false;
@@ -172,12 +151,8 @@ class RegistPage2 extends React.Component {
                     agamaId = agama2[i].id
                 }
             }
-            this.setState({
-                tglLahirValue: this.state.tanggalValue+'-'+this.state.bulanId+'-'+this.state.yearValue
-            })
-            console.log("set item tglLahirValue", tanggalLahirValue);
             AsyncStorage.setItem('jkValue', this.state.jenis_kelaminValue);
-            AsyncStorage.setItem('tglLahirValue', tanggalLahirValue);
+            AsyncStorage.setItem('tglLahirValue', this.state.tglLahirValue);
             AsyncStorage.setItem('tempatLahirValue', this.state.tempatLahirValue);
             AsyncStorage.setItem('statusNikahValue', this.state.statusNikahValue);
             AsyncStorage.setItem('statusNikahId', '' + statusNikahId);
@@ -271,68 +246,7 @@ class RegistPage2 extends React.Component {
         } else {
             this.Unauthorized()
         }
-        this._getTanggal(this.state.myToken);
     }
-    _getTanggal(token) {
-        const data_tanggal = [];
-        for(var i = 1; i <= 31; i++) {
-            data_tanggal.push({
-                id: i,
-                name: i.toString()
-            })
-        }
-        this.setState({
-            dataTanggal: data_tanggal
-        })
-
-        fetch(GLOBAL.getMonths(), {
-            method: 'GET',
-            headers: {
-                'Accept': 'appication/json',
-                'Content-type': 'application/json',
-                'Authorization': token,
-            }
-        })
-            .then((response) => {
-                this.setState({ isLoading: false })
-                if (response.status == '201') {
-                    let res;
-                    return response.json().then(obj => {
-                        res = obj;
-                        var count = Object.keys(res.data.months).length;
-                        var data_bulan = [];
-                        for (var i = 0; i < count; i++) {
-                            data_bulan.push({
-                                id: res.data.months[i].id,
-                                name: res.data.months[i].name
-                            })
-                        }
-                        this.setState({ dataBulan: data_bulan })
-                        console.log("State Data Bulan", this.state.dataBulan);
-                    })
-                } else if (response.status == '401') {
-                    this.Unauthorized()
-                } else {
-                    GLOBAL.gagalKoneksi()
-                }
-            })
-
-        const d = new Date();
-        let year = d.getFullYear();
-        let tenYears = year - 10;
-        let hundredYears = tenYears - 100;
-        let years = [];
-        for(let i = tenYears; i >= hundredYears; i--) {
-            years.push({
-                id: i,
-                name: i.toString()
-            });
-        }
-        this.setState({
-            dataYears: years
-        })
-    }
-
     _onRefresh() {
         this.setState({ refreshing: true });
         this._getToken().then(() => {
@@ -354,32 +268,7 @@ class RegistPage2 extends React.Component {
             <LinearGradient colors={GLOBAL.BackgroundApp} style={styles.wrapper} >
                 <StatusBar backgroundColor={GLOBAL.StatusBarColor} barStyle='light-content' hidden={false} />
                 <View style={{height:GLOBAL.DEVICE_HEIGHT-100}}> 
-                            {/* <View style={styles.inputGroup} >
-                                <Text style={styles.labelText}>Tanggal Lahir</Text>
-                                <View >
-                                    <SearchableDropDown
-                                        onTextChange={text => console.log(text)}
-                                        onItemSelect={text => {
-                                            alert(text);
-                                        }}
-                                        textInputStyle={this.state.errTanggalValue ? styles.dropdownError : styles.textInputSearchDropdownDate}
-                                        itemStyle={styles.itemSearchDropdownDate}
-                                        itemTextStyle={{
-                                            color: '#222'
-                                        }}
-                                        itemsContainerStyle={{
-                                            maxHeight: 220
-                                        }}
-                                        items={this.state.dataTanggal}
-                                        placeholder={this.state.tanggalValue ==''?'Tanggal':this.state.tanggalValue}
-                                        placeholderTextColor="#000"
-                                        value={this.state.tanggalValue}
-                                        resetValue={false}
-                                        underlineColorAndroid='transparent' 
-                                    />
-                                </View>
-                            </View>  */}
-                {/* <ScrollView
+                <ScrollView
                     showsVerticalScrollIndicator={false}
                     refreshControl={
                         <RefreshControl
@@ -387,8 +276,8 @@ class RegistPage2 extends React.Component {
                             onRefresh={this._onRefresh.bind(this)}
                         />
                     } >
-                    <KeyboardAvoidingView behavior="position"> */}
-                        <View style={[styles.containerMain,{marginBottom:25}]}>
+                    <KeyboardAvoidingView behavior="position">
+                    <View style={[styles.containerMain,{marginBottom:25}]}>
 
                         {
                             this.state.isLoading && <Modal transparent={true}><View style={styles.loadingStyle}><ActivityIndicator size="large" color="#C1FF33" /></View></Modal>
@@ -484,80 +373,33 @@ class RegistPage2 extends React.Component {
                         {renderIf(this.state.errJenisKelamin)(
                             <Text style={styles.errorMessage}>{this.state.errJenisKelamin && this.state.errJenisKelamin}</Text>
                         )}
-                        	<View style={styles.inputGroup} >
+                        <View style={styles.inputGroup} >
+                            <TouchableOpacity onPress={this.showDateTimePicker} ref={this.field4}>
                                 <Text style={styles.labelText}>Tanggal Lahir</Text>
-                                {renderIf(this.state.errTanggalValue)(
-                                    <Text style={styles.errorMessage}>{this.state.errTanggalValue && this.state.errTanggalValue}</Text>
-                                )}
-                                <View style={{flexDirection: "row"}}>
-                                    <SearchableDropDown
-                                        onTextChange={text => console.log(text)}
-                                        onItemSelect={(item) => this.setState({
-                                            tanggalId:item.id,
-                                            tanggalValue:item.name,
-                                            errTanggalValue: undefined
-                                        })}
-                                        textInputStyle={styles.textInputSearchDropdownDate}
-                                        itemStyle={styles.itemSearchDropdownDate}
-                                        itemTextStyle={{
-                                            color: '#222'
-                                        }}
-                                        itemsContainerStyle={{
-                                            maxHeight: 220
-                                        }}
-                                        items={this.state.dataTanggal}
-                                        placeholder={this.state.tanggalValue ==''?'Tgl':this.state.tanggalValue}
-                                        placeholderTextColor="#000"
-                                        value={this.state.tanggalValue}
-                                        resetValue={false}
-                                        underlineColorAndroid='transparent' 
-                                    />
-                                    <SearchableDropDown
-                                        onTextChange={text => console.log(text)}
-                                        onItemSelect={(item) => this.setState({
-                                            bulanId:item.id,
-                                            bulanValue:item.name,
-                                            errBulanValue: undefined
-                                        })}
-                                        textInputStyle={styles.textInputSearchDropdownMonth}
-                                        itemStyle={styles.itemSearchDropdownMonth}
-                                        itemTextStyle={{
-                                            color: '#222'
-                                        }}
-                                        itemsContainerStyle={{
-                                            maxHeight: 220
-                                        }}
-                                        items={this.state.dataBulan}
-                                        placeholder={this.state.bulanValue ==''?'Bulan':this.state.bulanValue}
-                                        placeholderTextColor="#000"
-                                        value={this.state.bulanValue}
-                                        resetValue={false}
-                                        underlineColorAndroid='transparent' 
-                                    />
-                                    <SearchableDropDown
-                                        onTextChange={text => console.log(text)}
-                                        onItemSelect={(item) => this.setState({
-                                            yearId:item.id,
-                                            yearValue:item.name,
-                                            errYearValue: undefined
-                                        })}
-                                        textInputStyle={styles.textInputSearchDropdownYear}
-                                        itemStyle={styles.itemSearchDropdownYear}
-                                        itemTextStyle={{
-                                            color: '#222'
-                                        }}
-                                        itemsContainerStyle={{
-                                            maxHeight: 220
-                                        }}
-                                        items={this.state.dataYears}
-                                        placeholder={this.state.yearValue ==''?'Tahun':this.state.yearValue}
-                                        placeholderTextColor="#000"
-                                        value={this.state.yearValue}
-                                        resetValue={false}
-                                        underlineColorAndroid='transparent' 
+                                <View style={this.state.errTglLahir ? styles.textInputError : styles.textInputGroup} >
+                                    <View style={styles.iconGroupLeft} >
+                                        <Icon name="calendar" size={20} style={styles.colorIconInput}/>
+                                    </View>
+                                    <Text style={styles.textInput}>{this.state.tglLahirValue}</Text>
+                                    <DateTimePicker
+                                        isVisible={this.state.isDateTimePickerVisible}
+                                        onConfirm={this.handleDatePicked}
+                                        onCancel={this.hideDateTimePicker}
+                                        datePickerContainerStyleIOS={{backgroundColor:'#3676c2'}}
+                                        cancelButtonContainerStyleIOS={{backgroundColor:'#3676c2'}}
+                                        titleStyle={{color:'#FFF'}}
+                                        confirmTextStyle={{color:'#FFF'}}
+                                        cancelTextStyle={{color:'#FFF'}}
                                     />
                                 </View>
+                            </TouchableOpacity>
+                        </View>
+                        {renderIf(this.state.errTglLahir)(
+                            <View>
+                                <Text style={styles.errorMessage}>{this.state.errTglLahir && this.state.errTglLahir}</Text>
                             </View>
+                        )}
+
                         <View style={styles.inputGroup} >
                             <Text style={styles.labelText}>Tempat Lahir</Text>
                             <View style={styles.textInputGroup}>
@@ -566,10 +408,11 @@ class RegistPage2 extends React.Component {
                                     ref={this.field5} 
                                     onSubmitEditing={() => { 
                                         const textInput = this.field6.current;
-                                        } }  
+                                        textInput.focus()} }  
                                     style={this.state.errTempatLahir ? styles.textInputErrorTempatLahir : styles.textInput} 
                                     editable={this.state.editTempatLahir} 
                                     placeholder="Tempat Lahir" 
+                                    value={this.state.tempatLahirValue} 
                                     keyboardType='default' 
                                     onChangeText={(tempatLahirValue) => this.setState({ tempatLahirValue, errTempatLahir: undefined })} />
                             </View>
@@ -617,9 +460,9 @@ class RegistPage2 extends React.Component {
                             </View>
                         )}
                         
-                        </View>
-                    {/* </KeyboardAvoidingView>
-                </ScrollView> */}
+                    </View>
+                    </KeyboardAvoidingView>
+                </ScrollView>
                 </View>
                 <View style={styles.boxBtnBottom}>
                     <View style={{ flexDirection: "row",flex: 1,paddingRight:15,paddingLeft:15 }}>
