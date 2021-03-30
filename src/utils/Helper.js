@@ -246,6 +246,11 @@ module.exports = {
         var result = this.base_url+'/rdo/bank';
         return result;
     },
+    //GET Agen
+    getAgen(){
+        var result = this.base_url+'/rdo/agent';
+        return result;
+    },
     //GET Jual Tampil
     getJualTampil(idProduk){
         if (typeof idProduk == "undefined" ) idProduk = '';
@@ -346,6 +351,10 @@ module.exports = {
     //POST Jual simpan
     jualSimpan(){
         var result = this.base_url+'/rdo/jual';
+        return result;
+    },
+    getMonths() {
+        let result = this.base_url+'/rdo/months';
         return result;
     },
     switch(){
