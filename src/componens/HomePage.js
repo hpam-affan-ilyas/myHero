@@ -32,6 +32,7 @@ export default class HomeScreen extends React.Component {
             dataIklan: [],
             dataProduk: [],
             userName: '',
+            lastName: '',
             hasil_kumulatif: 0,
             tglNab: null,
             colorHasilKumulatif: '#49c85a',
@@ -81,10 +82,16 @@ export default class HomeScreen extends React.Component {
                     let res;
                     return response.json().then(obj => {
                         res = obj;
+                        console.log("Res", res);
                         if (res.data.user.name != null) {
                             var name = res.data.user.name.split(' ');
+                            var namaBelakang = res.data.user.last_name.split(' ');
                             var kata1 = name[0].toString().slice(0,1).toUpperCase()+name[0].toString().slice(1,20).toLowerCase();
-                            this.setState({ userName: kata1});
+                            var kata2 = namaBelakang[0].toString().slice(0,1).toUpperCase()+namaBelakang[0].toString().slice(1,20).toLowerCase();
+                            this.setState({ 
+                                userName: kata1,
+                                lastName: kata2
+                            });
                             AsyncStorage.setItem('namaValue', res.data.user.name + ' ' + res.data.user.last_name);
                         }
                         if (res.data.user.email != null) {
@@ -443,7 +450,7 @@ export default class HomeScreen extends React.Component {
                         }
                         <View style={styles.containerMain}>
                             <View style={{ flexDirection: "row",width:'100%' }}>
-                                <Text style={styles.txtHeight}>Hai {this.state.userName}</Text>
+                                <Text style={styles.txtHeight}>Hai {this.state.userName} {this.state.lastName}</Text>
                                 <View style={{ alignItems: 'flex-end',justifyContent: 'flex-end',flex:1}}>
                                     <TouchableOpacity onPress={() => this.props.navigation.navigate('Notifikasi')}>
             
