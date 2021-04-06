@@ -519,7 +519,7 @@ export default class HomeScreen extends React.Component {
                                                     <Text style={styles.boxTitle100White}>Notifikasi {"\n"}Investasi</Text>
                                                 </View>
                                             </TouchableOpacity>
-                                            <TouchableOpacity onPress={() => this.props.navigation.navigate('NotifikasiInvest')}>
+                                            <TouchableOpacity onPress={() => this.props.navigation.navigate('EnsiklovetasiInvest')}>
                                                 <View style={styles.boxFiture}>
                                                     <View style={styles.boxIcon100White}>
                                                     <Image source={require('./../img/ensiklovetasi.png')} style={styles.icon100White} />
