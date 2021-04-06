@@ -34,6 +34,7 @@ import RegistScreen3 from './src/componens/RegistPage3';
 import RegistScreen4 from './src/componens/RegistPage4';
 import SummaryKalkulator from './src/componens/SummeryKalkulator';
 import NotifikasiInvest from './src/componens/NotifikasiInvest';
+import EnsiklovetasiInvest from './src/componens/EnsiklovetasiInvest';
 import TouchPage from './src/componens/TouchPage';
 import NotifikasiScreen from './src/componens/Notifikasi';
 import FormNotifInvest from './src/componens/FormNotifInvest';
@@ -805,6 +806,22 @@ const RootStack = createStackNavigator(
             return { headerTitle, headerLeft, headerStyle,headerRight};
         }
     },
+    EnsiklovetasiInvest: {
+      screen: EnsiklovetasiInvest,
+      navigationOptions: ({ navigation }) => {
+          let headerTitle = (<View style={styles.header}>
+              <TouchableOpacity style={styles.headerLeft} onPress={() => navigation.goBack()} ><IconBack name="chevron-left" size={25} style={styles.headerTintWhite} /></TouchableOpacity>
+              <View style={styles.headerCenter}><Text style={styles.headerTitleWhite}>ENSIKLOVETASI</Text></View>
+              {/* <TouchableOpacity style={styles.headerRight} onPress={() => navigation.navigate('Profile')} >
+                  <Image source={require('./src/img/user.png')} style={{ width: 25, height: 25 }} />
+              </TouchableOpacity> */}
+              </View>);
+          let headerLeft = null;
+          let headerRight = null;
+          let headerStyle = styles.headerStyle;
+          return { headerTitle, headerLeft, headerStyle,headerRight};
+      }
+  },
     FormNotifInvest: {
         screen: FormNotifInvest,
         navigationOptions: ({ navigation }) => {

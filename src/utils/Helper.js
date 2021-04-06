@@ -42,6 +42,11 @@ module.exports = {
         var result = this.base_url+'/faq';
         return result;
     },
+    //GET faq list
+    ensiklovetasiList(){
+        var result = this.base_url+'/ensiklovestasi';
+        return result;
+    },
     //GET jumlah promo
     getPromo(){
         var result = this.base_url+'/rdo/cekpromo';
