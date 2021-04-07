@@ -230,7 +230,7 @@ export default class EnsiklovetasiInvest extends React.Component {
                             maxHeight: 220
                         }}
                         items={this.state.dataFaq}
-                        placeholder="Apa yang ingin anda tanyakan?"
+                        placeholder="Apa yang ingin Anda ketahui?"
                         resetValue={false}
                         underlineColorAndroid='transparent' />
 

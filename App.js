@@ -811,7 +811,7 @@ const RootStack = createStackNavigator(
       navigationOptions: ({ navigation }) => {
           let headerTitle = (<View style={styles.header}>
               <TouchableOpacity style={styles.headerLeft} onPress={() => navigation.goBack()} ><IconBack name="chevron-left" size={25} style={styles.headerTintWhite} /></TouchableOpacity>
-              <View style={styles.headerCenter}><Text style={styles.headerTitleWhite}>ENSIKLOVETASI</Text></View>
+              <View style={styles.headerCenter}><Text style={styles.headerTitleWhite}>ENSIKLOVESTASI</Text></View>
               {/* <TouchableOpacity style={styles.headerRight} onPress={() => navigation.navigate('Profile')} >
                   <Image source={require('./src/img/user.png')} style={{ width: 25, height: 25 }} />
               </TouchableOpacity> */}
