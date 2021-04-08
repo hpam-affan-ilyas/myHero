@@ -86,6 +86,19 @@ export default class HomeScreen extends React.Component {
                         if (res.data.user.name != null) {
                             var name = res.data.user.name.split(' ');
                             var namaBelakang = res.data.user.last_name.split(' ');
+                            let fullName = res.data.user.name+" "+res.data.user.last_name;
+                            let showName = fullName.split(' ');
+                            console.log("show Name", showName);
+                            console.log("Showname length", showName.length);
+                            if(showName.length > 1) {
+                                var showName_ = showName[0].toString().slice(0,1).toUpperCase()+showName[0].toString().slice(1,20).toLowerCase()+" "+showName[1].toString().slice(0,1).toUpperCase()+showName[1].toString().slice(1,20).toLowerCase();
+                            } else {
+                                var showName_ = showName[0].toString().slice(0,1).toUpperCase()+showName[0].toString().slice(1,20).toLowerCase();
+                            }
+                            this.setState({
+                                showName: showName_
+                            })
+                            console.log("Fullname", fullName);
                             var kata1 = name[0].toString().slice(0,1).toUpperCase()+name[0].toString().slice(1,20).toLowerCase();
                             var kata2 = namaBelakang[0].toString().slice(0,1).toUpperCase()+namaBelakang[0].toString().slice(1,20).toLowerCase();
                             this.setState({ 
@@ -450,7 +463,7 @@ export default class HomeScreen extends React.Component {
                         }
                         <View style={styles.containerMain}>
                             <View style={{ flexDirection: "row",width:'100%' }}>
-                                <Text style={styles.txtHeight}>Hai {this.state.userName} {this.state.lastName}</Text>
+                                <Text style={styles.txtHeight}>Hai {this.state.showName}</Text>
                                 <View style={{ alignItems: 'flex-end',justifyContent: 'flex-end',flex:1}}>
                                     <TouchableOpacity onPress={() => this.props.navigation.navigate('Notifikasi')}>
             
