@@ -88,8 +88,6 @@ export default class HomeScreen extends React.Component {
                             var namaBelakang = res.data.user.last_name.split(' ');
                             let fullName = res.data.user.name+" "+res.data.user.last_name;
                             let showName = fullName.split(' ');
-                            console.log("show Name", showName);
-                            console.log("Showname length", showName.length);
                             if(showName.length > 1) {
                                 var showName_ = showName[0].toString().slice(0,1).toUpperCase()+showName[0].toString().slice(1,20).toLowerCase()+" "+showName[1].toString().slice(0,1).toUpperCase()+showName[1].toString().slice(1,20).toLowerCase();
                             } else {
