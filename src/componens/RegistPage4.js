@@ -97,7 +97,7 @@ class RegistPage4 extends React.Component {
     }
     onFinish = () => {
         let finishPage = true;
-        if (this.state.bankValue.length == 0 || this.state.bankValue == "Pilih Bank" || this.state.bankId == "") {
+        if (this.state.bankValue.length == 0 || this.state.bankValue == "Pilih Bank") {
             finishPage = false;
             this.setState({
                 errBankValue: 'Pilihan Bank Tidak Tersedia'
@@ -162,6 +162,7 @@ class RegistPage4 extends React.Component {
                 var imgNameSelfi = 'imageSelfi_' + this.state.noKtpValue;
                 var imgNameTtd = 'imageTtd_' + this.state.noKtpValue;
                 let uploadData = new FormData();
+
                 uploadData.append('foto_ktp', {
                     type: 'image/jpeg',
                     name: imgNameKTP,
@@ -182,6 +183,9 @@ class RegistPage4 extends React.Component {
                 this.setState({
                     AgentValue : splitAgentValue[1]
                 })
+                if(newAgentValue == undefined){
+                    newAgentValue = '';
+                }
                 uploadData.append('no_ktp', this.state.noKtpValue);
                 uploadData.append('jenis_kelamin', this.state.jkId);
                 uploadData.append('tgl_lahir', tgl_lahir);
@@ -190,9 +194,11 @@ class RegistPage4 extends React.Component {
                 uploadData.append('agama', this.state.agamaId);
                 uploadData.append('alamat_ktp', this.state.alamatValue);
                 uploadData.append('kota_ktp', this.state.kotaId);
+                uploadData.append('kota_ktp_text', this.state.kotaValue);
                 uploadData.append('kode_pos_ktp', this.state.kodePosValue);
                 uploadData.append('alamat_domisili', this.state.alamatDomValue);
                 uploadData.append('kota_domisili', this.state.kotaDomId);
+                uploadData.append('kota_domisili_text', this.state.kotaDomValue);
                 uploadData.append('kode_pos_domisili', this.state.kodePosDomValue);
                 uploadData.append('alamat_surat', this.state.alamatSuratValue);
                 uploadData.append('kota_surat', this.state.kotaSurMerIdValue);
@@ -208,12 +214,12 @@ class RegistPage4 extends React.Component {
                 uploadData.append('tujuan_investasi_lainnya', this.state.tujInvestText);
                 uploadData.append('profil_risiko', this.state.profileRisikoId);
                 uploadData.append('bank_id', this.state.bankId);
+                uploadData.append('bank_text', this.state.bankValue);
                 uploadData.append('no_rek', this.state.noRekValue);
                 uploadData.append('nama_rekening_bank', this.state.namaRekValue);
                 uploadData.append('pin', this.state.pinValue);
                 uploadData.append('kode_agen', newAgentValue);
-                console.log("AgenValue", this.state.AgentValue);
-                console.log("ready to hit pendaftaran");
+                console.log("Upload Data", uploadData);
                 fetch(GLOBAL.pendaftaran(), {
                     method: 'POST',
                     headers: {
@@ -351,9 +357,13 @@ class RegistPage4 extends React.Component {
                     var count = Object.keys(res.data.agent).length;
                     let data_bank = [];
                     for (var i = 0; i < count; i++) {
+                        let namaAgenFull = res.data.agent[i].nama_agen;
+                        let splitNamaAgen = namaAgenFull.split('-');
+                        let namaAgen = splitNamaAgen[1];
+                        console.log("Nama Agen", namaAgen);
                         data_bank.push({
                             id: res.data.agent[i].id,
-                            name: res.data.agent[i].nama_agen+' : '+res.data.agent[i].kode_agen
+                            name: namaAgen+' : '+res.data.agent[i].kode_agen
                         })
                     }
                     this.setState({ dataBank2: data_bank })
@@ -374,15 +384,16 @@ class RegistPage4 extends React.Component {
         var imgTtdStore = await AsyncStorage.getItem('imgTtd');
         var jkStore = await AsyncStorage.getItem('jkValue');
         var tglLahirStore = await AsyncStorage.getItem('tglLahirValue');
-        console.log("tglLahirStore", tglLahirStore);
         var tempatLahirStore = await AsyncStorage.getItem('tempatLahirValue');
         var statusNikahIdStore = await AsyncStorage.getItem('statusNikahId');
         var agamaIdStore = await AsyncStorage.getItem('agamaId');
         var kotaIdStore = await AsyncStorage.getItem('kotaIdValue');
+        var kotaValueStore = await AsyncStorage.getItem('kotaValue');
         var alamatStore = await AsyncStorage.getItem('alamatValue');
         var kodePosStore = await AsyncStorage.getItem('kodePosValue');
         var alamatDomStore = await AsyncStorage.getItem('alamatDomValue');
         var kotaDomIdStore = await AsyncStorage.getItem('kotaDomIdValue');
+        var kotaDomStore = await AsyncStorage.getItem('kotaDomValue');
         var kodePosDomStore = await AsyncStorage.getItem('kodePosDomValue');
         var alamatSuratStore = await AsyncStorage.getItem('alamatSuratValue');
         var kotaSuratIdStore = await AsyncStorage.getItem('kotaSurMerIdValue');
@@ -409,11 +420,21 @@ class RegistPage4 extends React.Component {
             if (kotaSuratIdStore != null) {
                 this.setState({ kotaSuratIdValue: kotaSuratIdStore })
             }
+            if(kotaValueStore) {
+                this.setState({
+                    kotaValue: kotaValueStore
+                })
+            }
             if (kodePosSuratStore != null) {
                 this.setState({ kodePosSuratValue: kodePosSuratStore })
             }
             if (eKtpStore != null) {
                 this.setState({ noKtpValue: eKtpStore })
+            }
+            if(kotaDomStore){
+                this.setState({
+                    kotaDomValue: kotaDomStore
+                })
             }
             if (imgKtpStore != null) {
                 this.setState({ fotoKtpValue: imgKtpStore })
@@ -532,6 +553,19 @@ class RegistPage4 extends React.Component {
     componentWillUnmount() {
         this.backHandler.remove();
     }
+    bankFunctionOntextChange(item){
+        this.setState({
+            bankValue: item
+        })
+    }
+    bankFunctionOnItemSelect(item) {
+        this.setState({
+            bankId:item.id,
+            bankValue:item.name,
+            errBankValue: undefined
+        })
+    }
+    
 
     manageCheckbox(isChecked) {
         this.setState({
@@ -599,12 +633,8 @@ class RegistPage4 extends React.Component {
                             <Text style={styles.labelText}>Bank</Text>
                             <View >
                                 <SearchableDropDown
-                                    onTextChange={text => console.log(text)}
-                                    onItemSelect={(item) => this.setState({
-                                        bankId:item.id,
-                                        bankValue:item.name,
-                                        errBankValue: undefined
-                                    })}
+                                    onTextChange={(item) => {this.bankFunctionOntextChange(item)}}
+                                    onItemSelect={(item) => {this.bankFunctionOnItemSelect(item)}}
                                     textInputStyle={this.state.errBankValue ? styles.dropdownError : styles.textInputSearchDropdown}
                                     itemStyle={styles.itemSearchDropdown}
                                     itemTextStyle={{
@@ -773,16 +803,15 @@ class RegistPage4 extends React.Component {
                                     </View>
                                 )}
                             </View>
-                            <Text style={styles.labelText}>Nama Agen</Text>
+                            <Text style={styles.labelText}>Nama Agen (Optional)</Text>
                             <View >
                                 <SearchableDropDown
                                     onTextChange={text => console.log(text)}
                                     onItemSelect={(item) => this.setState({
                                         AgentId:item.id,
-                                        AgentValue:item.name,
-                                        errBankValue: undefined
+                                        AgentValue:item.name
                                     })}
-                                    textInputStyle={this.state.errBankValue ? styles.dropdownError : styles.textInputSearchDropdown}
+                                    textInputStyle={styles.textInputSearchDropdown}
                                     itemStyle={styles.itemSearchDropdown}
                                     itemTextStyle={{
                                         color: '#222'
@@ -797,28 +826,8 @@ class RegistPage4 extends React.Component {
                                     resetValue={false}
                                     underlineColorAndroid='transparent' 
                                 />
-                                {renderIf(this.state.errBankValue)(
-                                    <View>
-                                        <Text style={styles.errorMessage}>{this.state.errBankValue && this.state.errBankValue}</Text>
-                                    </View>
-                                )}
                                 
                             </View>
-                            <View style={styles.inputGroup} >
-                                <Text style={styles.labelText}>Kode Agen</Text>
-                                <View style={styles.textInputGroup}>
-                                    <TextInput
-                                        placeholderTextColor="#000000"
-                                        onFocus={() => this.setState({ pinFocus: true })}
-                                        onBlur={() => this.setState({ pinFocus: false })}
-                                        autoCapitalize="characters"
-                                        style={styles.textInput} keyboardType="default" placeholder="Kode Agen (Opsional)" maxLength={10}
-                                        onChangeText={(kodeAgenValue) => this.setState({ kodeAgenValue:kodeAgenValue})} />
-                                </View>
-                            </View>
-                            {renderIf(this.state.pinFocus == true)(
-                                <View style={{ width: '100%', height: 200 }} />
-                            )}
                         </View>
                     </ScrollView>
                     {renderIf(this.state.viewBlink)(

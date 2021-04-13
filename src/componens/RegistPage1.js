@@ -276,7 +276,9 @@ class RegistPage1 extends React.Component {
                   </View>
                 </View>
                 <View style={{ justifyContent: "center", alignItems: "center", marginBottom: 10 }}>
-                  <Image source={{ uri: this.state.imgKtpSource }} onLoad={e => { this.setState({ errImgKtp: undefined, continueProses: true }) }} style={{ width: 100, height: 100, resizeMode: "stretch", backgroundColor: '#e1e4e8' }} />
+                  <TouchableOpacity onPress={() => { this.selectImage('ktp') }}>
+                    <Image source={{ uri: this.state.imgKtpSource }} onLoad={e => { this.setState({ errImgKtp: undefined, continueProses: true }) }} style={{ width: 100, height: 100, resizeMode: "stretch", backgroundColor: '#e1e4e8' }} />
+                  </TouchableOpacity>
                 </View>
               </View>
               {renderIf(this.state.errImgKtp)(
@@ -294,7 +296,9 @@ class RegistPage1 extends React.Component {
                   </View>
                 </View>
                 <View style={{ justifyContent: "center", alignItems: "center", marginBottom: 10 }}>
-                  <Image source={{ uri: this.state.imgSelfiSource }} onLoad={e => {[this.setState({ errImgSelfi: undefined, continueProses: true}), console.log('Image', this.state.imgSelfiSourcnoe)] }} style={{ width: 100, height: 100, resizeMode: "stretch", backgroundColor: '#e1e4e8' }} />
+                  <TouchableOpacity onPress={() => { this.selectImage('selfi') }}>
+                    <Image source={{ uri: this.state.imgSelfiSource }} onLoad={e => {[this.setState({ errImgSelfi: undefined, continueProses: true}), console.log('Image', this.state.imgSelfiSourcnoe)] }} style={{ width: 100, height: 100, resizeMode: "stretch", backgroundColor: '#e1e4e8' }} />
+                  </TouchableOpacity>
                 </View>
               </View>
               {renderIf(this.state.errImgSelfi)(
@@ -313,7 +317,9 @@ class RegistPage1 extends React.Component {
                   </View>
                 </View>
                 <View style={{ justifyContent: "center", alignItems: "center", marginBottom: 10 }}>
-                  <Image source={{ uri: this.state.imgTtdSource }} onLoad={e => { this.setState({ errImgTtd: undefined, continueProses: true }) }} style={{ width: 100, height: 100, resizeMode: "stretch", backgroundColor: '#e1e4e8' }} />
+                  <TouchableOpacity onPress={() => { this.selectImage('ttd') }}>
+                    <Image source={{ uri: this.state.imgTtdSource }} onLoad={e => { this.setState({ errImgTtd: undefined, continueProses: true }) }} style={{ width: 100, height: 100, resizeMode: "stretch", backgroundColor: '#e1e4e8' }} />
+                  </TouchableOpacity>
                 </View>
               </View>
               {renderIf(this.state.errImgTtd)(
