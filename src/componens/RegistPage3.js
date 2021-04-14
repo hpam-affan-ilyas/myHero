@@ -125,10 +125,11 @@ class RegistPage3 extends React.Component {
         }
         console.log('Alamat Domisili', this.state.openFormAlamatDomisili);
         if(this.state.openFormAlamatDomisili) {
-            if(!this.state.alamatDomValue || !this.state.kotaDomValue || !this.state.provinsiDomValue || !this.state.negaraDomValue || !this.state.kodePosDomValue) {
+            if(!this.state.alamatDomValue || !this.state.kotaDomValue || !this.state.provinsiDomValue || !this.state.negaraValue || !this.state.kodePosDomValue) {
                 this.setState({
                     errFormAlamatDomisili: 'Form Alamat Sesuai Domisili Harus di Lengkapi'
                 })
+                console.log('Masuk Form Alamat Sesuai Domisili Harus di Lengkapi');
             } else {
                 this.setState({
                     errFormAlamatDomisili: undefined
@@ -137,7 +138,7 @@ class RegistPage3 extends React.Component {
         }
         console.log('Alamat Surat Menyurat', this.state.openFormAlamatSurat);
         if(this.state.openFormAlamatSurat) {
-            if(!this.state.alamatSurMerValue || !this.state.kotaSurMerValue || !this.state.provinsiSurMerValue || !this.state.negaraSurMerValue || !this.state.kodePosSurMerValue) {
+            if(!this.state.alamatSurMerValue) {
                 this.setState({
                     errFormAlamatSuratMenyurat: 'Form Alamat Surat Menyurat Harus di Lengkapi'
                 })
@@ -155,14 +156,22 @@ class RegistPage3 extends React.Component {
             continueNextPage = false;
             console.log('Masuk Alamat Value');
         }
-        if (this.state.kotaValue.length == 0 || this.state.kotaValue == "Pilih Kota" || this.state.kotaIdValue == "") {
+        if (this.state.kotaValue.length == 0 || this.state.kotaValue == "Pilih Kota") {
             this.setState({
                 errKotaValue : 'Kota Tidak Boleh Kosong'
             })
             continueNextPage = false;
             console.log('Masuk Kota Value');
         }
-        if (this.state.provinsiValue.length == 0) {
+        if(this.state.provinsiValue) {
+            if (this.state.provinsiValue.length == 0) {
+                this.setState({
+                    errProvinsiValue : 'Provinsi Tidak Boleh Kosong'
+                })
+                continueNextPage = false;
+                console.log('Masuk Provinsi Value');
+            }
+        } else {
             this.setState({
                 errProvinsiValue : 'Provinsi Tidak Boleh Kosong'
             })
@@ -206,23 +215,40 @@ class RegistPage3 extends React.Component {
             console.log('Masuk Alamat Domisili Value');
         }
         if(this.state.openFormAlamatDomisili) {
-            if (this.state.kotaDomValue.length == 0 || this.state.kotaDomValue == "Pilih Kota" || this.state.kotaDomIdValue == "") {
+            if(this.state.kotaDomValue) {
+                if (this.state.kotaDomValue.length == 0 || this.state.kotaDomValue == "Pilih Kota") {
+                    this.setState({
+                        errKotaDomValue : 'Kota Tidak Boleh Kosong'
+                    })
+                    continueNextPage = false;
+                    console.log('Masuk Kota Domisili Value');
+                }
+            } else {
                 this.setState({
                     errKotaDomValue : 'Kota Tidak Boleh Kosong'
                 })
                 continueNextPage = false;
                 console.log('Masuk Kota Domisili Value');
             }
-            if (this.state.provinsiDomValue.length == 0) {
+            
+            if(this.state.provinsiDomValue) {
+                if (this.state.provinsiDomValue.length == 0) {
+                    this.setState({
+                        errProvinsiDomValue : 'Provinsi Tidak Boleh Kosong'
+                    })
+                    continueNextPage = false;
+                    console.log('Masuk Provinsi Domisili Value');
+                }
+            } else {
                 this.setState({
                     errProvinsiDomValue : 'Provinsi Tidak Boleh Kosong'
                 })
                 continueNextPage = false;
                 console.log('Masuk Provinsi Domisili Value');
             }
-            if (this.state.negaraDomValue.length == 0) {
+            if (this.state.negaraValue.length == 0) {
                 this.setState({
-                    errNegaraDomValue : 'Negara Tidak Boleh Kosong'
+                    errNegaraValue : 'Negara Tidak Boleh Kosong'
                 })
                 continueNextPage = false;
                 console.log('Masuk Negara Domisili Value');
@@ -258,34 +284,6 @@ class RegistPage3 extends React.Component {
                 continueNextPage = false;
                 console.log('Masuk Alamat Surat Menyurat Value');
             }
-            if(!this.state.kotaSurMerValue) {
-                this.setState({
-                    errKotaSurMerValue : 'Kota Tidak Boleh Kosong'
-                })
-                continueNextPage = false;
-                console.log('Masuk Kota Surat Menyurat Value');
-            }
-            if(!this.state.provinsiSurMerValue) {
-                this.setState({
-                    errProvinsiSurMerValue : 'Provinsi Tidak Boleh Kosong'
-                })
-                continueNextPage = false;
-                console.log('Masuk Provinsi Surat Menyurat Value');
-            }
-            if(!this.state.negaraSurMerValue) {
-                this.setState({
-                    errNegaraSurMerValue : 'Negara Tidak Boleh Kosong'
-                })
-                continueNextPage = false;
-                console.log('Masuk Negara Surat Menyurat Value');
-            }
-            if(!this.state.kodePosSurMerValue) {
-                this.setState({
-                    errKodePosSurMerValue : 'Kode Pos Tidak Boleh Kosong'
-                })
-                continueNextPage = false;
-                console.log('Masuk Kode Pos Surat Menyurat Value');
-            }
         }
         if (this.state.pendidikanValue.length == 0) {
             this.setState({
@@ -298,6 +296,7 @@ class RegistPage3 extends React.Component {
             this.setState({
                 errPendidikanValue : 'Pendidikan Tidak Boleh Kosong'
             })
+            console.log("Masuk Pendidikan tidak boleh kosong");
             continueNextPage = false;
         }
         if (this.state.pekerjaanValue.length == 0) {
@@ -311,6 +310,7 @@ class RegistPage3 extends React.Component {
             this.setState({
                 errPekerjaanValue : 'Pekerjaan Tidak Boleh Kosong'
             })
+            console.log("masuk pekerjaan tidak boleh kosong");
             continueNextPage = false;
         }
         if (this.state.penghasilanValue.length == 0) {
@@ -332,24 +332,27 @@ class RegistPage3 extends React.Component {
                 errSumberDanaValue : 'Sumberdana Tidak Boleh Kosong'
             })
             continueNextPage = false;
+            console.log("Masuk sumber dana tidak boleh kosong");
         }
         if (this.state.tujInvestValue.length == 0) {
             this.setState({
                 errTujuanIvestValue : 'Tujuan investasi Tidak Boleh Kosong'
             })
+            console.log("masuk tujuan investasi tidak boleh kosong");
             continueNextPage = false;
         }
         if (this.state.tujInvestValue == "Lainnya" && this.state.tujInvestText.length == 0) {
             this.setState({
                 errTujuanIvestValue : 'Tujuan investasi Tidak Boleh Kosong'
             })
+            console.log("masuk tujuan investasi tidak boleh kosong");
             continueNextPage = false;
         } 
         console.log('Continue To Page 4?', continueNextPage);
         if(continueNextPage) {
             AsyncStorage.setItem('alamatValue', this.state.alamatValue);
             AsyncStorage.setItem('kotaIdValue', '' + this.state.kotaIdValue);
-            AsyncStorage.setItem('kotaValue', this.state.kotaValue);
+            AsyncStorage.setItem('kotaValue', '' + this.state.kotaValue);
             AsyncStorage.setItem('provinsiValue', this.state.provinsiValue);
             AsyncStorage.setItem('negaraValue', this.state.negaraValue);
             AsyncStorage.setItem('kodePosValue', this.state.kodePosValue);
@@ -632,7 +635,7 @@ class RegistPage3 extends React.Component {
                     errFormAlamatDomisili: 'Form Alamat Sesuai Domisili Harus di Lengkapi',
                     errIndexAlamatSurat : 'Alamat harus Dipilih'
                 })
-                if(!this.state.alamatDomValue || !this.state.kotaDomValue || !this.state.provinsiDomValue || !this.state.negaraDomValue || !this.state.kodePosDomValue) {
+                if(!this.state.alamatDomValue || !this.state.kotaDomValue || !this.state.provinsiDomValue || !this.state.negaraValue || !this.state.kodePosDomValue) {
                     this.setState({
                         errFormAlamatSuratMenyurat : 'Form Alamat Surat Menyurat Harus di Lengkapi'
                     })
@@ -1106,6 +1109,52 @@ class RegistPage3 extends React.Component {
             this.Unauthorized()
         }
     }
+    kotaKtpFunctionOnTextChange(item) {
+        this.setState({
+            kotaValue: item,
+            editableProvinsiKtp: true,
+            provinsiValue: null,
+            errKotaValue: undefined
+        })
+    }
+    kotaKtpFunctionOnItemSelect(item) {
+        console.log("Item Item Select", item);
+        this.setState({
+            kotaValue: item.name,
+            provinsiValue: item.provinsi,
+            negaraValue: item.negara,
+            kotaIdValue: item.id,
+            errKotaValue: undefined,
+            errProvinsiValue: undefined,
+            errNegaraValue: undefined,
+            editableProvinsiKtp: false
+        });
+    }
+    kotaDomisiliFunctionOnTextChange(item) {
+        this.setState({
+            editableProvinsiDomisili: true,
+            kotaDomValue: item,
+            provinsiDomValue: null,
+            errKotaDomValue: undefined
+        })
+    }
+    kotaDomisiliFunctionOnItemSelect(item) {
+        console.log("Item Item Select", item);
+        this.setState({
+            kotaValue: item.name,
+            provinsiValue: item.provinsi,
+            kotaIdValue: item.id,
+            errKotaValue: undefined,
+            errProvinsiDomValue: undefined,
+        });
+    }
+    provinsiKtpFunctionOnChangeText(provinsiValue) {
+        this.setState({ 
+            provinsiValue: provinsiValue,
+            errProvinsiValue: '',
+            errAlamatSesuaiKtp: ''
+        })
+    }
     _onRefresh() {
         this.setState({ refreshing: true });
         this._getToken().then(() => {
@@ -1117,6 +1166,9 @@ class RegistPage3 extends React.Component {
     }
     componentDidMount() {
         console.log('Semua State', this.state);
+        this.setState({
+            negaraValue: "INDONESIA"
+        })
         this.backHandler = BackHandler.addEventListener("hardwareBackPress", () => {
             this.props.navigation.goBack();
             return true;
@@ -1171,16 +1223,8 @@ class RegistPage3 extends React.Component {
                                         )}
                                         <Text style={styles.labelText}>Kota</Text>
                                         <SearchableDropDown
-                                            onTextChange={text => console.log(text)}
-                                            onItemSelect={(item) => this.setState({
-                                                kotaValue: item.name,
-                                                provinsiValue: item.provinsi,
-                                                negaraValue: item.negara,
-                                                kotaIdValue: item.id,
-                                                errKotaValue: undefined,
-                                                errProvinsiValue: undefined,
-                                                errNegaraValue: undefined
-                                            })}
+                                            onTextChange={(item) => {this.kotaKtpFunctionOnTextChange(item)}}
+                                            onItemSelect={(item) => {this.kotaKtpFunctionOnItemSelect(item)}}
                                             // containerStyle={}
                                             textInputStyle={this.state.errKotaValue ? styles.dropdownError : styles.textInputSearchDropdown}
                                             itemStyle={styles.itemSearchDropdown}
@@ -1203,7 +1247,13 @@ class RegistPage3 extends React.Component {
                                         )}
                                         <Text style={styles.labelText}>Provinsi</Text>
                                         <View style={this.state.errProvinsiValue ? styles.textInputError : styles.textInputGroup}>
-                                            <TextInput placeholderTextColor="#000" style={styles.textInput} placeholder="Provinsi" value={this.state.provinsiValue} editable={false} onChangeText={(provinsiValue) => this.setState({ provinsiValue})} />
+                                            <TextInput 
+                                                placeholderTextColor="#000" 
+                                                style={styles.textInput} 
+                                                placeholder="Provinsi" 
+                                                value={this.state.provinsiValue} 
+                                                editable={this.state.editableProvinsiKtp} 
+                                                onChangeText={(provinsiValue) => this.provinsiKtpFunctionOnChangeText(provinsiValue)} />
                                         </View>
                                         {renderIf(this.state.errProvinsiValue)(
                                             <View>
@@ -1268,7 +1318,7 @@ class RegistPage3 extends React.Component {
                                                 )}
                                                 <Text style={styles.labelText}>Kota Domisili</Text>
                                                 <SearchableDropDown2
-                                                    onTextChange={text => console.log(text)}
+                                                    onTextChange={(item) => {this.kotaDomisiliFunctionOnTextChange(item)}}
                                                     onItemSelect={(item) => this.setState({
                                                         kotaDomValue: item.name,
                                                         provinsiDomValue: item.provinsi,
@@ -1299,7 +1349,7 @@ class RegistPage3 extends React.Component {
                                                 )}
                                                 <Text style={styles.labelText}>Provinsi</Text>
                                                 <View style={this.state.errProvinsiDomValue ? styles.textInputError : styles.textInputGroup}>
-                                                    <TextInput placeholderTextColor="#000" style={styles.textInput} placeholder="Provinsi" value={this.state.provinsiDomValue} editable={false} onChangeText={(provinsiDomValue) => this.setState({ provinsiDomValue, errProvinsiDomValue: undefined })} />
+                                                    <TextInput placeholderTextColor="#000" style={styles.textInput} placeholder="Provinsi" value={this.state.provinsiDomValue} editable={this.state.editableProvinsiDomisili} onChangeText={(provinsiDomValue) => this.setState({ provinsiDomValue, errProvinsiDomValue: undefined })} />
                                                 </View>
                                                 {renderIf(this.state.errProvinsiDomValue) (
                                                     <View>
@@ -1307,12 +1357,12 @@ class RegistPage3 extends React.Component {
                                                     </View>
                                                 )}
                                                 <Text style={styles.labelText}>Negara</Text>
-                                                <View style={this.state.errNegaraDomValue ? styles.textInputError : styles.textInputGroup}>
-                                                    <TextInput placeholderTextColor="#000" style={styles.textInput} placeholder="Negara" value={this.state.negaraDomValue} editable={false} onChangeText={(negaraDomValue) => this.setState({ negaraDomValue, errNegaraDomValue: undefined })} />
+                                                <View style={this.state.errNegaraValue ? styles.textInputError : styles.textInputGroup}>
+                                                    <TextInput placeholderTextColor="#000" style={styles.textInput} placeholder="Negara" value={this.state.negaraValue} editable={false} onChangeText={(negaraDomValue) => this.setState({ negaraDomValue, errNegaraDomValue: undefined })} />
                                                 </View>
-                                                {renderIf(this.state.errNegaraDomValue)(
+                                                {renderIf(this.state.errNegaraValue)(
                                                     <View>
-                                                        <Text style={this.state.errNegaraDomValue && styles.errorMessage}>{this.state.errNegaraDomValue && this.state.errNegaraDomValue}</Text>
+                                                        <Text style={this.state.errNegaraValue && styles.errorMessage}>{this.state.errNegaraValue && this.state.errNegaraValue}</Text>
                                                     </View>
                                                 )}
                                                 <Text style={styles.labelText}>Kode Pos</Text>
@@ -1352,15 +1402,26 @@ class RegistPage3 extends React.Component {
                                     <View style={this.state.errFormAlamatSuratMenyurat ? { borderRadius: 10, borderColor: "red", borderWidth: 1, padding: 10 } : { borderRadius: 10, borderColor: "#FFF", borderWidth: 1, padding: 10 }}>
 
                                     <Text style={styles.labelText}>Alamat</Text>
-                                    <View style={this.state.errAlamatSurMerValue ? styles.textInputError : styles.textInputGroup}>
-                                        <TextInput placeholderTextColor="#000" ref={this.field4} style={styles.textInput} placeholder="Alamat" value={this.state.alamatSurMerValue} keyboardType='default' onChangeText={(alamatSurMerValue) => this.setState({ alamatSurMerValue, errAlamatSurMerValue: undefined })} />
+                                    <View style={this.state.errAlamatSurMerValue ? styles.textInputError : styles.textInputGroupSurat}>
+                                        <TextInput  
+                                            placeholderTextColor="#000" 
+                                            ref={this.field4} 
+                                            style={styles.textInputAlamatSurat} 
+                                            placeholder="Alamat" 
+                                            value={this.state.alamatSurMerValue} 
+                                            keyboardType='default' 
+                                            onChangeText={(alamatSurMerValue) => this.setState({ alamatSurMerValue, errAlamatSurMerValue: undefined })} 
+                                            underlineColorAndroid = "transparent"
+                                            numberOfLines = {10}
+                                            multiline = {true}
+                                        />
                                     </View>
                                     {renderIf(this.state.errAlamatSurMerValue)(
                                         <View>
                                             <Text style={styles.errorMessage}>{this.state.errAlamatSurMerValue && this.state.errAlamatSurMerValue}</Text>
                                         </View>
                                     )}
-                                    <Text style={styles.labelText}>Kota</Text>
+                                    {/* <Text style={styles.labelText}>Kota</Text>
                                     <SearchableDropDown2
                                         onTextChange={text => console.log(text)}
                                         onItemSelect={(item) => 
@@ -1425,7 +1486,7 @@ class RegistPage3 extends React.Component {
                                         <View>
                                         <Text style={styles.errorMessage}>{this.state.errKodePosSurMerValue && this.state.errKodePosSurMerValue}</Text>
                                     </View>
-                                    )}
+                                    )} */}
                                 </View>
                                 <Text style={styles.errorMessage}>{this.state.errFormAlamatSuratMenyurat && this.state.errFormAlamatSuratMenyurat}</Text>
                                 </View>

@@ -106,7 +106,7 @@ module.exports = StyleSheet.create({
         backgroundColor: '#fff',
         color: "#415566",
         padding: 10,
-        borderRadius: 20,
+        borderRadius: 10,
         marginBottom: 5
     },
     dropdownErrorTanggal:{
@@ -115,7 +115,7 @@ module.exports = StyleSheet.create({
         backgroundColor: '#fff',
         color: "#415566",
         padding: 10,
-        borderRadius: 20,
+        borderRadius: 10,
         marginBottom: 5
     },
     
@@ -1074,11 +1074,27 @@ module.exports = StyleSheet.create({
         flex: 1,
         borderColor: 'black'
     },
+    textInputGroupSurat: {
+        backgroundColor: '#FFF',
+        borderRadius: 10,
+        height: 100,
+        borderColor: '#efefef',
+        borderWidth: 1,
+        
+    },
+    textInputAlamatSurat: {
+        color: "#415566",
+        padding: 10,
+        flex: 1,
+        borderColor: 'black',
+        height: 150,
+        justifyContent: "flex-start"
+    },
     textInputErrorTempatLahir: {
         borderColor: 'red',
         borderWidth: 1,
         backgroundColor: '#FFF',
-        borderRadius: 20,
+        borderRadius: 10,
         padding: 10,
         width: "100%",
         height: 40,
@@ -1088,7 +1104,7 @@ module.exports = StyleSheet.create({
         borderColor: 'red',
         borderWidth: 1,
         backgroundColor: '#FFF',
-        borderRadius: 20,
+        borderRadius: 10,
         width: "100%",
         height: 40,
         flexDirection: "row",

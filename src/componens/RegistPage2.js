@@ -60,8 +60,7 @@ class RegistPage2 extends React.Component {
             yearValue: '',
             bulanId: '',
             bulanValue: '',
-            errBulanValue: '',
-            dataBulan: ''
+            errBulanValue: ''
         }
     }
     Unauthorized(){
@@ -103,12 +102,38 @@ class RegistPage2 extends React.Component {
         this.props.navigation.navigate('Regist1');
     }
     onNext = () => {
+        var bulanId = '';
+        if(this.state.bulanValue == "Januari") {
+            bulanId = "01";
+        } else if (this.state.bulanValue == "Februari") {
+            bulanId =  "02";
+        } else if (this.state.bulanValue == "Maret") {
+            bulanId =  "03";
+        } else if (this.state.bulanValue == "April") {
+            bulanId =  "04";
+        } else if (this.state.bulanValue == "Mei") {
+            bulanId =  "05";
+        } else if (this.state.bulanValue == "Juni") {
+            bulanId =  "06";
+        } else if (this.state.bulanValue == "Juli") {
+            bulanId =  "07";
+        } else if (this.state.bulanValue == "Agustus") {
+            bulanId =  "08";
+        } else if (this.state.bulanValue == "September") {
+            bulanId =  "09";
+        } else if (this.state.bulanValue == "Oktober") {
+            bulanId =  "10";
+        } else if (this.state.bulanValue == "November") {
+            bulanId = "11";
+        } else if (this.state.bulanValue == "Desember") {
+            bulanId =  "12";
+        }
         let states = this.state;
         let namaValue = states.namaValue;
         let emailValue = states.emailValue;
         let noHpValue = states.noHpValue;
         let jenisKelaminValue = states.jenis_kelaminValue;
-        let tanggalLahirValue = states.tanggalValue+'-'+states.bulanId+'-'+states.yearValue;
+        let tanggalLahirValue = states.tanggalValue+'-'+bulanId+'-'+states.yearValue;
         let tempatLahirValue = states.tempatLahirValue;
         let statusNikahValue = states.statusNikahValue;
         let agamaValue = states.agamaValue;
@@ -172,8 +197,9 @@ class RegistPage2 extends React.Component {
                     agamaId = agama2[i].id
                 }
             }
+            
             this.setState({
-                tglLahirValue: this.state.tanggalValue+'-'+this.state.bulanId+'-'+this.state.yearValue
+                tglLahirValue: this.state.tanggalValue+'-'+bulanId+'-'+this.state.yearValue
             })
             console.log("set item tglLahirValue", tanggalLahirValue);
             AsyncStorage.setItem('jkValue', this.state.jenis_kelaminValue);
@@ -268,22 +294,24 @@ class RegistPage2 extends React.Component {
                 this.setState({ agamaIdValue: agamaIdStore })
             }
             this._getAgama(this.state.myToken);
+            this._getTanggal(this.state.myToken);
         } else {
             this.Unauthorized()
         }
-        this._getTanggal(this.state.myToken);
     }
     _getTanggal(token) {
+        console.log("masuk get tanggal");
         const data_tanggal = [];
         for(var i = 1; i <= 31; i++) {
             data_tanggal.push({
                 id: i,
-                name: i.toString()
+                value: i.toString()
             })
         }
         this.setState({
             dataTanggal: data_tanggal
         })
+        console.log("State Data Tanggal", this.state.dataTanggal);
 
         fetch(GLOBAL.getMonths(), {
             method: 'GET',
@@ -304,7 +332,7 @@ class RegistPage2 extends React.Component {
                         for (var i = 0; i < count; i++) {
                             data_bulan.push({
                                 id: res.data.months[i].id,
-                                name: res.data.months[i].name
+                                value: res.data.months[i].name
                             })
                         }
                         this.setState({ dataBulan: data_bulan })
@@ -325,7 +353,7 @@ class RegistPage2 extends React.Component {
         for(let i = tenYears; i >= hundredYears; i--) {
             years.push({
                 id: i,
-                name: i.toString()
+                value: i.toString()
             });
         }
         this.setState({
@@ -354,143 +382,123 @@ class RegistPage2 extends React.Component {
             <LinearGradient colors={GLOBAL.BackgroundApp} style={styles.wrapper} >
                 <StatusBar backgroundColor={GLOBAL.StatusBarColor} barStyle='light-content' hidden={false} />
                 <View style={{height:GLOBAL.DEVICE_HEIGHT-100}}> 
-                            {/* <View style={styles.inputGroup} >
-                                <Text style={styles.labelText}>Tanggal Lahir</Text>
-                                <View >
-                                    <SearchableDropDown
-                                        onTextChange={text => console.log(text)}
-                                        onItemSelect={text => {
-                                            alert(text);
-                                        }}
-                                        textInputStyle={this.state.errTanggalValue ? styles.dropdownError : styles.textInputSearchDropdownDate}
-                                        itemStyle={styles.itemSearchDropdownDate}
-                                        itemTextStyle={{
-                                            color: '#222'
-                                        }}
-                                        itemsContainerStyle={{
-                                            maxHeight: 220
-                                        }}
-                                        items={this.state.dataTanggal}
-                                        placeholder={this.state.tanggalValue ==''?'Tanggal':this.state.tanggalValue}
-                                        placeholderTextColor="#000"
-                                        value={this.state.tanggalValue}
-                                        resetValue={false}
-                                        underlineColorAndroid='transparent' 
-                                    />
+                    <ScrollView
+                        showsVerticalScrollIndicator={false}
+                        refreshControl={
+                            <RefreshControl
+                                refreshing={this.state.refreshing}
+                                onRefresh={this._onRefresh.bind(this)}
+                            />
+                        } >
+                            <View style={[styles.containerMain,{marginBottom:25}]}>
+                                {
+                                    this.state.isLoading && <Modal transparent={true}><View style={styles.loadingStyle}><ActivityIndicator size="large" color="#C1FF33" /></View></Modal>
+                                }
+                                <View style={{ flexDirection: 'row', justifyContent: 'center' }}>
+                                    <View style={styles.activeCirclePage}><Text style={styles.btnTxtDefault}>1</Text></View>
+                                    <View style={styles.lineCirclePageActive} />
+                                    <View style={styles.activeCirclePage}><Text style={styles.btnTxtDefault}>2</Text></View>
+                                    <View style={styles.lineCirclePage} />
+                                    <View style={styles.whiteCirclePage} ><Text style={styles.btnTxtDefault}>3</Text></View>
+                                    <View style={styles.lineCirclePage} />
+                                    <View style={styles.whiteCirclePage} ><Text style={styles.btnTxtDefault}>4</Text></View>
                                 </View>
-                            </View>  */}
-                {/* <ScrollView
-                    showsVerticalScrollIndicator={false}
-                    refreshControl={
-                        <RefreshControl
-                            refreshing={this.state.refreshing}
-                            onRefresh={this._onRefresh.bind(this)}
-                        />
-                    } >
-                    <KeyboardAvoidingView behavior="position"> */}
-                        <View style={[styles.containerMain,{marginBottom:25}]}>
-
-                        {
-                            this.state.isLoading && <Modal transparent={true}><View style={styles.loadingStyle}><ActivityIndicator size="large" color="#C1FF33" /></View></Modal>
-                        }
-                        <View style={{ flexDirection: 'row', justifyContent: 'center' }}>
-                            <View style={styles.activeCirclePage}><Text style={styles.btnTxtDefault}>1</Text></View>
-                            <View style={styles.lineCirclePageActive} />
-                            <View style={styles.activeCirclePage}><Text style={styles.btnTxtDefault}>2</Text></View>
-                            <View style={styles.lineCirclePage} />
-                            <View style={styles.whiteCirclePage} ><Text style={styles.btnTxtDefault}>3</Text></View>
-                            <View style={styles.lineCirclePage} />
-                            <View style={styles.whiteCirclePage} ><Text style={styles.btnTxtDefault}>4</Text></View>
-                        </View>
-
-                        <View style={styles.inputGroup} >
-                            <Text style={styles.labelText}>Nama</Text>
-                            <View style={this.state.errNama ? styles.textInputError : styles.textInputGroup}>
-                                <TextInput 
-                                    placeholderTextColor="#000000" 
-                                    autoCorrect={false} 
-                                    ref={this.field1} 
-                                    onSubmitEditing={() => { 
-                                        const textInput = this.field2.current;
-                                        textInput.focus()
-                                    }}
-                                    style={this.state.errEmpty ? styles.textInputError : styles.textInput} 
-                                    placeholder="Nama" 
-                                    value={this.state.namaValue} 
-                                    keyboardType='default' 
-                                    editable={this.state.editNama} 
-                                    onChangeText={(namaValue) => 
-                                        this.field1 ? this.setState({ namaValue, errNama: undefined }) : this.setState({errEmpty: 'true'})
-                                    } />
-                            </View>
-                        </View>
-                        {renderIf(this.state.errNama)(
-                            <View>
-                                <Text style={styles.errorMessage}>{this.state.errNama && this.state.errNama}</Text>
-                            </View>
-                        )}
-
-                        <View style={styles.inputGroup} >
-                            <Text style={styles.labelText}>Email</Text>
-                            <View style={this.state.errEmail ? styles.textInputError : styles.textInputGroup}>
-                                <TextInput 
-                                    placeholderTextColor="#000000" 
-                                    autoCorrect={false} 
-                                    ref={this.field2} 
-                                    onSubmitEditing={() =>{ 
-                                        const textInput = this.field3.current;
-                                        textInput.focus()} } 
-                                        style={styles.textInput} 
-                                        placeholder="Email" 
-                                        keyboardType='email-address' 
-                                        value={this.state.emailValue} 
-                                        onChangeText={(emailValue) => 
-                                            this.setState({ emailValue, errEmail: undefined })
-                                        } />
-                            </View>
-                        </View>
-                        {renderIf(this.state.errEmail)(
-                            <View>
-                                <Text style={styles.errorMessage}>{this.state.errEmail && this.state.errEmail}</Text>
-                            </View>
-                        )}
-
-                        <View style={styles.inputGroup} >
-                            <Text style={styles.labelText}>No Ponsel</Text>
-                            <View style={this.state.errNoHp ? styles.textInputError : styles.textInputGroup}>
-                                <TextInput placeholderTextColor="#000000" ref={this.field3} onSubmitEditing={() =>{ const textInput = this.field4.current;
-                        textInput.focus()} } style={styles.textInput} placeholder="No Ponsel" returnKeyType="done" keyboardType='number-pad' value={this.state.noHpValue} editable={this.state.editNoHp} onChangeText={(noHpValue) => this.setState({ noHpValue })} />
-                            </View>
-                        </View>
-                        <View>
-                            <Text style={styles.errorMessage}>{this.state.errNoHp && this.state.errNoHp}</Text>
-                        </View>
-                        <View style={!this.state.errJenisKelamin ? styles.inputGroup : styles.errorBorder}>
-                            <Text style={styles.labelText}>Jenis Kelamin</Text>
-                            <View style={{flexDirection:'row'}}>
-                            {option.map(item =>(
-                                    <View key={item.value} style={styles.radioBtnContainer} >
-                                        <TouchableOpacity onPress={() =>{
-                                            this.setState({jenis_kelaminValue: item.value, errJenisKelamin: undefined}) } } style={styles.radioBtnCircle} > 
-                                            {renderIf(this.state.jenis_kelaminValue == item.value)(
-                                                <View style={styles.radioBtnChecked} />
-                                            )}
-                                        </TouchableOpacity>
-                                        <Text style={styles.txtLittle}>{item.label}</Text>
+                                <View style={styles.inputGroup} >
+                                    <Text style={styles.labelText}>Nama</Text>
+                                    <View style={this.state.errNama ? styles.textInputError : styles.textInputGroup}>
+                                        <TextInput 
+                                            placeholderTextColor="#000000" 
+                                            autoCorrect={false} 
+                                            ref={this.field1} 
+                                            onSubmitEditing={() => { 
+                                                const textInput = this.field2.current;
+                                                textInput.focus()
+                                            }}
+                                            style={this.state.errEmpty ? styles.textInputError : styles.textInput} 
+                                            placeholder="Nama" 
+                                            value={this.state.namaValue} 
+                                            keyboardType='default' 
+                                            editable={this.state.editNama} 
+                                            onChangeText={(namaValue) => 
+                                                this.field1 ? this.setState({ namaValue, errNama: undefined }) : this.setState({errEmpty: 'true'})
+                                            } />
                                     </View>
-                            )) }
-                            </View>
-                        </View>
-                        {renderIf(this.state.errJenisKelamin)(
-                            <Text style={styles.errorMessage}>{this.state.errJenisKelamin && this.state.errJenisKelamin}</Text>
-                        )}
-                        	<View style={styles.inputGroup} >
+                                </View>
+                                {renderIf(this.state.errNama)(
+                                    <View>
+                                        <Text style={styles.errorMessage}>{this.state.errNama && this.state.errNama}</Text>
+                                    </View>
+                                )}
+                                <View style={styles.inputGroup} >
+                                    <Text style={styles.labelText}>Email</Text>
+                                    <View style={this.state.errEmail ? styles.textInputError : styles.textInputGroup}>
+                                        <TextInput 
+                                            placeholderTextColor="#000000" 
+                                            autoCorrect={false} 
+                                            ref={this.field2} 
+                                            onSubmitEditing={() =>{ 
+                                                const textInput = this.field3.current;
+                                                textInput.focus()} } 
+                                                style={styles.textInput} 
+                                                placeholder="Email" 
+                                                keyboardType='email-address' 
+                                                value={this.state.emailValue} 
+                                                onChangeText={(emailValue) => 
+                                                    this.setState({ emailValue, errEmail: undefined })
+                                                } />
+                                    </View>
+                                </View>
+                                {renderIf(this.state.errEmail)(
+                                    <View>
+                                        <Text style={styles.errorMessage}>{this.state.errEmail && this.state.errEmail}</Text>
+                                    </View>
+                                )}
+                                <View style={styles.inputGroup} >
+                                    <Text style={styles.labelText}>No Ponsel</Text>
+                                    <View style={this.state.errNoHp ? styles.textInputError : styles.textInputGroup}>
+                                        <TextInput placeholderTextColor="#000000" ref={this.field3} onSubmitEditing={() =>{ const textInput = this.field4.current;
+                                textInput.focus()} } style={styles.textInput} placeholder="No Ponsel" returnKeyType="done" keyboardType='number-pad' value={this.state.noHpValue} editable={this.state.editNoHp} onChangeText={(noHpValue) => this.setState({ noHpValue })} />
+                                    </View>
+                                </View>
+                                <View>
+                                    <Text style={styles.errorMessage}>{this.state.errNoHp && this.state.errNoHp}</Text>
+                                </View>
+                                <View style={!this.state.errJenisKelamin ? styles.inputGroup : styles.errorBorder}>
+                                    <Text style={styles.labelText}>Jenis Kelamin</Text>
+                                    <View style={{flexDirection:'row'}}>
+                                    {option.map(item =>(
+                                            <View key={item.value} style={styles.radioBtnContainer} >
+                                                <TouchableOpacity onPress={() =>{
+                                                    this.setState({jenis_kelaminValue: item.value, errJenisKelamin: undefined}) } } style={styles.radioBtnCircle} > 
+                                                    {renderIf(this.state.jenis_kelaminValue == item.value)(
+                                                        <View style={styles.radioBtnChecked} />
+                                                    )}
+                                                </TouchableOpacity>
+                                                <Text style={styles.txtLittle}>{item.label}</Text>
+                                            </View>
+                                    )) }
+                                    </View>
+                                </View>
+                                {renderIf(this.state.errJenisKelamin)(
+                                    <Text style={styles.errorMessage}>{this.state.errJenisKelamin && this.state.errJenisKelamin}</Text>
+                                )}
+                            <View style={styles.inputGroup} >
                                 <Text style={styles.labelText}>Tanggal Lahir</Text>
                                 {renderIf(this.state.errTanggalValue)(
                                     <Text style={styles.errorMessage}>{this.state.errTanggalValue && this.state.errTanggalValue}</Text>
                                 )}
                                 <View style={{flexDirection: "row"}}>
-                                    <SearchableDropDown
+                                    {/* <Dropdown
+                                        label='a'
+                                        textColor='#FFF'
+                                        itemColor='#000'
+                                        baseColor='#FFF'
+                                        value={this.state.tanggalValue}
+                                        selectedItemColor='#000'
+                                        onChangeText={(tanggalValue) =>this.setState({ tanggalValue, errTanggalValue: undefined }) } 
+                                        data={this.state.dataTanggal}
+                                    /> */}
+                                    {/* <SearchableDropDown
                                         onTextChange={text => console.log(text)}
                                         onItemSelect={(item) => this.setState({
                                             tanggalId:item.id,
@@ -511,8 +519,8 @@ class RegistPage2 extends React.Component {
                                         value={this.state.tanggalValue}
                                         resetValue={false}
                                         underlineColorAndroid='transparent' 
-                                    />
-                                    <SearchableDropDown
+                                    /> */}
+                                    {/* <SearchableDropDown
                                         onTextChange={text => console.log(text)}
                                         onItemSelect={(item) => this.setState({
                                             bulanId:item.id,
@@ -540,7 +548,8 @@ class RegistPage2 extends React.Component {
                                             yearId:item.id,
                                             yearValue:item.name,
                                             errYearValue: undefined
-                                        })}
+                                        }),
+                                        console.log("test clicked")}
                                         textInputStyle={styles.textInputSearchDropdownYear}
                                         itemStyle={styles.itemSearchDropdownYear}
                                         itemTextStyle={{
@@ -555,8 +564,46 @@ class RegistPage2 extends React.Component {
                                         value={this.state.yearValue}
                                         resetValue={false}
                                         underlineColorAndroid='transparent' 
+                                    /> */}
+                                </View>
+                            </View>
+                            <View style = {this.state.errStatusNikah && styles.errorBorder, {flexDirection: 'row'}}>
+                                <View style={{width: 90, marginRight: 10}}>
+                                    <Dropdown
+                                        label='Tanggal'
+                                        textColor='#FFF'
+                                        itemColor='#000'
+                                        baseColor='#FFF'
+                                        value={this.state.tanggalValue}
+                                        selectedItemColor='#000'
+                                        onChangeText={(tanggalValue) =>this.setState({ tanggalValue, errTanggalValue: undefined }) } 
+                                        data={this.state.dataTanggal}
                                     />
                                 </View>
+                                <View style={{width: 170, marginRight: 10}}>
+                                    <Dropdown
+                                        label='Bulan'
+                                        textColor='#FFF'
+                                        itemColor='#000'
+                                        baseColor='#FFF'
+                                        value={this.state.bulanValue}
+                                        selectedItemColor='#000'
+                                        onChangeText={(bulanValue) =>this.setState({ bulanValue, errBulanValue: undefined }) } 
+                                        data={this.state.dataBulan}
+                                    />
+                                </View>
+                                <View style={{width: 100, marginRight: 10}}>
+                                    <Dropdown
+                                        label='Tahun'
+                                        textColor='#FFF'
+                                        itemColor='#000'
+                                        baseColor='#FFF'
+                                        value={this.state.yearValue}
+                                        selectedItemColor='#000'
+                                        onChangeText={(yearValue) =>this.setState({yearValue, errTahunValue: undefined }) } 
+                                        data={this.state.dataYears}
+                                    />
+                                </View> 
                             </View>
                         <View style={styles.inputGroup} >
                             <Text style={styles.labelText}>Tempat Lahir</Text>
@@ -579,7 +626,6 @@ class RegistPage2 extends React.Component {
                                 <Text style={styles.errorMessage}>{this.state.errTempatLahir && this.state.errTempatLahir}</Text>
                             </View>
                         )}
-                        
                         <View style = {this.state.errStatusNikah && styles.errorBorder}>
                             <Dropdown
                                 label='Status Pernikahan'
@@ -598,7 +644,6 @@ class RegistPage2 extends React.Component {
                                 <Text style={styles.errorMessage}>{this.state.errStatusNikah && this.state.errStatusNikah}</Text>
                             </View>
                         )}
-
                         <View style = {this.state.errAgama && styles.errorBorder}>
                             <Dropdown
                                 label='Agama'
@@ -616,10 +661,8 @@ class RegistPage2 extends React.Component {
                                 <Text style={styles.errorMessage}>{this.state.errAgama && this.state.errAgama}</Text>
                             </View>
                         )}
-                        
-                        </View>
-                    {/* </KeyboardAvoidingView>
-                </ScrollView> */}
+                        </View> 
+                    </ScrollView>
                 </View>
                 <View style={styles.boxBtnBottom}>
                     <View style={{ flexDirection: "row",flex: 1,paddingRight:15,paddingLeft:15 }}>
