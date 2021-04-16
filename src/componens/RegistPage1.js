@@ -37,6 +37,7 @@ class RegistPage1 extends React.Component {
     this.props.navigation.navigate('Main')
   }
   onNext = () => {
+    this.props.navigation.navigate('Regist2')
     console.log('Continue Proses Pertama', this.state.continueProses);
     console.log('eKtp', this.state.eKtp.length);
     console.log('eKtp Format', this.state.eKtp.match(GLOBAL.numbersFormat));

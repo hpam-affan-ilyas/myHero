@@ -66,7 +66,6 @@ class PinPage extends React.Component {
   }
 
   _buy(token, idProduk, nominal,kodeMetode,noVa,promo,clear) {
-    console.log("Debug 8");
     fetch(GLOBAL.beliSimpan(), {
       method: 'POST',
       headers: {
