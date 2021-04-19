@@ -165,6 +165,34 @@ class RegistPage2 extends React.Component {
         !tanggalValue && [continueNextPage = false, this.setState({errTanggalValue: 'Tanggal Harus Lengkap'})]
         !bulanValue && [continueNextPage = false, this.setState({errTanggalValue: 'Tanggal Harus Lengkap'})]
         !yearValue && [continueNextPage = false, this.setState({errTanggalValue: 'Tanggal Harus Lengkap'})]
+        if(tanggalValue && bulanValue && yearValue) {
+            var days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+            var theDate = new Date(yearValue+"-"+bulanId+"-"+tanggalValue);
+            console.log("Full Date", theDate);
+            var theDateDate = theDate.getDate();
+            var theDateMonth = theDate.getMonth() + 1;
+            var theDateYear = theDate.getFullYear();
+            console.log("tanggalValue", tanggalValue);
+            console.log("theDateDate", theDateDate);
+            console.log("bulanId", bulanId);
+            console.log("theDateMonth", theDateMonth);
+            console.log("YearValue", yearValue);
+            console.log("TheDateYear", theDateYear);
+            var pengurangan = theDateMonth - bulanId;
+            console.log("Pengurangan", pengurangan);
+            var dateValid = false;
+            if(pengurangan == 0) {
+                dateValid = true;
+            }
+            if(!dateValid) {
+                this.setState({
+                    errTanggalValue: "Format Tanggal Tidak Valid"
+                })
+                continueNextPage = false;
+            }
+
+        }
+
         // if(!namaValue || !emailValue || !noHpValue || !jenisKelaminValue || !tanggalLahirValue || !tempatLahirValue || !statusNikahValue || !agamaValue){
         //     Alert.alert('Perhatian', 'Mohon lengkapi seluruh data');
         //     continueNextPage = false;
@@ -359,6 +387,35 @@ class RegistPage2 extends React.Component {
         this.setState({
             dataYears: years
         })
+    }
+
+    checkBirthDateYear(yearValue) {
+        console.log("Year Value", yearValue);
+        if(!this.state.tanggalValue || !this.state.bulanValue || !this.state.yearValue) {
+            this.setState({
+                errTanggalValue: "Format Tanggal Tidak Valid"
+            })
+        } else {
+            this.setState({
+                errTanggalValue: undefined
+            })
+        }
+        
+    }
+
+    checkBirthDateMonth(bulanValue) {
+        console.log("Bulan Value", bulanValue);
+        if(!this.state.tanggalValue || !this.state.bulanValue || !this.state.yearValue) {
+            this.setState({
+                errTanggalValue: "Format Tanggal Tidak Valid"
+            })
+        } else {
+            this.setState({
+                errTanggalValue: undefined
+            })
+        }
+        this.setState({yearValue, errTahunValue: undefined })
+        
     }
 
     _onRefresh() {
@@ -568,7 +625,7 @@ class RegistPage2 extends React.Component {
                                 </View>
                             </View>
                             <View style = {this.state.errStatusNikah && styles.errorBorder, {flexDirection: 'row'}}>
-                                <View style={{width: 90, marginRight: 10}}>
+                                <View style={{width: "20%", marginRight: 10}}>
                                     <Dropdown
                                         label='Tanggal'
                                         textColor='#FFF'
@@ -580,7 +637,7 @@ class RegistPage2 extends React.Component {
                                         data={this.state.dataTanggal}
                                     />
                                 </View>
-                                <View style={{width: 170, marginRight: 10}}>
+                                <View style={{width: "50%", marginRight: 10}}>
                                     <Dropdown
                                         label='Bulan'
                                         textColor='#FFF'
@@ -588,11 +645,11 @@ class RegistPage2 extends React.Component {
                                         baseColor='#FFF'
                                         value={this.state.bulanValue}
                                         selectedItemColor='#000'
-                                        onChangeText={(bulanValue) =>this.setState({ bulanValue, errBulanValue: undefined }) } 
+                                        onChangeText={(bulanValue) => this.setState({ bulanValue, errBulanValue: undefined })} 
                                         data={this.state.dataBulan}
                                     />
                                 </View>
-                                <View style={{width: 100, marginRight: 10}}>
+                                <View style={{width: "25%", marginRight: 10}}>
                                     <Dropdown
                                         label='Tahun'
                                         textColor='#FFF'
@@ -600,7 +657,7 @@ class RegistPage2 extends React.Component {
                                         baseColor='#FFF'
                                         value={this.state.yearValue}
                                         selectedItemColor='#000'
-                                        onChangeText={(yearValue) =>this.setState({yearValue, errTahunValue: undefined }) } 
+                                        onChangeText={(yearValue) => this.setState({yearValue, errTahunValue: undefined })} 
                                         data={this.state.dataYears}
                                     />
                                 </View> 
