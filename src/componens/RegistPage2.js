@@ -635,6 +635,7 @@ class RegistPage2 extends React.Component {
                                         selectedItemColor='#000'
                                         onChangeText={(tanggalValue) =>this.setState({ tanggalValue, errTanggalValue: undefined }) } 
                                         data={this.state.dataTanggal}
+                                        itemCount={4.3}
                                     />
                                 </View>
                                 <View style={{width: "50%", marginRight: 10}}>
@@ -647,6 +648,7 @@ class RegistPage2 extends React.Component {
                                         selectedItemColor='#000'
                                         onChangeText={(bulanValue) => this.setState({ bulanValue, errBulanValue: undefined })} 
                                         data={this.state.dataBulan}
+                                        itemCount={4.3}
                                     />
                                 </View>
                                 <View style={{width: "25%", marginRight: 10}}>
@@ -659,6 +661,7 @@ class RegistPage2 extends React.Component {
                                         selectedItemColor='#000'
                                         onChangeText={(yearValue) => this.setState({yearValue, errTahunValue: undefined })} 
                                         data={this.state.dataYears}
+                                        itemCount={4.3}
                                     />
                                 </View> 
                             </View>
@@ -694,6 +697,7 @@ class RegistPage2 extends React.Component {
                                 onChangeText={(statusNikahValue) =>this.setState({ statusNikahValue, errStatusNikah: undefined }) } 
                                 data={this.state.dataStatusNikah}
                                 ref={this.field6}  
+                                itemCount={4.3}
                             />
                         </View>
                         {renderIf(this.state.errStatusNikah)(
@@ -711,6 +715,7 @@ class RegistPage2 extends React.Component {
                                 value={this.state.agamaValue}
                                 onChangeText={(agamaValue) => { this.setState({ agamaValue, errAgama: undefined }) } } 
                                 data={this.state.dataAgama}  
+                                itemCount={4.3}
                             />
                         </View>
                         {renderIf(this.state.errAgama)(
