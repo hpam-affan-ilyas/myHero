@@ -579,7 +579,18 @@ const RootStack = createStackNavigator(
       // },
     },
     Activity: {
-      screen: ActivityPage
+      screen: ActivityPage,
+      navigationOptions: ({ navigation }) => {
+        let headerTitle = (<View style={styles.header}>
+          <TouchableOpacity style={styles.headerLeft} onPress={() => navigation.navigate('Home')} ><IconBack name="chevron-left" size={25} style={styles.headerTintBlue} /></TouchableOpacity>
+          <View style={styles.headerCenter}><Text style={styles.headerTitle}>AKTIVITAS</Text></View>
+          <View style={styles.headerRight}></View>
+          </View>);
+        let headerLeft = null;
+        let headerRight = null;
+        let headerStyle = styles.headerWhite;
+        return { headerTitle, headerLeft, headerStyle,headerRight};
+      }
     },
     Daftar: {
       screen: DaftarScreen,
