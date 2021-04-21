@@ -168,29 +168,19 @@ class RegistPage2 extends React.Component {
         if(tanggalValue && bulanValue && yearValue) {
             var days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
             var theDate = new Date(yearValue+"-"+bulanId+"-"+tanggalValue);
-            console.log("Full Date", theDate);
-            var theDateDate = theDate.getDate();
-            var theDateMonth = theDate.getMonth() + 1;
-            var theDateYear = theDate.getFullYear();
-            console.log("tanggalValue", tanggalValue);
-            console.log("theDateDate", theDateDate);
-            console.log("bulanId", bulanId);
-            console.log("theDateMonth", theDateMonth);
-            console.log("YearValue", yearValue);
-            console.log("TheDateYear", theDateYear);
-            var pengurangan = theDateMonth - bulanId;
-            console.log("Pengurangan", pengurangan);
-            var dateValid = false;
-            if(pengurangan == 0) {
-                dateValid = true;
+            var daysInMonth = new Date(yearValue, bulanId, 0).getDate();
+            console.log("Days In Month", daysInMonth);
+            var dateValid = true;
+            console.log("tanggalValue > daysInMonth", tanggalValue > daysInMonth);
+            if(tanggalValue > daysInMonth) {
+                dateValid = false;
             }
             if(!dateValid) {
                 this.setState({
                     errTanggalValue: "Format Tanggal Tidak Valid"
-                })
+                });
                 continueNextPage = false;
             }
-
         }
 
         // if(!namaValue || !emailValue || !noHpValue || !jenisKelaminValue || !tanggalLahirValue || !tempatLahirValue || !statusNikahValue || !agamaValue){
