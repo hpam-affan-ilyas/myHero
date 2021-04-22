@@ -1500,7 +1500,9 @@ class RegistPage3 extends React.Component {
                                         selectedItemColor='#000'
                                         value={this.state.pendidikanValue}
                                         onChangeText={(pendidikanValue) => { this.onPendSelected(pendidikanValue) }}
-                                        data={this.state.dataPendidikan} />
+                                        data={this.state.dataPendidikan} 
+                                        itemCount = {4.3}
+                                    />
                                         {renderIf(this.state.pendidikanInput)(
                                             <View style={styles.textInputGroup}>
                                                 <TextInput maxLength={50} placeholderTextColor="#000" style={styles.textInput} placeholder="Pendidikan" keyboardType='default' value={this.state.pendidikanText} onChangeText={(pendidikanText) => this.setState({ pendidikanText })} />
@@ -1520,6 +1522,7 @@ class RegistPage3 extends React.Component {
                                         baseColor='#FFF'
                                         selectedItemColor='#000'
                                         value={this.state.pekerjaanValue}
+                                        itemCount = {4.3}
                                         onChangeText={(pekerjaanValue) => { this.onPekSelected(pekerjaanValue) }}
                                         data={this.state.dataPekerjaan} />
                                         {renderIf(this.state.pekerjaanInput)(
@@ -1539,6 +1542,7 @@ class RegistPage3 extends React.Component {
                                         textColor='#FFF'
                                         itemColor='#000'
                                         baseColor='#FFF'
+                                        itemCount = {4.3}
                                         selectedItemColor='#000'
                                         value={this.state.sumberdanaValue}
                                         onChangeText={(sumberdanaValue) => { this.onSumberSelected(sumberdanaValue) }}
@@ -1561,6 +1565,7 @@ class RegistPage3 extends React.Component {
                                         textColor='#FFF'
                                         itemColor='#000'
                                         baseColor='#FFF'
+                                        itemCount = {4.3}
                                         selectedItemColor='#000'
                                         value={this.state.penghasilanValue}
                                         onChangeText={(penghasilanValue) => { this.onPengSelected(penghasilanValue) }}
@@ -1579,6 +1584,7 @@ class RegistPage3 extends React.Component {
                                         itemColor='#000'
                                         baseColor='#FFF'
                                         selectedItemColor='#000'
+                                        itemCount = {4.3}
                                         value={this.state.tujInvestValue}
                                         onChangeText={(tujInvestValue) => { this.onTujSelected(tujInvestValue) }}
                                         data={this.state.dataTujInvest} />
