@@ -352,6 +352,7 @@ class OrderScreen extends React.Component {
 }
 
 handleBackButton = () => {
+  console.log("Back Click Count", backClickCount);
     if(this.state.backClickCount < 1){
         if(this.props.navigation.state.routeName == "HomeScreen"){
             this.setState({isToast:true});

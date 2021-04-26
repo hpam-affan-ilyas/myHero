@@ -66,7 +66,6 @@ class PinPage extends React.Component {
   }
 
   _buy(token, idProduk, nominal,kodeMetode,noVa,promo,clear) {
-    console.log("Debug 8");
     fetch(GLOBAL.beliSimpan(), {
       method: 'POST',
       headers: {
@@ -88,7 +87,7 @@ class PinPage extends React.Component {
           return response.json().then(obj => {
             res = obj;
             Alert.alert('Sukses', 'Transaksi berhasil. Segera lakukan pembayaran sebelum masa berlaku berakhir',
-              [{ text: 'OK', onPress: () => this.props.navigation.navigate('Order',{update:'1'}) }],
+              [{ text: 'OK', onPress: () => this.props.navigation.navigate('Activity',{update:'1'}) }],
               { cancelable: false },
             );
           })

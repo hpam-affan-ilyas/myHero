@@ -405,11 +405,29 @@ class HistoryScreen extends React.Component {
     }
   }
   componentDidMount() {
-    this.backHandler = BackHandler.addEventListener("hardwareBackPress",this.handleBackButton.bind(this) );
+    try {
+      BackHandler.addEventListener('hardwareBackPress', this.handleBackButtonClick);
+    }
+    catch (e) {
+      console.log("Masuk Catch handle back button")
+    }
+    
     return this._getToken();
   }
+  handleBackButton = () => {
+
+    const pushAction = StackActions.push({
+        routeName: 'HomeScreen',
+    });
+
+    this.props.navigation.dispatch(pushAction);
+}
   componentWillUnmount() {
     this.backHandler.remove();
+  }
+  handleBackButtonClick() {
+    this.props.navigation.navigate('Home');
+    return true;
   }
   _spring() {
     this.setState({backClickCount: 1}, () => {
@@ -439,6 +457,7 @@ class HistoryScreen extends React.Component {
 
 }
 handleBackButton = () => {
+  console.log("Back Click Count", this.state.backClickCount);
   if(this.state.backClickCount < 1){
       if(this.props.navigation.state.routeName == "HomeScreen"){
           this.setState({isToast:true});
