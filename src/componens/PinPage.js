@@ -220,7 +220,7 @@ class PinPage extends React.Component {
         .then((response) => {
           if (response.status == '201') {
             if(params.switch) {
-              this._switch(this.state.myToken, params.switch);
+              this._switch(this.state.myToken, params.switch); 
             } else {
               if (params.id != null && params.value != null && params.title != null) {
                 if(params.title == 'SUB') {
@@ -234,6 +234,7 @@ class PinPage extends React.Component {
                 this.props.navigation.navigate('Home')
               }
             }
+            this.props.navigation.navigate('Home')
           } else if (response.status == '401') {
             this.Unauthorized()
           } else if (response.status == '400') {
