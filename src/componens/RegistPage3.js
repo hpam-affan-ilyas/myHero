@@ -1413,7 +1413,7 @@ class RegistPage3 extends React.Component {
                                             onChangeText={(alamatSurMerValue) => this.setState({ alamatSurMerValue, errAlamatSurMerValue: undefined })} 
                                             underlineColorAndroid = "transparent"
                                             numberOfLines = {10}
-                                            multiline = {true}
+
                                         />
                                     </View>
                                     {renderIf(this.state.errAlamatSurMerValue)(

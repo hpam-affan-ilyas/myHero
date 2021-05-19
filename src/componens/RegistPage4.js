@@ -682,73 +682,6 @@ class RegistPage4 extends React.Component {
                                     <Text style={styles.errorMessage}>{this.state.errNamaRekValue && this.state.errNamaRekValue}</Text>
                                 </View>
                             </View>
-                            <View></View>
-                            <View style={this.state.errProfileResiko ? styles.errorBorder : [styles.inputGroup, { paddingRight: 10 }]} >
-                                <Text style={styles.labelText}>Pilih Profil Risiko</Text>
-                                <CheckBox
-                                    style={styles.labelCheckbox}
-                                    onClick={() => { this.manageCheckbox('Konservatif') }}
-                                    isChecked={this.state.isCheckedKonservatif}
-                                    checkBoxColor='#FFF'
-                                    rightText={"Konservatif"}
-                                    rightTextStyle={styles.labelCheckbox}
-                                />
-                                <View style={{ paddingLeft: 25 }}>
-                                    <View style={{ flexDirection: 'row' }}>
-                                        <Text style={styles.txtLabelCheckbox}>{'\u2022'} </Text>
-                                        <Text style={styles.txtLabelCheckbox}>Investor dengan profil risiko konservatif cenderung menghindari risiko dan lebih memilih instrumen investasi yang aman seperti tabungan, deposito, dan reksa dana pasar uang.</Text>
-                                    </View>
-                                    <View style={{ flexDirection: 'row' }}>
-                                        <Text style={styles.txtLabelCheckbox}>{'\u2022'} </Text>
-                                        <Text style={styles.txtLabelCheckbox}>Investor ini merasa nyaman dengan instrumen investasi yang imbal hasilnya tidak terlalu besar namun bergerak stabil.</Text>
-                                    </View>
-                                </View>
-                                <CheckBox
-                                    style={styles.labelCheckbox}
-                                    onClick={() => { this.manageCheckbox('Moderat') }}
-                                    isChecked={this.state.isCheckedModerat}
-                                    checkBoxColor='#FFF'
-                                    rightText={"Moderat"}
-                                    rightTextStyle={styles.labelCheckbox}
-                                />
-                                <View style={{ paddingLeft: 25 }}>
-                                    <View style={{ flexDirection: 'row' }}>
-                                        <Text style={styles.txtLabelCheckbox}>{'\u2022'} </Text>
-                                        <Text style={styles.txtLabelCheckbox}>Investor dengan profil risiko moderat memiliki karakteristik yang siap menerima fluktuasi jangka pendek dengan potensi keuntungan yang diharapkan dapat lebih tinggi dari tingkat inflasi dan deposito.</Text>
-                                    </View>
-                                    <View style={{ flexDirection: 'row' }}>
-                                        <Text style={styles.txtLabelCheckbox}>{'\u2022'} </Text>
-                                        <Text style={styles.txtLabelCheckbox}>Investor ini lebih berani mengambil risiko, namun tetap berhati-hati dalam memilih jenis instrumen investasi, dan biasanya membatasi jumlah investasi pada instrumen berisiko.</Text>
-                                    </View>
-                                    <View style={{ flexDirection: 'row' }}>
-                                        <Text style={styles.txtLabelCheckbox}>{'\u2022'} </Text>
-                                        <Text style={styles.txtLabelCheckbox}>Jenis reksa dana yang cocok untuk investor moderat adalah reksa dana campuran yang risikonya relatif lebih rendah dibandingkan dengan instrumen saham atau reksa dana saham.</Text>
-                                    </View>
-                                </View>
-                                <CheckBox
-                                    style={styles.labelCheckbox}
-                                    onClick={() => { this.manageCheckbox('Agresif') }}
-                                    isChecked={this.state.isCheckedAgresif}
-                                    checkBoxColor='#FFF'
-                                    rightText={"Agresif"}
-                                    rightTextStyle={styles.labelCheckbox}
-                                />
-                                <View style={{ paddingLeft: 25 }}>
-                                    <View style={{ flexDirection: 'row' }}>
-                                        <Text style={styles.txtLabelCheckbox}>{'\u2022'} </Text>
-                                        <Text style={styles.txtLabelCheckbox}>Investor dengan profil risiko agresif sangat siap untuk menanggung risiko.</Text>
-                                    </View>
-                                    <View style={{ flexDirection: 'row' }}>
-                                        <Text style={styles.txtLabelCheckbox}>{'\u2022'} </Text>
-                                        <Text style={styles.txtLabelCheckbox}>Investor ini cenderung berani mengambil risiko yang lebih tinggi untuk mendapatkan imbal hasil yang tinggi.</Text>
-                                    </View>
-                                    <View style={{ flexDirection: 'row' }}>
-                                        <Text style={styles.txtLabelCheckbox}>{'\u2022'} </Text>
-                                        <Text style={styles.txtLabelCheckbox}>Jenis reksa dana yang cocok untuk investor agresif adalah reksa dana saham yang risikonya relatif lebih tinggi dibandingkan namun dengan potensi keuntungan yang lebih tinggi juga.</Text>
-                                    </View>
-                                </View>
-                            </View>
-
                             <View style={styles.inputGroup} >
                                 <Text style={styles.labelText}>PIN</Text>
                                 <View style={this.state.errPinValue ? styles.textInputError : styles.textInputGroup}>
@@ -827,6 +760,71 @@ class RegistPage4 extends React.Component {
                                     underlineColorAndroid='transparent' 
                                 />
                                 
+                            </View>
+                            <View style={this.state.errProfileResiko ? styles.errorBorder : [styles.inputGroup, { paddingRight: 10 }]} >
+                                <Text style={styles.labelText}>Pilih Profil Risiko</Text>
+                                <CheckBox
+                                    style={styles.labelCheckbox}
+                                    onClick={() => { this.manageCheckbox('Konservatif') }}
+                                    isChecked={this.state.isCheckedKonservatif}
+                                    checkBoxColor='#FFF'
+                                    rightText={"Konservatif"}
+                                    rightTextStyle={styles.labelCheckbox}
+                                />
+                                <View style={{ paddingLeft: 25 }}>
+                                    <View style={{ flexDirection: 'row' }}>
+                                        <Text style={styles.txtLabelCheckbox}>{'\u2022'} </Text>
+                                        <Text style={styles.txtLabelCheckbox}>Investor dengan profil risiko konservatif cenderung menghindari risiko dan lebih memilih instrumen investasi yang aman seperti tabungan, deposito, dan reksa dana pasar uang.</Text>
+                                    </View>
+                                    <View style={{ flexDirection: 'row' }}>
+                                        <Text style={styles.txtLabelCheckbox}>{'\u2022'} </Text>
+                                        <Text style={styles.txtLabelCheckbox}>Investor ini merasa nyaman dengan instrumen investasi yang imbal hasilnya tidak terlalu besar namun bergerak stabil.</Text>
+                                    </View>
+                                </View>
+                                <CheckBox
+                                    style={styles.labelCheckbox}
+                                    onClick={() => { this.manageCheckbox('Moderat') }}
+                                    isChecked={this.state.isCheckedModerat}
+                                    checkBoxColor='#FFF'
+                                    rightText={"Moderat"}
+                                    rightTextStyle={styles.labelCheckbox}
+                                />
+                                <View style={{ paddingLeft: 25 }}>
+                                    <View style={{ flexDirection: 'row' }}>
+                                        <Text style={styles.txtLabelCheckbox}>{'\u2022'} </Text>
+                                        <Text style={styles.txtLabelCheckbox}>Investor dengan profil risiko moderat memiliki karakteristik yang siap menerima fluktuasi jangka pendek dengan potensi keuntungan yang diharapkan dapat lebih tinggi dari tingkat inflasi dan deposito.</Text>
+                                    </View>
+                                    <View style={{ flexDirection: 'row' }}>
+                                        <Text style={styles.txtLabelCheckbox}>{'\u2022'} </Text>
+                                        <Text style={styles.txtLabelCheckbox}>Investor ini lebih berani mengambil risiko, namun tetap berhati-hati dalam memilih jenis instrumen investasi, dan biasanya membatasi jumlah investasi pada instrumen berisiko.</Text>
+                                    </View>
+                                    <View style={{ flexDirection: 'row' }}>
+                                        <Text style={styles.txtLabelCheckbox}>{'\u2022'} </Text>
+                                        <Text style={styles.txtLabelCheckbox}>Jenis reksa dana yang cocok untuk investor moderat adalah reksa dana campuran yang risikonya relatif lebih rendah dibandingkan dengan instrumen saham atau reksa dana saham.</Text>
+                                    </View>
+                                </View>
+                                <CheckBox
+                                    style={styles.labelCheckbox}
+                                    onClick={() => { this.manageCheckbox('Agresif') }}
+                                    isChecked={this.state.isCheckedAgresif}
+                                    checkBoxColor='#FFF'
+                                    rightText={"Agresif"}
+                                    rightTextStyle={styles.labelCheckbox}
+                                />
+                                <View style={{ paddingLeft: 25 }}>
+                                    <View style={{ flexDirection: 'row' }}>
+                                        <Text style={styles.txtLabelCheckbox}>{'\u2022'} </Text>
+                                        <Text style={styles.txtLabelCheckbox}>Investor dengan profil risiko agresif sangat siap untuk menanggung risiko.</Text>
+                                    </View>
+                                    <View style={{ flexDirection: 'row' }}>
+                                        <Text style={styles.txtLabelCheckbox}>{'\u2022'} </Text>
+                                        <Text style={styles.txtLabelCheckbox}>Investor ini cenderung berani mengambil risiko yang lebih tinggi untuk mendapatkan imbal hasil yang tinggi.</Text>
+                                    </View>
+                                    <View style={{ flexDirection: 'row' }}>
+                                        <Text style={styles.txtLabelCheckbox}>{'\u2022'} </Text>
+                                        <Text style={styles.txtLabelCheckbox}>Jenis reksa dana yang cocok untuk investor agresif adalah reksa dana saham yang risikonya relatif lebih tinggi dibandingkan namun dengan potensi keuntungan yang lebih tinggi juga.</Text>
+                                    </View>
+                                </View>
                             </View>
                         </View>
                     </ScrollView>

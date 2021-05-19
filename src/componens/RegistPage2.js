@@ -507,6 +507,22 @@ class RegistPage2 extends React.Component {
                                 textInput.focus()} } style={styles.textInput} placeholder="No Ponsel" returnKeyType="done" keyboardType='number-pad' value={this.state.noHpValue} editable={this.state.editNoHp} onChangeText={(noHpValue) => this.setState({ noHpValue })} />
                                     </View>
                                 </View>
+                                <View style={styles.inputGroup} >
+                                    <Text style={styles.labelText}>Tempat Lahir</Text>
+                                    <View style={styles.textInputGroup}>
+                                        <TextInput 
+                                            placeholderTextColor="#000000" 
+                                            ref={this.field5} 
+                                            onSubmitEditing={() => { 
+                                                const textInput = this.field6.current;
+                                                } }  
+                                            style={this.state.errTempatLahir ? styles.textInputErrorTempatLahir : styles.textInput} 
+                                            editable={this.state.editTempatLahir} 
+                                            placeholder="Tempat Lahir" 
+                                            keyboardType='default' 
+                                            onChangeText={(tempatLahirValue) => this.setState({ tempatLahirValue, errTempatLahir: undefined })} />
+                                    </View>
+                                </View>
                                 <View>
                                     <Text style={styles.errorMessage}>{this.state.errNoHp && this.state.errNoHp}</Text>
                                 </View>
@@ -655,22 +671,6 @@ class RegistPage2 extends React.Component {
                                     />
                                 </View> 
                             </View>
-                        <View style={styles.inputGroup} >
-                            <Text style={styles.labelText}>Tempat Lahir</Text>
-                            <View style={styles.textInputGroup}>
-                                <TextInput 
-                                    placeholderTextColor="#000000" 
-                                    ref={this.field5} 
-                                    onSubmitEditing={() => { 
-                                        const textInput = this.field6.current;
-                                        } }  
-                                    style={this.state.errTempatLahir ? styles.textInputErrorTempatLahir : styles.textInput} 
-                                    editable={this.state.editTempatLahir} 
-                                    placeholder="Tempat Lahir" 
-                                    keyboardType='default' 
-                                    onChangeText={(tempatLahirValue) => this.setState({ tempatLahirValue, errTempatLahir: undefined })} />
-                            </View>
-                        </View>
                         {renderIf(this.state.errTempatLahir)(
                             <View>
                                 <Text style={styles.errorMessage}>{this.state.errTempatLahir && this.state.errTempatLahir}</Text>

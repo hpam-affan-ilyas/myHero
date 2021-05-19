@@ -389,15 +389,17 @@ class PinPage extends React.Component {
   }
 
   touchFunc() {
-    TouchID.isSupported()
-        .then(success => {
-          console.log('masuk sukses');
-        })
-        .catch(error => {
-          console.log('Error Touch : ' + error);
-          // alert('Touch ID not supported on this device');
-        });
-        this.handleLogin();
+      // TouchID.isSupported().then(success => {
+      //     alert("masuk sukses");
+      // }).catch(error => { console.log('Error Touch : ' + error); });
+      TouchID.authenticate('to demo this react-native component', optionalConfigObject)
+      .then(success => {
+        AlertIOS.alert('Authenticated Successfully');
+      })
+      .catch(error => {
+        AlertIOS.alert('Authentication Failed');
+      });
+      this.handleLogin();
   }
 
   handleLogin() {
