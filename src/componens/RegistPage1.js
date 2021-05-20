@@ -37,12 +37,7 @@ class RegistPage1 extends React.Component {
     this.props.navigation.navigate('Main')
   }
   onNext = () => {
-    console.log('Continue Proses Pertama', this.state.continueProses);
-    console.log('eKtp', this.state.eKtp.length);
-    console.log('eKtp Format', this.state.eKtp.match(GLOBAL.numbersFormat));
-    console.log('Img KTP Source', this.state.imgKtpSource);
-    console.log('Img Selfi', this.state.imgSelfiSource);
-    console.log('Img Ttd', this.state.imgTtdSource);
+    this.props.navigation.navigate('Regist2')
     
     let continuePage = true;
 
