@@ -433,7 +433,7 @@ class PinPage extends React.Component {
       });
   }
   componentDidMount() {
-    this.touchFunc();
+    // this.touchFunc();
     this.backHandler = BackHandler.addEventListener("hardwareBackPress", () => {
       Alert.alert("Perhatian", "Apakah Anda yakin ingin keluar aplikasi?",
           [{ text: "Tidak", onPress: () => { } }, { text: "Ya", onPress: () => BackHandler.exitApp() }],
