@@ -389,17 +389,14 @@ class PinPage extends React.Component {
   }
 
   touchFunc() {
-      // TouchID.isSupported().then(success => {
-      //     alert("masuk sukses");
-      // }).catch(error => { console.log('Error Touch : ' + error); });
-      TouchID.authenticate('to demo this react-native component', optionalConfigObject)
+    TouchID.isSupported()
       .then(success => {
-        AlertIOS.alert('Authenticated Successfully');
+        this.handleLogin();
       })
       .catch(error => {
-        AlertIOS.alert('Authentication Failed');
+        console.log('Error Touch : ' + error);
+        alert('Touch ID not supported on this device');
       });
-      this.handleLogin();
   }
 
   handleLogin() {
@@ -433,7 +430,7 @@ class PinPage extends React.Component {
       });
   }
   componentDidMount() {
-    // this.touchFunc();
+    this.touchFunc();
     this.backHandler = BackHandler.addEventListener("hardwareBackPress", () => {
       Alert.alert("Perhatian", "Apakah Anda yakin ingin keluar aplikasi?",
           [{ text: "Tidak", onPress: () => { } }, { text: "Ya", onPress: () => BackHandler.exitApp() }],

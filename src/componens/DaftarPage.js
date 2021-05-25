@@ -368,7 +368,7 @@ class DaftarPage extends Component {
                                 )}
                                 <Text style={styles.labelText}>{this.state.LnamaDepan}</Text>
                                 <View style={this.state.errNamaLengkap ? styles.textInputError : styles.textInputGroup}>
-                                    <TextInput placeholderTextColor="#000000" autoCorrect={false} ref={this.field1} autoCapitalize = 'none' onFocus={()=>this.setFocus('namaDepan')} onBlur={()=>this.setBlur('namaDepan')} onSubmitEditing={() =>{ const textInput = this.field3.current; textInput.focus()} } style={styles.textInput} placeholder={this.state.PnamaDepan} keyboardType='default' maxLength={25} onChangeText={(namaDepan) => this.namaLengkapChange(namaDepan)} />
+                                    <TextInput placeholderTextColor="#000000" autoCorrect={false} ref={this.field1} autoCapitalize = 'none' onFocus={()=>this.setFocus('namaDepan')} onBlur={()=>this.setBlur('namaDepan')} onSubmitEditing={() =>{ const textInput = this.field3.current; textInput.focus()} } style={styles.textInput} placeholder={this.state.PnamaDepan} keyboardType='default' maxLength={50} onChangeText={(namaDepan) => this.namaLengkapChange(namaDepan)} />
                                 </View>
                             </View>
                             {renderIf(this.state.errNamaLengkap)(
