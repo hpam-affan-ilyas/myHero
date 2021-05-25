@@ -131,8 +131,8 @@ android {
         applicationId "com.hpam.myhero"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode 73
-        versionName "1.1.2"
+        versionCode 75
+        versionName "1.1.4"
         missingDimensionStrategy 'react-native-camera', 'general'
         multiDexEnabled true
     }
