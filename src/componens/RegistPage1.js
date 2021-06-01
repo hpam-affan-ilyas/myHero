@@ -147,9 +147,10 @@ class RegistPage1 extends React.Component {
   }
 
   selectImage(imgPress) {
+    console.log("masuk select image");
     var option = { title: 'Pilih Gambar',cancelButtonTitle:'Batal',maxWidth:GLOBAL.maxWidthUploadImage,maxHeight:GLOBAL.maxHeightUploadImage,quality:1, storageOption: { skipBackup: true, path: 'images'}, takePhotoButtonTitle: 'Kamera', chooseFromLibraryButtonTitle: 'Galeri' };
     ImagePicker.showImagePicker(option, (response) => {
-      console.log('Response = ', response);
+      console.log('Response Select Image = ', response);
 
       if (response.didCancel) {
         console.log('User cancelled image picker');
@@ -160,31 +161,31 @@ class RegistPage1 extends React.Component {
         console.log('User tapped custom button: ', response.customButton);
       } else {
         var uri = response.uri;
-        // if(Platform.OS == 'android' && response.width > 720){
-        //   var newWidth = response.width*50/100;
-        //   var newHeight = response.height*50/100;
-        //   ImageResizer.createResizedImage(uri, newWidth, newHeight, "JPEG", 50, rotation = 0).then((res) => {
-        //     // response.uri is the URI of the new image that can now be displayed, uploaded...
-        //     // response.path is the path of the new image
-        //     // response.name is the name of the new image with the extension
-        //     // response.size is the size of the new image
-        //     switch (imgPress) {
-        //       case 'ktp':
-        //         this.setState({ imgKtpSource: res.uri });
-        //         break;
-        //       case 'selfi':
-        //         this.setState({ imgSelfiSource: res.uri  });
-        //         break;
-        //       case 'ttd':
-        //         this.setState({ imgTtdSource: res.uri });
-        //         break;
-        //     }
-        //   }).catch((err) => {
-        //     // Oops, something went wrong. Check that the filename is correct and
-        //     // inspect err to get more details.
-        //     alert(err)
-        //   });
-        // }else{
+        if(Platform.OS == 'android' && response.width > 720){
+          var newWidth = response.width*50/100;
+          var newHeight = response.height*50/100;
+          ImageResizer.createResizedImage(uri, newWidth, newHeight, "JPEG", 100, rotation = 0).then((res) => {
+            // response.uri is the URI of the new image that can now be displayed, uploaded...
+            // response.path is the path of the new image
+            // response.name is the name of the new image with the extension
+            // response.size is the size of the new image
+            switch (imgPress) {
+              case 'ktp':
+                this.setState({ imgKtpSource: res.uri });
+                break;
+              case 'selfi':
+                this.setState({ imgSelfiSource: res.uri  });
+                break;
+              case 'ttd':
+                this.setState({ imgTtdSource: res.uri });
+                break;
+            }
+          }).catch((err) => {
+            // Oops, something went wrong. Check that the filename is correct and
+            // inspect err to get more details.
+            alert(err)
+          });
+        }else{
           switch (imgPress) {
             case 'ktp':
               this.setState({ imgKtpSource: uri });
@@ -198,8 +199,7 @@ class RegistPage1 extends React.Component {
           }
              // You can also display the image using data:
             // const source = 'data:image/jpeg;base64,' + response.data;
-        // }
-     
+        }
       }
     });
   }

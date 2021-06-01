@@ -389,13 +389,22 @@ class PinPage extends React.Component {
   }
 
   touchFunc() {
-    TouchID.isSupported()
-      .then(success => {
-        this.handleLogin();
-      })
+    const optionalConfigObject = {
+      unifiedErrors: false,
+      passcodeFallback: false 
+    }
+    TouchID.isSupported(optionalConfigObject)
+      .then(biometryType => {
+      // Success code
+      if (biometryType === 'FaceID') {
+          console.log('FaceID is supported.');
+      } else {
+          console.log('TouchID is supported.');
+      }
+      this.handleLogin();
+    })
       .catch(error => {
         console.log('Error Touch : ' + error);
-        alert('Touch ID not supported on this device');
       });
   }
 

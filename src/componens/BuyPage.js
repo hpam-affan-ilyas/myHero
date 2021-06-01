@@ -201,9 +201,14 @@ class BuyPage extends Component {
             })
     }
 
-    _getMetodeBayarList(token) {
+    _getMetodeBayarList(token, idProduk) {
+        // console.log("idProduk", idProduk);
+        let data = {
+            "idProduk" : idProduk
+        }
         fetch(GLOBAL.metodeBayarList(), {
-            method: 'GET',
+            method: 'POST',
+            body: JSON.stringify(data),
             headers: {
                 'Accept': 'appication/json',
                 'Content-type': 'application/json',
@@ -231,6 +236,7 @@ class BuyPage extends Component {
     getKetentuanTrans(tipe) {
         fetch(GLOBAL.ketentuanTransaksi(tipe), {
             method: 'GET',
+            // body: JSON.stringify(data),
             headers: {
                 'Accept': 'appication/json',
                 'Content-type': 'application/json',
@@ -242,6 +248,7 @@ class BuyPage extends Component {
                     let res;
                     return response.json().then(obj => {
                         res = obj;
+                        console.log("Response Ketentuan Transaksi", res);
                         var content = res.data.isi;
                         let content_data = [];
                         var a = content.split('<br>');
@@ -404,7 +411,7 @@ class BuyPage extends Component {
             this.setState({ myToken: aksesToken });
             //this._getBuyView(this.state.myToken,this.state.idProduk)
             this._getBuyView(this.state.myToken, this.state.idProduk);
-            this._getMetodeBayarList(this.state.myToken);
+            this._getMetodeBayarList(this.state.myToken, this.state.idProduk);
             this.getKetentuanTrans(this.state.kode_ketentuan_trans);
             this._getPromo();
             this._getListPromo();
