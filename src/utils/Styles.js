@@ -1403,12 +1403,26 @@ module.exports = StyleSheet.create({
         borderBottomColor: '#00bff3',
         flex:1,
     },
+    headerWhite60:{
+        height: 40,
+        backgroundColor: '#FFF',
+        borderBottomWidth: 0.5,
+        borderBottomColor: '#00bff3',
+        flex:1,
+    },
     headerWhite2:{
         height: 40,
         backgroundColor: '#FFF',
         flex:1,
     },
     headerStyle:{
+        height: 40,
+        backgroundColor: GLOBAL.StatusBarColor,
+        borderBottomWidth: 0.5,
+        borderBottomColor: '#fb9800',
+        color: '#FFF'
+    },
+    headerStyle60:{
         height: 40,
         backgroundColor: GLOBAL.StatusBarColor,
         borderBottomWidth: 0.5,

@@ -102,6 +102,7 @@ class ProductDetail extends Component {
         { cancelable: false },
       );
     }
+    console.log("masuk sini gak?");
   }
 
   _getDataChart(token, idProduk, kinerja) {
