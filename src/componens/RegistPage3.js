@@ -350,40 +350,61 @@ class RegistPage3 extends React.Component {
         } 
         console.log('Continue To Page 4?', continueNextPage);
         if(continueNextPage) {
-            AsyncStorage.setItem('alamatValue', this.state.alamatValue);
-            AsyncStorage.setItem('kotaIdValue', '' + this.state.kotaIdValue);
-            AsyncStorage.setItem('kotaValue', '' + this.state.kotaValue);
-            AsyncStorage.setItem('provinsiValue', this.state.provinsiValue);
-            AsyncStorage.setItem('negaraValue', this.state.negaraValue);
-            AsyncStorage.setItem('kodePosValue', this.state.kodePosValue);
-            AsyncStorage.setItem('indexAlamatDom', this.state.indexAlamatDom);
-            AsyncStorage.setItem('alamatDomValue', this.state.alamatDomValue);
-            AsyncStorage.setItem('kotaDomIdValue', '' + this.state.kotaDomIdValue);
-            AsyncStorage.setItem('kotaDomValue', this.state.kotaDomValue);
-            AsyncStorage.setItem('provinsiDomValue', this.state.provinsiDomValue);
-            AsyncStorage.setItem('negaraDomValue', this.state.negaraDomValue);
-            AsyncStorage.setItem('kodePosDomValue', this.state.kodePosDomValue);
-            AsyncStorage.setItem('indexAlamatSurat', this.state.indexAlamatSurat);
-            AsyncStorage.setItem('alamatSuratValue', this.state.alamatSurMerValue);
-            AsyncStorage.setItem('kotaSuratValue', this.state.kotaSurMerValue);
-            AsyncStorage.setItem('kotaSurMerIdValue', this.state.kotaSurMerIdValue);
-            AsyncStorage.setItem('provinsiSuratValue', this.state.provinsiSurMerValue);
-            AsyncStorage.setItem('negaraSuratValue', this.state.negaraSurMerValue);
-            AsyncStorage.setItem('kodePosSuratValue', this.state.kodePosSurMerValue);
-            AsyncStorage.setItem('pendidikanValue', this.state.pendidikanValue);
-            AsyncStorage.setItem('pendidikanId', '' + this.state.pendidikanId);
-            AsyncStorage.setItem('pendidikanText', this.state.pendidikanText);
-            AsyncStorage.setItem('pekerjaanValue', this.state.pekerjaanValue);
-            AsyncStorage.setItem('pekerjaanId', '' + this.state.pekerjaanId);
-            AsyncStorage.setItem('pekerjaanText', this.state.pekerjaanText);
-            AsyncStorage.setItem('penghasilanValue', this.state.penghasilanValue);
-            AsyncStorage.setItem('penghasilanId', '' + this.state.penghasilanId);
-            AsyncStorage.setItem('sumberdanaValue', this.state.sumberdanaValue);
-            AsyncStorage.setItem('sumberdanaId', '' + this.state.sumberdanaId);
-            AsyncStorage.setItem('sumberdanaText', this.state.sumberdanaText);
-            AsyncStorage.setItem('tujInvestValue', this.state.tujInvestValue);
-            AsyncStorage.setItem('tujInvestId', '' + this.state.tujInvestId);
-            AsyncStorage.setItem('tujInvestText', this.state.tujInvestText);
+            let uploadData = new FormData();
+            uploadData.append('alamatKtp', this.state.alamatValue);
+            uploadData.append('kotaKtp', this.state.kotaValue);
+            uploadData.append('kotaKtpText', this.state.kotaText);
+            uploadData.append('kodePosKtp', this.state.kodePosValue);
+            uploadData.append('alamatDom', this.state.alamatDomValue);
+            uploadData.append('kotDom', this.state.kotaDomValue);
+            uploadData.append('kotaDomText', this.state.kotaDomText);
+            uploadData.append('kodePosDom', this.state.kodePosDomValue);
+            uploadData.append('alamatSurMer', this.state.alamatSurMerValue);
+            uploadData.append('pendidikan', this.state.pendidikanId);
+            uploadData.append('pekerjaan', this.state.pekerjaanId);
+            uploadData.append('sumberDana', this.state.sumberdanaId);
+            uploadData.append('penghasilanPerTahun', this.state.penghasilanId);
+            uploadData.append('page', '3');
+            fetch(GLOBAL.register(), {
+                method: 'POST',
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'multipart/form-data',
+                    'Authorization': this.state.myToken,
+                },
+                body: uploadData
+            }).then((response) => {
+                console.log("Response Status Pendaftaran", response.status);
+                if (response.status == '201') {
+                    this.setState({ isLoading: false });
+                    let res;
+                    return response.json().then(obj => {
+                        res = obj;
+                        // Alert.alert('Sukses', 'Registrasi berhasil, data sudah dilengkapi',
+                        //     [{ text: 'OK', onPress: () => this.props.navigation.navigate('Home') }],
+                        //     { cancelable: false },
+                        // );
+                    })
+                } else if (response.status == '401') {
+                    this.setState({ isLoading: false });
+                    this.Unauthorized()
+                } else if (response.status == '400') {
+                    this.setState({ isLoading: false });
+                    let res;
+                    return response.json().then(obj => {
+                        res = obj;
+                        console.log("Res 400", res);
+                        Alert.alert('Gagal', res.message,
+                            [{ text: 'OK', onPress: () => console.log('OK Pressed') }],
+                            { cancelable: false },
+                        );
+                    })
+                } else {
+                    // console.log("Response Else", response);
+                    // this.setState({ isLoading: false });
+                    // GLOBAL.gagalKoneksi()
+                }
+            })
             this.props.navigation.navigate('Regist4');
         }
     }
@@ -1111,7 +1132,7 @@ class RegistPage3 extends React.Component {
     }
     kotaKtpFunctionOnTextChange(item) {
         this.setState({
-            kotaValue: item,
+            kotaText: item,
             editableProvinsiKtp: true,
             provinsiValue: null,
             errKotaValue: undefined
@@ -1133,7 +1154,7 @@ class RegistPage3 extends React.Component {
     kotaDomisiliFunctionOnTextChange(item) {
         this.setState({
             editableProvinsiDomisili: true,
-            kotaDomValue: item,
+            kotaDomText: item,
             provinsiDomValue: null,
             errKotaDomValue: undefined
         })

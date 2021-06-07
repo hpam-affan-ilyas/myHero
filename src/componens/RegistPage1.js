@@ -37,6 +37,7 @@ class RegistPage1 extends React.Component {
     this.props.navigation.navigate('Main')
   }
   onNext = () => {
+    this.props.navigation.navigate('Regist2')
     let continuePage = true;
 
     continuePage ? ['test','test1'] : 'test2';
@@ -76,37 +77,35 @@ class RegistPage1 extends React.Component {
     }
 
     console.log('Continue Process', continuePage);
+    continuePage = true;
     if(continuePage) {  
-      AsyncStorage.setItem('eKtp', this.state.eKtp);
-      AsyncStorage.setItem('imgEktp', this.state.imgKtpSource);
-      AsyncStorage.setItem('imgSelfi', this.state.imgSelfiSource);
-      AsyncStorage.setItem('imgTtd', this.state.imgTtdSource);
+      // AsyncStorage.setItem('eKtp', this.state.eKtp);
+      // AsyncStorage.setItem('imgEktp', this.state.imgKtpSource);
+      // AsyncStorage.setItem('imgSelfi', this.state.imgSelfiSource);
+      // AsyncStorage.setItem('imgTtd', this.state.imgTtdSource);
       
-      var imgNameKTP = 'imageKTP_' + this.state.eKtp;
-      var imgNameSelfi = 'imageSelfi_' + this.state.eKtp;
-      var imgNameTtd = 'imageTtd_' + this.state.eKtp;
-      console.log('test', 'test');
+      // var imgNameKTP = 'imageKTP_' + this.state.eKtp;
+      // var imgNameSelfi = 'imageSelfi_' + this.state.eKtp;
+      // var imgNameTtd = 'imageTtd_' + this.state.eKtp;
+      // console.log('test', 'test');
       let uploadData = new FormData();
-      uploadData.append('foto_ktp', {
-          type: 'image/jpeg',
-          name: imgNameKTP,
-          uri: this.state.imgKtpSource,
-      });
-      uploadData.append('foto_selfi', {
-          type: 'image/jpeg',
-          name: imgNameSelfi,
-          uri: this.state.imgSelfiSource,
-      });
-      uploadData.append('foto_ttd', {
-          type: 'image/jpeg',
-          name: imgNameTtd,
-          uri: this.state.imgTtdSource,
-      });
+      // uploadData.append('foto_ktp', {
+      //     type: 'image/jpeg',
+      //     name: imgNameKTP,
+      //     uri: this.state.imgKtpSource,
+      // });
+      // uploadData.append('foto_selfi', {
+      //     type: 'image/jpeg',
+      //     name: imgNameSelfi,
+      //     uri: this.state.imgSelfiSource,
+      // });
+      // uploadData.append('foto_ttd', {
+      //     type: 'image/jpeg',
+      //     name: imgNameTtd,
+      //     uri: this.state.imgTtdSource,
+      // });
       uploadData.append('no_ktp', this.state.eKtp);
       uploadData.append('page', '1');
-  
-      console.log("Upload Data", uploadData);
-      console.log("Token", this.state.myToken);
       fetch(GLOBAL.register(), {
           method: 'POST',
           headers: {
@@ -122,17 +121,10 @@ class RegistPage1 extends React.Component {
                   let res;
                   return response.json().then(obj => {
                       res = obj;
-                      Alert.alert('Sukses', 'Registrasi berhasil, data sudah dilengkapi',
-                          [{ text: 'OK', onPress: () => this.props.navigation.navigate('Home') }],
-                          { cancelable: false },
-                      );
-                      AsyncStorage.setItem('profRiskValue', this.state.profileRisikoValue);
-                      AsyncStorage.setItem('profRiskId', '' + this.state.profileRisikoId);
-                      AsyncStorage.setItem('bankValue', this.state.bankValue);
-                      AsyncStorage.setItem('bankId', '' + this.state.bankId);
-                      AsyncStorage.setItem('noRekValue', this.state.noRekValue);
-                      AsyncStorage.setItem('namaRekValue', this.state.namaRekValue);
-                      AsyncStorage.setItem('kodeAgenValue', this.state.kodeAgenValue);
+                      // Alert.alert('Sukses', 'Registrasi berhasil, data sudah dilengkapi',
+                      //     [{ text: 'OK', onPress: () => this.props.navigation.navigate('Home') }],
+                      //     { cancelable: false },
+                      // );
                   })
               } else if (response.status == '401') {
                   this.setState({ isLoading: false });
@@ -192,21 +184,21 @@ class RegistPage1 extends React.Component {
     if (aksesToken != null) {
       var eKtpStore = await AsyncStorage.getItem('eKtp');
 
-      var imgKtpStore = await AsyncStorage.getItem('imgEktp');
-      var imgSelfiStore = await AsyncStorage.getItem('imgSelfi');
-      var imgTtdStore = await AsyncStorage.getItem('imgTtd');
+      // var imgKtpStore = await AsyncStorage.getItem('imgEktp');
+      // var imgSelfiStore = await AsyncStorage.getItem('imgSelfi');
+      // var imgTtdStore = await AsyncStorage.getItem('imgTtd');
       if (eKtpStore != null) {
         this.setState({ eKtp: eKtpStore })
       }
-      if (imgKtpStore != null) {
-        this.setState({ imgKtpSource: imgKtpStore })
-      }
-      if (imgSelfiStore != null) {
-        this.setState({ imgSelfiSource: imgSelfiStore })
-      }
-      if (imgTtdStore != null) {
-        this.setState({ imgTtdSource: imgTtdStore })
-      }
+      // if (imgKtpStore != null) {
+      //   this.setState({ imgKtpSource: imgKtpStore })
+      // }
+      // if (imgSelfiStore != null) {
+      //   this.setState({ imgSelfiSource: imgSelfiStore })
+      // }
+      // if (imgTtdStore != null) {
+      //   this.setState({ imgTtdSource: imgTtdStore })
+      // }
       this.setState({
         myToken: aksesToken
       })
