@@ -156,70 +156,14 @@ class RegistPage4 extends React.Component {
         // else {
             if(finishPage) {
                 this.setState({ isLoading: true });
-                var tgl = this.state.tglLahirValue.split('-');
-                var tgl_lahir = tgl[2] + '-' + tgl[1] + '-' + tgl[0];
-                var imgNameKTP = 'imageKTP_' + this.state.noKtpValue;
-                var imgNameSelfi = 'imageSelfi_' + this.state.noKtpValue;
-                var imgNameTtd = 'imageTtd_' + this.state.noKtpValue;
-                let uploadData = new FormData();
-
-                uploadData.append('foto_ktp', {
-                    type: 'image/jpeg',
-                    name: imgNameKTP,
-                    uri: this.state.fotoKtpValue,
-                });
-                uploadData.append('foto_selfi', {
-                    type: 'image/jpeg',
-                    name: imgNameSelfi,
-                    uri: this.state.fotoSelfiValue,
-                });
-                uploadData.append('foto_ttd', {
-                    type: 'image/jpeg',
-                    name: imgNameTtd,
-                    uri: this.state.fotoTtdValue,
-                });
-                let splitAgentValue = this.state.AgentValue.split(" : ");
-                let newAgentValue = splitAgentValue[1];
-                this.setState({
-                    AgentValue : splitAgentValue[1]
-                })
-                if(newAgentValue == undefined){
-                    newAgentValue = '';
-                }
-                uploadData.append('no_ktp', this.state.noKtpValue);
-                uploadData.append('jenis_kelamin', this.state.jkId);
-                uploadData.append('tgl_lahir', tgl_lahir);
-                uploadData.append('tempat_lahir', this.state.tempatLahirValue);
-                uploadData.append('status_nikah', this.state.statusNikahId);
-                uploadData.append('agama', this.state.agamaId);
-                uploadData.append('alamat_ktp', this.state.alamatValue);
-                uploadData.append('kota_ktp', this.state.kotaId);
-                uploadData.append('kota_ktp_text', this.state.kotaValue);
-                uploadData.append('kode_pos_ktp', this.state.kodePosValue);
-                uploadData.append('alamat_domisili', this.state.alamatDomValue);
-                uploadData.append('kota_domisili', this.state.kotaDomId);
-                uploadData.append('kota_domisili_text', this.state.kotaDomValue);
-                uploadData.append('kode_pos_domisili', this.state.kodePosDomValue);
-                uploadData.append('alamat_surat', this.state.alamatSuratValue);
-                uploadData.append('kota_surat', this.state.kotaSurMerIdValue);
-                uploadData.append('kode_pos_surat', this.state.kodePosSuratValue);
-                uploadData.append('pendidikan', this.state.pendidikanId);
-                uploadData.append('pendidikan_lainnya', this.state.pendidikanText);
-                uploadData.append('pekerjaan', this.state.pekerjaanId);
-                uploadData.append('pekerjaan_lainnya', this.state.pekerjaanText);
-                uploadData.append('penghasilan', this.state.penghasilanId);
-                uploadData.append('sumberdana', this.state.sumberdanaId);
-                uploadData.append('sumberdana_lainnya', this.state.sumberdanaText);
-                uploadData.append('tujuan_investasi', this.state.tujInvestId);
-                uploadData.append('tujuan_investasi_lainnya', this.state.tujInvestText);
-                uploadData.append('profil_risiko', this.state.profileRisikoId);
                 uploadData.append('bank_id', this.state.bankId);
                 uploadData.append('bank_text', this.state.bankValue);
                 uploadData.append('no_rek', this.state.noRekValue);
                 uploadData.append('nama_rekening_bank', this.state.namaRekValue);
                 uploadData.append('pin', this.state.pinValue);
                 uploadData.append('kode_agen', newAgentValue);
-                console.log("Upload Data", uploadData);
+                uploadData.append('profil_risiko', this.state.profileRisikoId);   
+                uploadData.append('page', '4');                
                 fetch(GLOBAL.pendaftaran(), {
                     method: 'POST',
                     headers: {
@@ -239,13 +183,6 @@ class RegistPage4 extends React.Component {
                                     [{ text: 'OK', onPress: () => this.props.navigation.navigate('Home') }],
                                     { cancelable: false },
                                 );
-                                AsyncStorage.setItem('profRiskValue', this.state.profileRisikoValue);
-                                AsyncStorage.setItem('profRiskId', '' + this.state.profileRisikoId);
-                                AsyncStorage.setItem('bankValue', this.state.bankValue);
-                                AsyncStorage.setItem('bankId', '' + this.state.bankId);
-                                AsyncStorage.setItem('noRekValue', this.state.noRekValue);
-                                AsyncStorage.setItem('namaRekValue', this.state.namaRekValue);
-                                AsyncStorage.setItem('kodeAgenValue', this.state.kodeAgenValue);
                             })
                         } else if (response.status == '401') {
                             this.setState({ isLoading: false });

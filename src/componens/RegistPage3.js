@@ -23,8 +23,9 @@ import {
     renderers,
     MenuProvider
 } from 'react-native-popup-menu';
+import { TouchableHighlightBase } from 'react-native';
 let option1 = [{ label: 'Sesuai Alamat KTP', value: '1' }, { label: 'Tambah Alamat Lain', value: '2' }];
-let option2 = [{ label: 'Sesuai Alamat KTP', value: '1' }, { label: 'Sesuai Alamat Domisili', value: '2' }, { label: 'Tambah Alamat Lain', value: '3' }];
+let option2 = [{ label: 'Sesuai Alamat KTP', value: '1' }, { label: 'Tambah Alamat Lain', value: '3' }];
 const { Popover } = renderers;
 
 class RegistPage3 extends React.Component {
@@ -350,13 +351,34 @@ class RegistPage3 extends React.Component {
         } 
         console.log('Continue To Page 4?', continueNextPage);
         if(continueNextPage) {
+            if(this.state.kotaIdValue) {
+                this.setState({
+                    kotaText: ''
+                })
+            }
+            if(this.state.indexAlamatDom == 1) {
+                this.setState({
+                    alamatDomValue : this.state.alamatValue,
+                    kotaDomValue: this.state.kotaIdValue,
+                    kodePosDomValue: this.state.kodePosValue
+                })
+            }
+            if(this.state.indexAlamatSurat == 1) {
+                this.setState({
+                    alamatSurMerValue : this.state.alamatValue
+                })
+            } else if (this.state.indexAlamatSurat == 2) {
+                this.setState({
+                    alamatSurMerValue : this.state.alamatDomValue
+                })
+            }
             let uploadData = new FormData();
             uploadData.append('alamatKtp', this.state.alamatValue);
-            uploadData.append('kotaKtp', this.state.kotaValue);
+            uploadData.append('kotaKtp', this.state.kotaIdValue);
             uploadData.append('kotaKtpText', this.state.kotaText);
             uploadData.append('kodePosKtp', this.state.kodePosValue);
             uploadData.append('alamatDom', this.state.alamatDomValue);
-            uploadData.append('kotDom', this.state.kotaDomValue);
+            uploadData.append('kotaDom', this.state.kotaDomValue);
             uploadData.append('kotaDomText', this.state.kotaDomText);
             uploadData.append('kodePosDom', this.state.kodePosDomValue);
             uploadData.append('alamatSurMer', this.state.alamatSurMerValue);
@@ -365,6 +387,8 @@ class RegistPage3 extends React.Component {
             uploadData.append('sumberDana', this.state.sumberdanaId);
             uploadData.append('penghasilanPerTahun', this.state.penghasilanId);
             uploadData.append('page', '3');
+            console.log("Data Update Register 3", uploadData);
+            return;
             fetch(GLOBAL.register(), {
                 method: 'POST',
                 headers: {
@@ -537,31 +561,51 @@ class RegistPage3 extends React.Component {
             errProvinsiDomValue: undefined,
             errNegaraDomValue: undefined,
             errKodePosDomValue: undefined,
-            errFormAlamatDomisili: undefined
+            errFormAlamatDomisili: undefined,
+            indexAlamatSurat: 0
         })
         switch (isOpen) {
             case '1':
-                if (!this.state.alamatValue || !this.state.kotaValue || !this.state.provinsiValue || !this.state.negaraValue || !this.state.kodePosValue) {
+                if (!this.state.alamatValue || !this.state.kodePosValue) {
                     this.setState({ indexAlamatDom: '0' })
                     this.setState({
-                        errAlamatSesuaiKtp: 'Form Alamat Sesuai KTP Harus di Lengkapi',
-                        errIndexAlamatDom: 'Alamat Domisili Harus di Pilih'
+                        errAlamatSesuaiKtp: 'Form Alamat Sesuai KTP Harus di Lengkapi'
                     })
-                    !this.state.alamatValue && this.setState({
-                        errAlamatValue: 'Alamat Tidak Boleh Kosong'
-                    })
-                    !this.state.kotaValue && this.setState({
-                        errKotaValue: 'Kota Tidak Boleh Kosong'
-                    })
-                    !this.state.provinsiValue && this.setState({
-                        errProvinsiValue: 'Provinsi Tidak Boleh Kosong'
-                    })
-                    !this.state.negaraValue && this.setState({
-                        errNegaraValue: 'Negara Tidak Boleh Kosong'
-                    })
-                    !this.state.kodePosValue && this.setState({
-                        errKodePosValue: 'Kode Pos Tidak Boleh Kosong'
-                    })
+                    !this.state.alamatValue && this.setState({errAlamatValue: 'Alamat Tidak Boleh Kosong'})
+                    !this.state.kodePosValue && this.setState({ errKodePosValue: 'Kode Pos Tidak Boleh Kosong'})
+                    if(!this.state.kotaValue) {
+                        if(!this.state.kotaText) {
+                            this.setState({errKotaValue: 'Kota Tidak Boleh Kosong'})
+                        } else {
+                            this.setState({errKotaValue: undefined})
+                        }
+                    } else {
+                        this.setState({errKotaValue: undefined})
+                    }
+                } else if(!this.state.kotaValue) {
+                    if(!this.state.kotaText) {
+                        this.setState({ indexAlamatDom: '0' })
+                        this.setState({
+                            errAlamatSesuaiKtp: 'Form Alamat Sesuai KTP Harus di Lengkapi',
+                            errKotaValue: 'Kota Tidak Boleh Kosong'
+                        })
+                    } else {
+                        this.setState({
+                            errAlamatSesuaiKtp: undefined
+                        })
+                    }
+                } else if(!this.state.kotaText) {
+                    if(!this.state.kotaValue) {
+                        this.setState({ indexAlamatDom: '0' })
+                        this.setState({
+                            errAlamatSesuaiKtp: 'Form Alamat Sesuai KTP Harus di Lengkapi',
+                            errKotaValue: 'Kota Tidak Boleh Kosong'
+                        })
+                    } else {
+                        this.setState({
+                            errAlamatSesuaiKtp: undefined
+                        })
+                    }
                 } else {
                     option2 = [
                         { label: 'Sesuai Alamat KTP', value: '1' }, 
@@ -573,24 +617,46 @@ class RegistPage3 extends React.Component {
                 }
                 break;
             case '2':
-                if (!this.state.alamatValue || !this.state.kotaValue || !this.state.provinsiValue || !this.state.negaraValue || !this.state.kodePosValue) {
+                if (!this.state.alamatValue || !this.state.kodePosValue) {
                     this.setState({ indexAlamatDom: '0' })
                     this.setState({
-                        errAlamatSesuaiKtp: 'Form Alamat Sesuai KTP Harus di Lengkapi',
-                        errIndexAlamatDom: 'Alamat Domisili Harus di Pilih'
+                        errAlamatSesuaiKtp: 'Form Alamat Sesuai KTP Harus di Lengkapi'
                     })
-                    !this.state.kotaValue && this.setState({
-                        errKotaValue: 'Kota Tidak Boleh Kosong'
-                    })
-                    !this.state.provinsiValue && this.setState({
-                        errProvinsiValue: 'Provinsi Tidak Boleh Kosong'
-                    })
-                    !this.state.negaraValue && this.setState({
-                        errNegaraValue: 'Negara Tidak Boleh Kosong'
-                    })
-                    !this.state.kodePosValue && this.setState({
-                        errKodePosValue: 'Kode Pos Tidak Boleh Kosong'
-                    })
+                    !this.state.alamatValue && this.setState({errAlamatValue: 'Alamat Tidak Boleh Kosong'})
+                    !this.state.kodePosValue && this.setState({ errKodePosValue: 'Kode Pos Tidak Boleh Kosong'})
+                    if(!this.state.kotaValue) {
+                        if(!this.state.kotaText) {
+                            this.setState({errKotaValue: 'Kota Tidak Boleh Kosong'})
+                        } else {
+                            this.setState({errKotaValue: undefined})
+                        }
+                    } else {
+                        this.setState({errKotaValue: undefined})
+                    }
+                }  else if(!this.state.kotaValue) {
+                    if(!this.state.kotaText) {
+                        this.setState({ indexAlamatDom: '0' })
+                        this.setState({
+                            errAlamatSesuaiKtp: 'Form Alamat Sesuai KTP Harus di Lengkapi',
+                            errKotaValue: 'Kota Tidak Boleh Kosong'
+                        })
+                    } else {
+                        this.setState({
+                            errAlamatSesuaiKtp: undefined
+                        })
+                    }
+                } else if(!this.state.kotaText) {
+                    if(!this.state.kotaValue) {
+                        this.setState({ indexAlamatDom: '0' })
+                        this.setState({
+                            errAlamatSesuaiKtp: 'Form Alamat Sesuai KTP Harus di Lengkapi',
+                            errKotaValue: 'Kota Tidak Boleh Kosong'
+                        })
+                    } else {
+                        this.setState({
+                            errAlamatSesuaiKtp: undefined
+                        })
+                    }
                 } else {
                     this.setState({
                         openFormAlamatDomisili: true
@@ -607,54 +673,111 @@ class RegistPage3 extends React.Component {
     }
     onSetPilAlamatSurat(isOpen) {
         this.setState({
-            openFormAlamatSurat: false
+            openFormAlamatSurat: false,
         })
         switch (isOpen) {
             case '1':
-                if(!this.state.alamatValue || !this.state.kotaValue || !this.state.provinsiValue || !this.state.negaraValue || !this.state.kodePosValue) {
-                    this.setState({
-                        indexAlamatSurat: '0',
-                        errAlamatSesuaiKtp: 'Form Alamat Sesuai KTP Harus di Lengkapi',
-                        errIndexAlamatSurat : 'Alamat Harus Dipilih'
-                    })
-                    if(!this.state.alamatValue) {
+                if(this.state.indexAlamatDom == 1) {
+                    if (!this.state.alamatValue || !this.state.kodePosValue) {
+                        this.setState({ indexAlamatDom: '0' })
                         this.setState({
-                            errAlamatValue: 'Alamat Tidak Boleh Kosong',
+                            errAlamatSesuaiKtp: 'Form Alamat Sesuai KTP Harus di Lengkapi'
                         })
-                    }
-                    if(!this.state.kotaValue) {
+                        !this.state.alamatValue && this.setState({errAlamatValue: 'Alamat Tidak Boleh Kosong'})
+                        !this.state.kodePosValue && this.setState({ errKodePosValue: 'Kode Pos Tidak Boleh Kosong'})
+                        if(!this.state.kotaValue) {
+                            if(!this.state.kotaText) {
+                                this.setState({errKotaValue: 'Kota Tidak Boleh Kosong'})
+                            } else {
+                                this.setState({errKotaValue: undefined})
+                            }
+                        } else {
+                            this.setState({errKotaValue: undefined})
+                        }
+                    } else if(!this.state.kotaValue) {
+                        if(!this.state.kotaText) {
+                            this.setState({ indexAlamatDom: '0' })
+                            this.setState({
+                                errAlamatSesuaiKtp: 'Form Alamat Sesuai KTP Harus di Lengkapi',
+                                errKotaValue: 'Kota Tidak Boleh Kosong'
+                            })
+                        } else {
+                            this.setState({
+                                errAlamatSesuaiKtp: undefined
+                            })
+                        }
+                    } else if(!this.state.kotaText) {
+                        if(!this.state.kotaValue) {
+                            this.setState({ indexAlamatDom: '0' })
+                            this.setState({
+                                errAlamatSesuaiKtp: 'Form Alamat Sesuai KTP Harus di Lengkapi',
+                                errKotaValue: 'Kota Tidak Boleh Kosong'
+                            })
+                        } else {
+                            this.setState({
+                                errAlamatSesuaiKtp: undefined
+                            })
+                        }
+                    } else {
                         this.setState({
-                            errKotaValue: 'Kota Tidak Boleh Kosong',
-                        })
-                    }
-                    if(!this.state.provinsiValue) {
-                        this.setState({
-                            errProvinsiValue: 'Provinsi Tidak Boleh Kosong',
-                        })
-                    }
-                    if(!this.state.negaraValue) {
-                        this.setState({
-                            errNegaraValue: 'Negara Tidak Boleh Kosong',
-                        })
-                    }
-                    if(!this.state.kodePosValue) {
-                        this.setState({
-                            errKodePosValue: 'Kode Pos Tidak Boleh Kosong',
+                            indexAlamatSurat: isOpen,
+                            errAlamatSesuaiKtp: undefined,
+                            errIndexAlamatSurat: undefined
                         })
                     }
                 } else {
-                    this.setState({
-                        indexAlamatSurat: isOpen,
-                        errAlamatSesuaiKtp: undefined,
-                        errIndexAlamatSurat: undefined
-                    })
+                    if (!this.state.alamatDomValue || !this.state.kodePosDomValue) {
+                        this.setState({ indexAlamatSurat: '0' })
+                        this.setState({
+                            errFormAlamatDomisili: 'Form Alamat Domisili Harus di Lengkapi'
+                        })
+                        !this.state.alamatDomValue && this.setState({errAlamatDomValue: 'Alamat Domisili Tidak Boleh Kosong'})
+                        !this.state.kodePosDomValue && this.setState({errKodePosDomValue: 'Kode Pos Domisili Tidak Boleh Kosong'})
+                        if(!this.state.kotaDomValue) {
+                            if(!this.state.kotaDomText) {
+                                this.setState({errKotaDomValue: 'Kota Domisili Tidak Boleh Kosong'})
+                            } else {
+                                this.setState({errKotaDomValue: undefined})
+                            }
+                        } else {
+                            this.setState({errKotaDomValue: undefined})
+                        }
+                    } else if(!this.state.kotaDomValue) {
+                        if(!this.state.kotaDomText) {
+                            this.setState({ indexAlamatDom: '0' })
+                            this.setState({
+                                errAlamatDomValue: 'Form Alamat Domisili Harus di Lengkapi',
+                                errKotaDomValue: 'Kota Domisili Tidak Boleh Kosong'
+                            })
+                        } else {
+                            this.setState({
+                                errAlamatDomValue: undefined
+                            })
+                        }
+                    } else if(!this.state.kotaDomText) {
+                        if(!this.state.kotaDomValue) {
+                            this.setState({ indexAlamatDom: '0' })
+                            this.setState({
+                                errAlamatDomValue: 'Form Alamat Domisili Harus di Lengkapi',
+                                errKotaDomValue: 'Kota Domisili Tidak Boleh Kosong'
+                            })
+                        } else {
+                            this.setState({
+                                errAlamatDomValue: undefined
+                            })
+                        }
+                    } else {
+                        this.setState({
+                            indexAlamatSurat: isOpen,
+                            errAlamatSesuaiKtp: undefined,
+                            errIndexAlamatSurat: undefined
+                        })
+                    }
                 }
                 break;
             case '2':
                 this.setState({
                     indexAlamatSurat: '0',
-                    errFormAlamatDomisili: 'Form Alamat Sesuai Domisili Harus di Lengkapi',
-                    errIndexAlamatSurat : 'Alamat harus Dipilih'
                 })
                 if(!this.state.alamatDomValue || !this.state.kotaDomValue || !this.state.provinsiDomValue || !this.state.negaraValue || !this.state.kodePosDomValue) {
                     this.setState({
@@ -1135,7 +1258,12 @@ class RegistPage3 extends React.Component {
             kotaText: item,
             editableProvinsiKtp: true,
             provinsiValue: null,
-            errKotaValue: undefined
+            errKotaValue: undefined,
+            errAlamatSesuaiKtp: undefined,
+            errKodePosValue: undefined,
+            errAlamatValue: undefined,
+            openFormAlamatDomisili: false,
+            indexAlamatDom: 0
         })
     }
     kotaKtpFunctionOnItemSelect(item) {
@@ -1235,7 +1363,7 @@ class RegistPage3 extends React.Component {
                                     <View style={this.state.errAlamatSesuaiKtp ? { borderRadius: 10, borderColor: "red", borderWidth: 1, padding: 10 } : { borderRadius: 10, borderColor: "#FFF", borderWidth: 1, padding: 10 }}>
                                         <Text style={styles.labelText}>Alamat</Text>
                                         <View style={this.state.errAlamatValue ? styles.textInputError : styles.textInputGroup}>
-                                            <TextInput placeholderTextColor="#000" autoCorrect={false} ref={this.field1} style={styles.textInput} placeholder="Alamat" value={this.state.alamatValue} keyboardType='default' onChangeText={(alamatValue) => this.setState({ alamatValue, errAlamatValue: undefined })} />
+                                            <TextInput placeholderTextColor="#000" autoCorrect={false} ref={this.field1} style={styles.textInput} placeholder="Alamat" value={this.state.alamatValue} keyboardType='default' onChangeText={(alamatValue) => this.setState({ alamatValue, errAlamatValue: undefined, errAlamatSesuaiKtp: undefined, errKotaValue: undefined, errKodePosValue: undefined, openFormAlamatDomisili: false, indexAlamatDom: 0 })} />
                                         </View>
                                         {renderIf(this.state.errAlamatValue)(
                                             <View>
@@ -1292,7 +1420,7 @@ class RegistPage3 extends React.Component {
                                         )}
                                         <Text style={styles.labelText}>Kode Pos</Text>
                                         <View style={this.state.errKodePosValue ? styles.textInputError : styles.textInputGroup}>
-                                            <TextInput placeholderTextColor="#000" blurOnSubmit={true} multiline returnKeyType="done" ref={this.field3} style={styles.textInput} placeholder="Kode Pos" value={this.state.kodePosValue} keyboardType='number-pad' onChangeText={(kodePosValue) => this.setState({ kodePosValue, errKodePosValue: undefined })} />
+                                            <TextInput placeholderTextColor="#000" blurOnSubmit={true} multiline returnKeyType="done" ref={this.field3} style={styles.textInput} placeholder="Kode Pos" value={this.state.kodePosValue} keyboardType='number-pad' onChangeText={(kodePosValue) => this.setState({ kodePosValue, errKodePosValue: undefined, errAlamatSesuaiKtp: undefined, errAlamatValue: undefined, errKotaValue: undefined, openFormAlamatDomisili: false, indexAlamatDom: 0 })} />
                                         </View>
                                         {renderIf(this.state.errKodePosValue)(
                                             <View>

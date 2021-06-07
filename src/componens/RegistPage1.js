@@ -106,46 +106,46 @@ class RegistPage1 extends React.Component {
       // });
       uploadData.append('no_ktp', this.state.eKtp);
       uploadData.append('page', '1');
-      fetch(GLOBAL.register(), {
-          method: 'POST',
-          headers: {
-              'Accept': 'application/json',
-              'Content-Type': 'multipart/form-data',
-              'Authorization': this.state.myToken,
-          },
-          body: uploadData
-      }).then((response) => {
-          console.log("Response Status Pendaftaran", response.status);
-              if (response.status == '201') {
-                  this.setState({ isLoading: false });
-                  let res;
-                  return response.json().then(obj => {
-                      res = obj;
-                      // Alert.alert('Sukses', 'Registrasi berhasil, data sudah dilengkapi',
-                      //     [{ text: 'OK', onPress: () => this.props.navigation.navigate('Home') }],
-                      //     { cancelable: false },
-                      // );
-                  })
-              } else if (response.status == '401') {
-                  this.setState({ isLoading: false });
-                  this.Unauthorized()
-              } else if (response.status == '400') {
-                  this.setState({ isLoading: false });
-                  let res;
-                  return response.json().then(obj => {
-                      res = obj;
-                      console.log("Res 400", res);
-                      Alert.alert('Gagal', res.message,
-                          [{ text: 'OK', onPress: () => console.log('OK Pressed') }],
-                          { cancelable: false },
-                      );
-                  })
-              } else {
-                  console.log("Response Else", response);
-                  this.setState({ isLoading: false });
-                  GLOBAL.gagalKoneksi()
-              }
-          })
+      // fetch(GLOBAL.register(), {
+      //     method: 'POST',
+      //     headers: {
+      //         'Accept': 'application/json',
+      //         'Content-Type': 'multipart/form-data',
+      //         'Authorization': this.state.myToken,
+      //     },
+      //     body: uploadData
+      // }).then((response) => {
+      //     console.log("Response Status Pendaftaran", response.status);
+      //         if (response.status == '201') {
+      //             this.setState({ isLoading: false });
+      //             let res;
+      //             return response.json().then(obj => {
+      //                 res = obj;
+      //                 // Alert.alert('Sukses', 'Registrasi berhasil, data sudah dilengkapi',
+      //                 //     [{ text: 'OK', onPress: () => this.props.navigation.navigate('Home') }],
+      //                 //     { cancelable: false },
+      //                 // );
+      //             })
+      //         } else if (response.status == '401') {
+      //             this.setState({ isLoading: false });
+      //             this.Unauthorized()
+      //         } else if (response.status == '400') {
+      //             this.setState({ isLoading: false });
+      //             let res;
+      //             return response.json().then(obj => {
+      //                 res = obj;
+      //                 console.log("Res 400", res);
+      //                 Alert.alert('Gagal', res.message,
+      //                     [{ text: 'OK', onPress: () => console.log('OK Pressed') }],
+      //                     { cancelable: false },
+      //                 );
+      //             })
+      //         } else {
+      //             console.log("Response Else", response);
+      //             this.setState({ isLoading: false });
+      //             GLOBAL.gagalKoneksi()
+      //         }
+      //     })
 
       this.props.navigation.navigate('Regist2')
     }

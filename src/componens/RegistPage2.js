@@ -227,7 +227,6 @@ class RegistPage2 extends React.Component {
             AsyncStorage.setItem('statusNikahId', '' + statusNikahId);
             AsyncStorage.setItem('agamaValue', this.state.agamaValue);
             AsyncStorage.setItem('agamaId', '' + agamaId);
-            this.props.navigation.navigate('Regist3')
 
             let uploadData = new FormData();
             var tgl = tanggalLahirValue.split('-');
@@ -242,46 +241,47 @@ class RegistPage2 extends React.Component {
             uploadData.append('agama', agamaId);
             uploadData.append('page', '2');
             console.log("Upload Data Page 2", uploadData);
-            fetch(GLOBAL.register(), {
-                method: 'POST',
-                headers: {
-                    'Accept': 'application/json',
-                    'Content-Type': 'multipart/form-data',
-                    'Authorization': this.state.myToken,
-                },
-                body: uploadData
-            }).then((response) => {
-                console.log("Response Status Pendaftaran", response.status);
-                if (response.status == '201') {
-                    this.setState({ isLoading: false });
-                    let res;
-                    return response.json().then(obj => {
-                        res = obj;
-                        // Alert.alert('Sukses', 'Registrasi berhasil, data sudah dilengkapi',
-                        //     [{ text: 'OK', onPress: () => this.props.navigation.navigate('Home') }],
-                        //     { cancelable: false },
-                        // );
-                    })
-                } else if (response.status == '401') {
-                    this.setState({ isLoading: false });
-                    this.Unauthorized()
-                } else if (response.status == '400') {
-                    this.setState({ isLoading: false });
-                    let res;
-                    return response.json().then(obj => {
-                        res = obj;
-                        console.log("Res 400", res);
-                        Alert.alert('Gagal', res.message,
-                            [{ text: 'OK', onPress: () => console.log('OK Pressed') }],
-                            { cancelable: false },
-                        );
-                    })
-                } else {
-                    // console.log("Response Else", response);
-                    // this.setState({ isLoading: false });
-                    // GLOBAL.gagalKoneksi()
-                }
-            })
+            this.props.navigation.navigate('Regist3')
+            // fetch(GLOBAL.register(), {
+            //     method: 'POST',
+            //     headers: {
+            //         'Accept': 'application/json',
+            //         'Content-Type': 'multipart/form-data',
+            //         'Authorization': this.state.myToken,
+            //     },
+            //     body: uploadData
+            // }).then((response) => {
+            //     console.log("Response Status Pendaftaran", response.status);
+            //     if (response.status == '201') {
+            //         this.setState({ isLoading: false });
+            //         let res;
+            //         return response.json().then(obj => {
+            //             res = obj;
+            //             // Alert.alert('Sukses', 'Registrasi berhasil, data sudah dilengkapi',
+            //             //     [{ text: 'OK', onPress: () => this.props.navigation.navigate('Home') }],
+            //             //     { cancelable: false },
+            //             // );
+            //         })
+            //     } else if (response.status == '401') {
+            //         this.setState({ isLoading: false });
+            //         this.Unauthorized()
+            //     } else if (response.status == '400') {
+            //         this.setState({ isLoading: false });
+            //         let res;
+            //         return response.json().then(obj => {
+            //             res = obj;
+            //             console.log("Res 400", res);
+            //             Alert.alert('Gagal', res.message,
+            //                 [{ text: 'OK', onPress: () => console.log('OK Pressed') }],
+            //                 { cancelable: false },
+            //             );
+            //         })
+            //     } else {
+            //         // console.log("Response Else", response);
+            //         // this.setState({ isLoading: false });
+            //         // GLOBAL.gagalKoneksi()
+            //     }
+            // })
         }
     }
     _getAgama(token) {
