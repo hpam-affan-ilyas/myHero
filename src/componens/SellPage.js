@@ -133,22 +133,35 @@ class SellPage extends Component {
     _goActSell() {
         var sisaUnit = this.state.saldoUnit-this.state.jmlUnit;
         var sisaNominal = sisaUnit*this.state.saldoNav;
+        let jumlahJual = this.state.saldoNav * this.state.jmlUnit;
+        if(jumlahJual < 50000) {
+            if(sisaUnit > 0) {
+                Alert.alert('Perhatian', 'Jumlah minimal jual adalah Rp. 50.000',
+                    [{ text: 'OK', onPress: () => console.log('OK Pressed') }],
+                    { cancelable: false },
+                );
+                return;
+            }
+        }
         // alert(sisaNominal+" sisa minimal "+this.state.minimalSisa)
         if (this.state.jmlUnit == 0) {
             Alert.alert('Perhatian', 'Jumlah unit yang ingin dijual harus diisi',
                 [{ text: 'OK', onPress: () => console.log('OK Pressed') }],
                 { cancelable: false },
             );
+            return;
         } else if (this.state.isChecked === false) {
             Alert.alert('Perhatian', 'Kolom cek list harus diisi',
                 [{ text: 'OK', onPress: () => console.log('OK Pressed') }],
                 { cancelable: false },
             );
+            return;
         }else if(sisaNominal < this.state.minimalSisa && sisaNominal > 0){
             Alert.alert('Perhatian', 'Minimal sisa saldo tidak boleh kurang dari '+this.state.minimalSisa.toString().replace(/[^\d]+/g, "").replace(/\B(?=(?:\d{3})+(?!\d))/g,'.'),
             [{ text: 'Cancel', onPress: () => console.log('Cancel Pressed')}, { text: 'All Unit', onPress: () => this.sliderAct(100)}],
                 { cancelable: false },
             );
+            return;
         } else {
             this.props.navigation.navigate('Pin', { id: this.state.idProduk, value: this.state.jmlUnit, title: 'RED' })
         }

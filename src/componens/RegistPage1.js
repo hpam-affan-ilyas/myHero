@@ -37,7 +37,6 @@ class RegistPage1 extends React.Component {
     this.props.navigation.navigate('Main')
   }
   onNext = () => {
-    this.props.navigation.navigate('Regist2')
     
     let continuePage = true;
 
