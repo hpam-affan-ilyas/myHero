@@ -153,7 +153,10 @@ class RegistPage4 extends React.Component {
                 errKonfirmasiPin: 'Konfirmasi pin tidak valid'
             })
         } 
-        // else {
+        if(finishPage){
+            console.log("save berhasil");
+        }
+        return;
             if(finishPage) {
                 this.setState({ isLoading: true });
                 uploadData.append('bank_id', this.state.bankId);
@@ -492,7 +495,8 @@ class RegistPage4 extends React.Component {
     }
     bankFunctionOntextChange(item){
         this.setState({
-            bankValue: item
+            bankValue: item,
+            errBankValue: undefined
         })
     }
     bankFunctionOnItemSelect(item) {
@@ -534,7 +538,7 @@ class RegistPage4 extends React.Component {
             })
         }
         // const textInput = this.field5.current;
-        // textInput.focus()
+
     }
 
     render() {
@@ -595,30 +599,25 @@ class RegistPage4 extends React.Component {
                                 
                             </View>
                             <Text style={styles.labelText}>No Rekening Bank</Text>
-                            <View style={styles.textInputGroup} >
-                                <View style={this.state.errNoRekValue ? styles.textInputError : styles.textInputGroup}>
-                                    
-                                </View>
+                            <View style={this.state.errNoRekValue ? styles.textInputError : styles.textInputGroup}>
                                 <TextInput placeholderTextColor="#000000" ref={this.field2} onSubmitEditing={() => {
                                         const textInput = this.field3.current;
-                                        textInput.focus()
                                     }} style={styles.textInput} placeholder="No Rekening Bank" returnKeyType="done" keyboardType="numeric" value={this.state.noRekValue} onChangeText={(noRekValue) => this.setState({ noRekValue, errNoRekValue: undefined})} />
-                                {renderIf(this.state.errNoRekValue)(
+                            </View>
+                            {renderIf(this.state.errNoRekValue)(
                                     <View>
                                         <Text style={styles.errorMessage}>{this.state.errNoRekValue && this.state.errNoRekValue}</Text>
                                     </View>
                                 )}
-                            </View>
                             <Text style={styles.labelText}>Nama Pada Rekening Bank</Text>
-                            <View style={styles.textInputGroup} >
-                                <View style={this.state.errNamaRekValue ? styles.textInputError : styles.textInputGroup}>
-                                    
-                                </View>
+                            <View style={this.state.errNamaRekValue ? styles.textInputError : styles.textInputGroup}>
                                 <TextInput placeholderTextColor="#000000" ref={this.field3} style={styles.textInput} autoCorrect={false} placeholder="Nama Pada Rekening Bank" keyboardType='default' value={this.state.namaRekValue} onChangeText={(namaRekValue) => this.setState({ namaRekValue, errNamaRekValue: undefined })} />
+                            </View>
+                            {renderIf(this.state.errNamaRekValue)(
                                 <View>
                                     <Text style={styles.errorMessage}>{this.state.errNamaRekValue && this.state.errNamaRekValue}</Text>
                                 </View>
-                            </View>
+                            )}
                             <View style={styles.inputGroup} >
                                 <Text style={styles.labelText}>PIN</Text>
                                 <View style={this.state.errPinValue ? styles.textInputError : styles.textInputGroup}>
@@ -629,7 +628,6 @@ class RegistPage4 extends React.Component {
                                         onBlur={() => this.setState({ pinFocus: false })}
                                         onSubmitEditing={() => {
                                             const textInput = this.field6.current;
-                                            textInput.focus()
                                         }}
                                         returnKeyType = "done"
                                         style={styles.textInput} keyboardType='number-pad'
@@ -657,7 +655,7 @@ class RegistPage4 extends React.Component {
                                         onBlur={() => this.setState({ pinFocus: false })}
                                         style={styles.textInput} keyboardType='number-pad'
                                         secureTextEntry={this.state.secureTextEntry2} placeholder="Konfirmasi Pin" maxLength={6}
-                                        onChangeText={(pinKonfirmValue) => this.setState({ pinKonfirmValue, errPinKonfirmValue: undefined })} />
+                                        onChangeText={(pinKonfirmValue) => this.setState({ pinKonfirmValue, errPinKonfirmValue: undefined, errKonfirmasiPin: undefined })} />
                                     <TouchableOpacity onPress={this.onTongelEyesPress.bind(this, '2')} style={styles.iconGroup}>
                                         <Icon name={this.state.iconEye2} size={20} style={styles.colorIconInput} />
                                     </TouchableOpacity>
