@@ -229,7 +229,7 @@ class RegistPage3 extends React.Component {
         if (this.state.indexAlamatSurat == '3') {
             if(this.state.alamatSurMerValue.length == 0) {
                 this.setState({
-                    errAlamatSurMerValue : 'Alamat Tidak Boleh Kosong'
+                    errAlamatSurMerValue : ''
                 })
                 continueNextPage = false;
             }
@@ -1461,7 +1461,7 @@ class RegistPage3 extends React.Component {
                                     <View style={this.state.errFormAlamatSuratMenyurat ? { borderRadius: 10, borderColor: "red", borderWidth: 1, padding: 10 } : { borderRadius: 10, borderColor: "#FFF", borderWidth: 1, padding: 10 }}>
 
                                     <Text style={styles.labelText}>Alamat</Text>
-                                    <View style={this.state.errAlamatSurMerValue ? styles.textInputError : styles.textInputGroupSurat}>
+                                    <View style={this.state.errAlamatSurMerValue ? styles.textInputGroupSuratError : styles.textInputGroupSurat}>
                                         <TextInput  
                                             placeholderTextColor="#000" 
                                             ref={this.field4} 

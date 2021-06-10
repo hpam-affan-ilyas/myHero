@@ -1082,6 +1082,14 @@ module.exports = StyleSheet.create({
         borderWidth: 1,
         
     },
+    textInputGroupSuratError: {
+        backgroundColor: '#FFF',
+        borderRadius: 10,
+        height: 100,
+        borderColor: 'red',
+        borderWidth: 1,
+        
+    },
     textInputAlamatSurat: {
         color: "#415566",
         padding: 10,
