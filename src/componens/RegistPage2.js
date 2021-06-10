@@ -577,9 +577,9 @@ class RegistPage2 extends React.Component {
                                             onChangeText={(tempatLahirValue) => this.setState({ tempatLahirValue, errTempatLahir: undefined })} />
                                     </View>
                                 </View>
-                                <View>
-                                    <Text style={styles.errorMessage}>{this.state.errNoHp && this.state.errNoHp}</Text>
-                                </View>
+                                {renderIf(this.state.errTempatLahir)(
+                                    <Text style={styles.errorMessage}>{this.state.errTempatLahir && this.state.errTempatLahir}</Text>
+                                )}
                                 <View style={!this.state.errJenisKelamin ? styles.inputGroup : styles.errorBorder}>
                                     <Text style={styles.labelText}>Jenis Kelamin</Text>
                                     <View style={{flexDirection:'row'}}>
@@ -601,9 +601,6 @@ class RegistPage2 extends React.Component {
                                 )}
                             <View style={styles.inputGroup} >
                                 <Text style={styles.labelText}>Tanggal Lahir</Text>
-                                {renderIf(this.state.errTanggalValue)(
-                                    <Text style={styles.errorMessage}>{this.state.errTanggalValue && this.state.errTanggalValue}</Text>
-                                )}
                                 <View style={{flexDirection: "row"}}>
                                     {/* <Dropdown
                                         label='a'
@@ -725,11 +722,9 @@ class RegistPage2 extends React.Component {
                                     />
                                 </View> 
                             </View>
-                        {renderIf(this.state.errTempatLahir)(
-                            <View>
-                                <Text style={styles.errorMessage}>{this.state.errTempatLahir && this.state.errTempatLahir}</Text>
-                            </View>
-                        )}
+                            {renderIf(this.state.errTanggalValue)(
+                                    <Text style={styles.errorMessage}>{this.state.errTanggalValue && this.state.errTanggalValue}</Text>
+                                )}
                         <View style = {this.state.errStatusNikah && styles.errorBorder}>
                             <Dropdown
                                 label='Status Pernikahan'

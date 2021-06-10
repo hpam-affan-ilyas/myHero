@@ -680,7 +680,6 @@ class RegistPage3 extends React.Component {
             case '3':
                 this.setState({
                     openFormAlamatSurat: true,
-                    indexAlamatSurat: isOpen
                 })
                 if(this.state.indexAlamatDom == 2) {
                     if (!this.state.alamatDomValue || !this.state.kodePosDomValue) {
@@ -1469,7 +1468,7 @@ class RegistPage3 extends React.Component {
                                             placeholder="Alamat" 
                                             value={this.state.alamatSurMerValue} 
                                             keyboardType='default' 
-                                            onChangeText={(alamatSurMerValue) => this.setState({ alamatSurMerValue, errAlamatSurMerValue: undefined })} 
+                                            onChangeText={(alamatSurMerValue) => this.setState({ alamatSurMerValue, errAlamatSurMerValue: undefined, errFormAlamatSuratMenyurat: undefined})} 
                                             underlineColorAndroid = "transparent"
                                             numberOfLines = {10}
 
