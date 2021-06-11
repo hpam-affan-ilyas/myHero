@@ -156,6 +156,7 @@ class RegistPage2 extends React.Component {
         console.log("Tanggal Value", tanggalValue);
         console.log("Bulan Value", bulanValue);
         console.log("Tahun Value", yearValue);
+        console.log("Tempat Lahir", tempatLahirValue);
         !noHpValue && [continueNextPage = false, this.setState({errNoHp: 'Nomor Handphone Tidak Boleh Kosong'})]
         jenisKelaminValue == 0 && [continueNextPage = false, this.setState({errJenisKelamin: 'Jenis Kelamin Harus di Pilih'})]
         !tanggalLahirValue && [continueNextPage = false, this.setState({errTglLahir: 'Tanggal Lahir Harus di Isi'})]
@@ -182,21 +183,8 @@ class RegistPage2 extends React.Component {
                 continueNextPage = false;
             }
         }
-
-        // if(!namaValue || !emailValue || !noHpValue || !jenisKelaminValue || !tanggalLahirValue || !tempatLahirValue || !statusNikahValue || !agamaValue){
-        //     Alert.alert('Perhatian', 'Mohon lengkapi seluruh data');
-        //     continueNextPage = false;
-        // } else {
-        //     if(!emailValue.match(GLOBAL.mailFormat)) {
-        //         Alert.alert('Perhatian', 'Email Tidak Valid');
-        //         continueNextPage = false;
-        //     }
-        //     if(!noHpValue.match(GLOBAL.numbersFormat)) {
-        //         Alert.alert('Perhatian', 'Nomor Ponsel Tidak Valid');
-        //         continueNextPage = false;
-        //     }
-        // }
-
+        console.log("Error Tempat Lahir", this.state.errTempatLahir);
+        console.log("Error Tanggal lAHIR Lahir", this.state.errTanggalValue);
         console.log('Continue to the Next Page?', continueNextPage);
         if(continueNextPage) {
             var statusNikahId;
@@ -574,6 +562,7 @@ class RegistPage2 extends React.Component {
                                             editable={this.state.editTempatLahir} 
                                             placeholder="Tempat Lahir" 
                                             keyboardType='default' 
+                                            value={this.state.tempatLahirValue}
                                             onChangeText={(tempatLahirValue) => this.setState({ tempatLahirValue, errTempatLahir: undefined })} />
                                     </View>
                                 </View>
