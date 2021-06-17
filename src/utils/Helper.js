@@ -1,6 +1,7 @@
 import { Linking,Dimensions,Alert,Platform} from 'react-native';
 import { memoize } from 'react-native-really-awesome-button/src/helpers';
-var platform = Platform.OS == 'android'? 'http://api.myhero.id':'https://api.myhero.id';
+// var platform = Platform.OS == 'android'? 'http://api.myhero.id':'https://api.myhero.id';
+var platform = Platform.OS == 'android'? 'http://192.168.10.170':'https://192.168.10.170';
 module.exports = {
     base_url: platform,
     BackgroundApp:['#19297b', '#3b5998', '#192f6a'],  
@@ -68,6 +69,11 @@ module.exports = {
     //GET Profile
     profile(){
         var result = this.base_url+'/rdo/profile';
+        return result;
+    },
+
+    getNasabah() {
+        var result = this.base_url+'/rdo/getNasabah';
         return result;
     },
 
