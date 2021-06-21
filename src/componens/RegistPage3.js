@@ -109,6 +109,38 @@ class RegistPage3 extends React.Component {
         this.props.navigation.navigate('Regist2');
     }
     onNext = () => {
+        console.log("Tujuan Investasi", this.state.tujInvestValue);
+        AsyncStorage.setItem('kotaIdValue', this.state.kotaIdValue);
+        AsyncStorage.setItem('kotaValue', this.state.kotaValue);
+        AsyncStorage.setItem('kotaText', this.state.kotaText);
+        AsyncStorage.setItem('alamatValue', this.state.alamatValue);
+        AsyncStorage.setItem('provinsiValue', this.state.provinsiValue);
+        AsyncStorage.setItem('negaraValue', this.state.negaraValue);
+        AsyncStorage.setItem('kodePosValue',this.state.kodePosValue );
+        AsyncStorage.setItem('indexAlamatDom', this.state.indexAlamatDom);
+        AsyncStorage.setItem('alamatDomValue', this.state.alamatDomValue);
+        AsyncStorage.setItem('kotaDomIdValue', this.state.kotaDomIdValue);
+        AsyncStorage.setItem('kotaDomValue', this.state.kotaDomValue);
+        AsyncStorage.setItem('kotaDomText', this.state.kotaDomText);
+        AsyncStorage.setItem('provinsiDomValue', this.state.provinsiDomValue);
+        AsyncStorage.setItem('negaraDomValue', this.state.negaraDomValue);
+        AsyncStorage.setItem('kodePosDomValue', this.state.kodePosDomValue);
+        AsyncStorage.setItem('indexAlamatSurat', this.state.indexAlamatSurat);
+        AsyncStorage.setItem('alamatSuratValue', this.state.alamatSurMerValue);
+        AsyncStorage.setItem('pendidikanValue', this.state.pendidikanValue);
+        AsyncStorage.setItem('pendidikanId', this.state.pendidikanId);
+        AsyncStorage.setItem('pendidikanText', this.state.pendidikanText);
+        AsyncStorage.setItem('pekerjaanValue', this.state.pekerjaanValue);
+        AsyncStorage.setItem('pekerjaanId', this.state.pekerjaanId);
+        AsyncStorage.setItem('pekerjaanText', this.state.pekerjaanText);
+        AsyncStorage.setItem('penghasilanValue', this.state.penghasilanValue);
+        AsyncStorage.setItem('penghasilanId', this.state.penghasilanId);
+        AsyncStorage.setItem('sumberdanaValue', this.state.sumberdanaValue);
+        AsyncStorage.setItem('sumberdanaId', this.state.sumberdanaId);
+        AsyncStorage.setItem('sumberdanaText', this.state.sumberdanaText);
+        AsyncStorage.setItem('tujInvestValue', this.state.tujInvestValue);
+        AsyncStorage.setItem('tujInvestId', this.state.tujInvestId);
+        AsyncStorage.setItem('tujInvestText', this.state.tujInvestText);
         this.setState({
             errAlamatSesuaiKtp: undefined,
             errFormAlamatDomisili: undefined
@@ -288,7 +320,6 @@ class RegistPage3 extends React.Component {
             })
             continueNextPage = false;
         }
-        console.log("Continue Next Page", continueNextPage);
         if(continueNextPage) {
             this.props.navigation.navigate('Regist4');
             if(this.state.kotaIdValue) {
@@ -312,59 +343,6 @@ class RegistPage3 extends React.Component {
                     alamatSurMerValue : this.state.alamatDomValue
                 })
             }
-            let uploadData = new FormData();
-            uploadData.append('alamatKtp', this.state.alamatValue);
-            uploadData.append('kotaKtp', this.state.kotaIdValue);
-            uploadData.append('kotaKtpText', this.state.kotaText);
-            uploadData.append('kodePosKtp', this.state.kodePosValue);
-            uploadData.append('alamatDom', this.state.alamatDomValue);
-            uploadData.append('kotaDom', this.state.kotaDomValue);
-            uploadData.append('kotaDomText', this.state.kotaDomText);
-            uploadData.append('kodePosDom', this.state.kodePosDomValue);
-            uploadData.append('alamatSurMer', this.state.alamatSurMerValue);
-            uploadData.append('pendidikan', this.state.pendidikanId);
-            uploadData.append('pekerjaan', this.state.pekerjaanId);
-            uploadData.append('sumberDana', this.state.sumberdanaId);
-            uploadData.append('penghasilanPerTahun', this.state.penghasilanId);
-            uploadData.append('page', '3');
-            return;
-            fetch(GLOBAL.register(), {
-                method: 'POST',
-                headers: {
-                    'Accept': 'application/json',
-                    'Content-Type': 'multipart/form-data',
-                    'Authorization': this.state.myToken,
-                },
-                body: uploadData
-            }).then((response) => {
-                if (response.status == '201') {
-                    this.setState({ isLoading: false });
-                    let res;
-                    return response.json().then(obj => {
-                        res = obj;
-                        // Alert.alert('Sukses', 'Registrasi berhasil, data sudah dilengkapi',
-                        //     [{ text: 'OK', onPress: () => this.props.navigation.navigate('Home') }],
-                        //     { cancelable: false },
-                        // );
-                    })
-                } else if (response.status == '401') {
-                    this.setState({ isLoading: false });
-                    this.Unauthorized()
-                } else if (response.status == '400') {
-                    this.setState({ isLoading: false });
-                    let res;
-                    return response.json().then(obj => {
-                        res = obj;
-                        Alert.alert('Gagal', res.message,
-                            [{ text: 'OK', onPress: () => console.log('OK Pressed') }],
-                            { cancelable: false },
-                        );
-                    })
-                } else {
-                    // this.setState({ isLoading: false });
-                    // GLOBAL.gagalKoneksi()
-                }
-            })
             this.props.navigation.navigate('Regist4');
         }
     }
@@ -540,8 +518,13 @@ class RegistPage3 extends React.Component {
                         })
                     } else {
                         this.setState({
-                            errAlamatSesuaiKtp: undefined
+                            errAlamatSesuaiKtp: undefined,
+                            openFormAlamatDomisili: false
                         })
+                        option2 = [
+                            { label: 'Sesuai Alamat KTP', value: '1' }, 
+                            { label: 'Tambah Alamat Lain', value: '3' }
+                        ];
                     }
                 } else {
                     option2 = [
@@ -592,8 +575,14 @@ class RegistPage3 extends React.Component {
                         })
                     } else {
                         this.setState({
-                            errAlamatSesuaiKtp: undefined
+                            errAlamatSesuaiKtp: undefined,
+                            openFormAlamatDomisili: true
                         })
+                        option2 = [
+                            { label: 'Sesuai Alamat KTP', value: '1' }, 
+                            { label: 'Sesuai Alamat Domisili', value: '2' },
+                            { label: 'Tambah Alamat Lain', value: '3' }
+                        ];
                     }
                 } else {
                     this.setState({
@@ -680,6 +669,7 @@ class RegistPage3 extends React.Component {
             case '3':
                 this.setState({
                     openFormAlamatSurat: true,
+                    indexAlamatSurat: isOpen
                 })
                 if(this.state.indexAlamatDom == 2) {
                     if (!this.state.alamatDomValue || !this.state.kodePosDomValue) {
@@ -986,6 +976,7 @@ class RegistPage3 extends React.Component {
         var aksesToken = await AsyncStorage.getItem('aksesToken');
         var kotaIdStore = await AsyncStorage.getItem('kotaIdValue');
         var kotaStore = await AsyncStorage.getItem('kotaValue');
+        var kotaTextStore = await AsyncStorage.getItem('kotaText');
         var alamatStore = await AsyncStorage.getItem('alamatValue');
         var provinsiStore = await AsyncStorage.getItem('provinsiValue');
         var negaraStore = await AsyncStorage.getItem('negaraValue');
@@ -1049,6 +1040,12 @@ class RegistPage3 extends React.Component {
             }
             if (kotaStore != null) {
                 this.setState({ kotaValue: kotaStore })
+            } else {
+                if(kotaTextStore) {
+                    this.setState({
+                        kotaValue: kotaTextStore
+                    })
+                }
             }
             if (kotaIdStore != null) {
                 this.setState({ kotaIdValue: kotaIdStore })
@@ -1069,6 +1066,11 @@ class RegistPage3 extends React.Component {
                 this.setState({ indexAlamatDom: indexAlamatDomStore })
                 if(indexAlamatDomStore == 2){
                     this.setState({openFormAlamatDomisili:true})
+                    option2 = [
+                        { label: 'Sesuai Alamat KTP', value: '1' }, 
+                        { label: 'Sesuai Alamat Domisili', value: '2' },
+                        { label: 'Tambah Alamat Lain', value: '3' }
+                    ];
                 }
             }
             if (alamatDomStore != null) {
@@ -1141,7 +1143,7 @@ class RegistPage3 extends React.Component {
                 this.setState({ sumberdanaId: sumberdanaIdStore })
             }
             if (tujInvestStore != null) {
-                this.setState({ tujInvestValue: sumberdanaStore });
+                this.setState({ tujInvestValue: tujInvestStore });
                 if (tujInvestStore == "Lainnya") {
                     this.setState({
                         tujInvestInput: true,

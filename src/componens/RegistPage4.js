@@ -96,6 +96,12 @@ class RegistPage4 extends React.Component {
         this.props.navigation.navigate('Regist3');
     }
     onFinish = () => {
+        AsyncStorage.setItem('bankId', this.state.bankId.toString());
+        AsyncStorage.setItem('bankValue', this.state.bankValue);
+        AsyncStorage.setItem('noRekValue', this.state.noRekValue);
+        AsyncStorage.setItem('namaRekValue', this.state.namaRekValue);
+        AsyncStorage.setItem('kodeAgenValue', this.state.AgentId.toString());
+        AsyncStorage.setItem('profRiskValue', this.state.profileRisikoId.toString());
         let finishPage = true;
         if (this.state.bankValue.length == 0 || this.state.bankValue == "Pilih Bank") {
             finishPage = false;
@@ -153,60 +159,108 @@ class RegistPage4 extends React.Component {
                 errKonfirmasiPin: 'Konfirmasi pin tidak valid'
             })
         } 
-        if(finishPage){
-            console.log("save berhasil");
-        }
-        return;
-            if(finishPage) {
-                this.setState({ isLoading: true });
-                uploadData.append('bank_id', this.state.bankId);
-                uploadData.append('bank_text', this.state.bankValue);
-                uploadData.append('no_rek', this.state.noRekValue);
-                uploadData.append('nama_rekening_bank', this.state.namaRekValue);
-                uploadData.append('pin', this.state.pinValue);
-                uploadData.append('kode_agen', newAgentValue);
-                uploadData.append('profil_risiko', this.state.profileRisikoId);   
-                uploadData.append('page', '4');                
-                fetch(GLOBAL.pendaftaran(), {
-                    method: 'POST',
-                    headers: {
-                        'Accept': 'application/json',
-                        'Content-Type': 'multipart/form-data',
-                        'Authorization': this.state.myToken,
-                    },
-                    body: uploadData
-                }).then((response) => {
-                    console.log("Response Status Pendaftaran", response.status);
-                        if (response.status == '201') {
-                            this.setState({ isLoading: false });
-                            let res;
-                            return response.json().then(obj => {
-                                res = obj;
-                                Alert.alert('Sukses', 'Registrasi berhasil, data sudah dilengkapi',
-                                    [{ text: 'OK', onPress: () => this.props.navigation.navigate('Home') }],
-                                    { cancelable: false },
-                                );
-                            })
-                        } else if (response.status == '401') {
-                            this.setState({ isLoading: false });
-                            this.Unauthorized()
-                        } else if (response.status == '400') {
-                            this.setState({ isLoading: false });
-                            let res;
-                            return response.json().then(obj => {
-                                res = obj;
-                                console.log("Res 400", res);
-                                Alert.alert('Gagal', res.message,
-                                    [{ text: 'OK', onPress: () => console.log('OK Pressed') }],
-                                    { cancelable: false },
-                                );
-                            })
-                        } else {
-                            this.setState({ isLoading: false });
-                            GLOBAL.gagalKoneksi()
-                        }
-                    })
+        if(finishPage) {
+            // this.setState({ isLoading: true });
+            if(this.state.indexAlamatDom == 1) {
+                var alamatDomValue = this.state.alamatValue;
+                var kotaDomValue = this.state.kotaValue;
+                var kotaDomIdValue = this.state.kotaId;
+                var kotaDomTextValue = this.state.kotaValue;
+                var kodePosDomValue = this.state.kodePosValue;
+            } else {
+                var alamatDomValue = this.state.alamatDomValue;
+                var kotaDomValue = this.state.kotaDomValue;
+                var kotaDomIdValue = this.state.kotaDomIdValue;
+                var kotaDomTextValue = this.state.kotaDomTextValue;
+                var kodePosDomValue = this.state.kodePosDomValue;
             }
+
+            if(this.state.indexAlamatSurat == 1) {
+                var alamatSuratValue = this.state.alamatValue;
+            } else if (this.state.indexAlamatSurat == 2) {
+                var alamatSuratValue = this.state.alamatDomValue;
+            } else {
+                var alamatSuratValue = this.state.alamatSuratValue;
+            }
+            let uploadData = new FormData();
+            uploadData.append('jenisKelamin', this.state.jkId);
+            uploadData.append("tanggalLahir", this.state.tanggalLahirValue);
+            uploadData.append("tempatLahir", this.state.tempatLahirValue);
+            uploadData.append('statusPernikahan', this.state.statusNikahId);
+            uploadData.append('agama', this.state.agamaId);
+            uploadData.append('alamat', this.state.alamatValue);
+            uploadData.append('kota', this.state.kotaId);
+            uploadData.append('kotaIdValue', this.state.kotaId);
+            uploadData.append('kotaValue', this.state.kotaValue);
+            uploadData.append('kotaTextValue', this.state.kotaTextValue);
+            uploadData.append('kodePos', this.state.kodePosValue);
+            uploadData.append('indexAlamatDomisili', this.state.indexAlamatDom);
+            uploadData.append('alamatDomValue', alamatDomValue);
+            uploadData.append('kotaDomValue', kotaDomValue);
+            uploadData.append('kotaDomIdValue', kotaDomIdValue);
+            uploadData.append('kotaDomTextValue', kotaDomTextValue);
+            uploadData.append('kodePosDomValue', kodePosDomValue);
+            uploadData.append('indexAlamatSurat', this.state.indexAlamatSurat);
+            uploadData.append('alamatSuratValue', alamatSuratValue);
+            uploadData.append('pendidikan', this.state.pendidikanId);
+            uploadData.append('pekerjaan', this.state.pekerjaanId);
+            uploadData.append('sumberDana', this.state.sumberdanaId);
+            uploadData.append('sumberdanaValue', this.state.sumberdanaText);
+            uploadData.append('penghasilan', this.state.penghasilanId);
+            uploadData.append('penghasilanValue', this.state.penghasilanValue);
+            uploadData.append('tujuanInvestasi', this.state.tujInvestValue);
+            uploadData.append('bankId', this.state.bankId);
+            uploadData.append('bankText', this.state.bankValue);
+            uploadData.append('noRek', this.state.noRekValue);
+            uploadData.append('namaRekeningBank', this.state.namaRekValue);
+            uploadData.append('pin', this.state.pinValue);
+            uploadData.append('kodeAgen', this.state.AgentId);
+            uploadData.append('kodeAgenValue', this.state.AgentValue);
+            uploadData.append('profilResiko', this.state.profileRisikoId);   
+            uploadData.append('page', '2');
+            console.log("Upload Data", uploadData);
+            fetch(GLOBAL.register(), {
+                method: 'POST',
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'multipart/form-data',
+                    'Authorization': this.state.myToken,
+                },
+                body: uploadData
+            }).then((response) => {
+                console.log("Response Status Pendaftaran", response.status);
+                    if (response.status == '200') {
+                        this.setState({ isLoading: false });
+                        let res;
+                        return response.json().then(obj => {
+                            res = obj;
+                            if(res.success) {
+                                Alert.alert('Sukses', res.message,
+                                [{ text: 'OK', onPress: () => this.props.navigation.navigate('Home') }],
+                                { cancelable: false },
+                                );
+                            }
+                        })
+                    } else if (response.status == '401') {
+                        this.setState({ isLoading: false });
+                        this.Unauthorized()
+                    } else if (response.status == '400') {
+                        this.setState({ isLoading: false });
+                        let res;
+                        return response.json().then(obj => {
+                            res = obj;
+                            console.log("Res 400", res);
+                            Alert.alert('Gagal', res.message,
+                                [{ text: 'OK', onPress: () => console.log('OK Pressed') }],
+                                { cancelable: false },
+                            );
+                        })
+                    } else {
+                        this.setState({ isLoading: false });
+                        GLOBAL.gagalKoneksi()
+                    }
+                })
+        }
     }
     onTongelEyesPress(StringHolder) {
         switch (StringHolder) {
@@ -258,6 +312,7 @@ class RegistPage4 extends React.Component {
                     let res;
                     return response.json().then(obj => {
                         res = obj;
+
                         var count = Object.keys(res.data.bank).length;
                         let data_bank = [];
                         for (var i = 0; i < count; i++) {
@@ -267,7 +322,6 @@ class RegistPage4 extends React.Component {
                             })
                         }
                         this.setState({ dataBank: data_bank })
-                        console.log("Data Bank 1", this.state.dataBank);
                     })
                 } else if (response.status == '401') {
                     this.Unauthorized()
@@ -289,7 +343,6 @@ class RegistPage4 extends React.Component {
         })
         .then((response) => {
             this.setState({ isLoading: false })
-            console.log("Response Status Agent", response.status);
             if (response.status == '201') {
                 let res;
                 return response.json().then(obj => {
@@ -300,14 +353,12 @@ class RegistPage4 extends React.Component {
                         let namaAgenFull = res.data.agent[i].nama_agen;
                         let splitNamaAgen = namaAgenFull.split('-');
                         let namaAgen = splitNamaAgen[1];
-                        console.log("Nama Agen", namaAgen);
                         data_bank.push({
                             id: res.data.agent[i].id,
                             name: namaAgen+' : '+res.data.agent[i].kode_agen
                         })
                     }
                     this.setState({ dataBank2: data_bank })
-                    console.log("Data Bank 2", this.state.dataBank2);
                 })
             } else if (response.status == '401') {
                 this.Unauthorized()
@@ -318,35 +369,38 @@ class RegistPage4 extends React.Component {
     }
     _getToken = async () => {
         var aksesToken = await AsyncStorage.getItem('aksesToken');
-        var eKtpStore = await AsyncStorage.getItem('eKtp');
-        var imgKtpStore = await AsyncStorage.getItem('imgEktp');
-        var imgSelfiStore = await AsyncStorage.getItem('imgSelfi');
-        var imgTtdStore = await AsyncStorage.getItem('imgTtd');
         var jkStore = await AsyncStorage.getItem('jkValue');
         var tglLahirStore = await AsyncStorage.getItem('tglLahirValue');
         var tempatLahirStore = await AsyncStorage.getItem('tempatLahirValue');
+        var tanggalLahirStore = await AsyncStorage.getItem('tglLahirValue');
         var statusNikahIdStore = await AsyncStorage.getItem('statusNikahId');
         var agamaIdStore = await AsyncStorage.getItem('agamaId');
         var kotaIdStore = await AsyncStorage.getItem('kotaIdValue');
         var kotaValueStore = await AsyncStorage.getItem('kotaValue');
+        var kotaTextStore = await AsyncStorage.getItem('kotaText');
         var alamatStore = await AsyncStorage.getItem('alamatValue');
         var kodePosStore = await AsyncStorage.getItem('kodePosValue');
+        var indexAlamatDomStore = await AsyncStorage.getItem('indexAlamatDom');
         var alamatDomStore = await AsyncStorage.getItem('alamatDomValue');
         var kotaDomIdStore = await AsyncStorage.getItem('kotaDomIdValue');
         var kotaDomStore = await AsyncStorage.getItem('kotaDomValue');
         var kodePosDomStore = await AsyncStorage.getItem('kodePosDomValue');
+        var indexAlamatSuratStore = await AsyncStorage.getItem('indexAlamatSurat');
         var alamatSuratStore = await AsyncStorage.getItem('alamatSuratValue');
         var kotaSuratIdStore = await AsyncStorage.getItem('kotaSurMerIdValue');
         var kodePosSuratStore = await AsyncStorage.getItem('kodePosSuratValue')
-        var pendidikanIdStore = await AsyncStorage.getItem('pendidikanId');
+        var pendidikanValueStore = await AsyncStorage.getItem('pendidikanValue');
         var pendidikanTextStore = await AsyncStorage.getItem('pendidikanText');
-        var pekerjaanIdStore = await AsyncStorage.getItem('pekerjaanId');
+        var pekerjaanIdStore = await AsyncStorage.getItem('pekerjaanValue');
         var pekerjaanTextStore = await AsyncStorage.getItem('pekerjaanText');
         var penghasilanIdStore = await AsyncStorage.getItem('penghasilanId');
+        var penghasilanValueStore = await AsyncStorage.getItem('penghasilanValue');
         var sumberdanaIdStore = await AsyncStorage.getItem('sumberdanaId');
+        var sumberdanaValueStore = await AsyncStorage.getItem('sumberdanaValue');
         var sumberdanaTextStore = await AsyncStorage.getItem('sumberdanaText');
         var tujInvestIdStore = await AsyncStorage.getItem('tujInvestId');
         var tujInvestTextStore = await AsyncStorage.getItem('tujInvestText');
+        var tujInvestValueStore = await AsyncStorage.getItem('tujInvestValue');
         var profRiskStore = await AsyncStorage.getItem('profRiskValue');
         var profRiskIdStore = await AsyncStorage.getItem('profRiskId');
         var bankStore = await AsyncStorage.getItem('bankValue');
@@ -354,7 +408,6 @@ class RegistPage4 extends React.Component {
         var noRekStore = await AsyncStorage.getItem('noRekValue');
         var namaRekStore = await AsyncStorage.getItem('namaRekValue');
         var kodeAgenStore = await AsyncStorage.getItem('kodeAgenValue');
-        console.log('Kota Surat ID Store', kotaSuratIdStore);
         if (aksesToken != null) {
             this.setState({ myToken: aksesToken })
             if (kotaSuratIdStore != null) {
@@ -365,25 +418,33 @@ class RegistPage4 extends React.Component {
                     kotaValue: kotaValueStore
                 })
             }
+            if(indexAlamatDomStore) {
+                this.setState({
+                    indexAlamatDom: indexAlamatDomStore
+                })
+            }
             if (kodePosSuratStore != null) {
                 this.setState({ kodePosSuratValue: kodePosSuratStore })
-            }
-            if (eKtpStore != null) {
-                this.setState({ noKtpValue: eKtpStore })
             }
             if(kotaDomStore){
                 this.setState({
                     kotaDomValue: kotaDomStore
                 })
             }
-            if (imgKtpStore != null) {
-                this.setState({ fotoKtpValue: imgKtpStore })
+            if (indexAlamatSuratStore) {
+                this.setState({
+                    indexAlamatSurat: indexAlamatSuratStore
+                })
             }
-            if (imgSelfiStore != null) {
-                this.setState({ fotoSelfiValue: imgSelfiStore })
+            if (tanggalLahirStore) {
+                this.setState({
+                    tanggalLahirValue: tanggalLahirStore
+                })
             }
-            if (imgTtdStore != null) {
-                this.setState({ fotoTtdValue: imgTtdStore })
+            if (kotaTextStore) {
+                this.setState({
+                    kotaTextValue: kotaTextStore
+                })
             }
             if (jkStore != null) {
                 this.setState({ jkId: jkStore })
@@ -399,6 +460,11 @@ class RegistPage4 extends React.Component {
             }
             if (agamaIdStore != null) {
                 this.setState({ agamaId: agamaIdStore })
+            }
+            if(sumberdanaValueStore != null) {
+                this.setState({
+                    sumberdanaText : sumberdanaValueStore
+                })
             }
             if (kotaIdStore != null) {
                 this.setState({ kotaId: kotaIdStore })
@@ -421,8 +487,8 @@ class RegistPage4 extends React.Component {
             if (alamatSuratStore != null) {
                 this.setState({ alamatSuratValue: alamatSuratStore })
             }
-            if (pendidikanIdStore != null) {
-                this.setState({ pendidikanId: pendidikanIdStore })
+            if (pendidikanValueStore != null) {
+                this.setState({ pendidikanId: pendidikanValueStore })
             }
             if (pendidikanTextStore != null) {
                 this.setState({ pendidikanText: pendidikanTextStore })
@@ -442,11 +508,19 @@ class RegistPage4 extends React.Component {
             if (sumberdanaTextStore != null) {
                 this.setState({ sumberdanaText: sumberdanaTextStore })
             }
+            if (penghasilanValueStore != null) {
+                this.setState({
+                    penghasilanValue : penghasilanValueStore
+                })
+            } 
             if (tujInvestIdStore != null) {
                 this.setState({ tujInvestId: tujInvestIdStore })
             }
             if (tujInvestTextStore != null) {
                 this.setState({ tujInvestText: tujInvestTextStore })
+            }
+            if (tujInvestValueStore != null) {
+                this.setState({ tujInvestValue: tujInvestValueStore })
             }
             if (profRiskIdStore != null) {
                 this.setState({ profileRisikoId: profRiskIdStore })
@@ -674,7 +748,9 @@ class RegistPage4 extends React.Component {
                             <Text style={styles.labelText}>Nama Agen (Optional)</Text>
                             <View >
                                 <SearchableDropDown
-                                    onTextChange={text => console.log(text)}
+                                    onTextChange={text => this.setState({
+                                        AgentValue: text
+                                    })}
                                     onItemSelect={(item) => this.setState({
                                         AgentId:item.id,
                                         AgentValue:item.name

@@ -140,8 +140,6 @@ class RegistPage2 extends React.Component {
         let tanggalValue = states.tanggalValue;
         let bulanValue = states.bulanValue;
         let yearValue = states.yearValue;
-        console.log("Tanggal Lahir Value", tanggalLahirValue);
-        
         let continueNextPage = true;
         !namaValue && [continueNextPage = false, this.setState({errNama: 'Nama Tidak Boleh Kosong'})]
         if(!emailValue) {
@@ -153,10 +151,6 @@ class RegistPage2 extends React.Component {
                 this.setState({errEmail: 'Email Tidak Valid'})
             }
         }
-        console.log("Tanggal Value", tanggalValue);
-        console.log("Bulan Value", bulanValue);
-        console.log("Tahun Value", yearValue);
-        console.log("Tempat Lahir", tempatLahirValue);
         !noHpValue && [continueNextPage = false, this.setState({errNoHp: 'Nomor Handphone Tidak Boleh Kosong'})]
         jenisKelaminValue == 0 && [continueNextPage = false, this.setState({errJenisKelamin: 'Jenis Kelamin Harus di Pilih'})]
         !tanggalLahirValue && [continueNextPage = false, this.setState({errTglLahir: 'Tanggal Lahir Harus di Isi'})]
@@ -170,9 +164,7 @@ class RegistPage2 extends React.Component {
             var days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
             var theDate = new Date(yearValue+"-"+bulanId+"-"+tanggalValue);
             var daysInMonth = new Date(yearValue, bulanId, 0).getDate();
-            console.log("Days In Month", daysInMonth);
             var dateValid = true;
-            console.log("tanggalValue > daysInMonth", tanggalValue > daysInMonth);
             if(tanggalValue > daysInMonth) {
                 dateValid = false;
             }
@@ -183,9 +175,6 @@ class RegistPage2 extends React.Component {
                 continueNextPage = false;
             }
         }
-        console.log("Error Tempat Lahir", this.state.errTempatLahir);
-        console.log("Error Tanggal lAHIR Lahir", this.state.errTanggalValue);
-        console.log('Continue to the Next Page?', continueNextPage);
         if(continueNextPage) {
             var statusNikahId;
             var a = this.state.dataStatusNikah
@@ -207,7 +196,6 @@ class RegistPage2 extends React.Component {
             this.setState({
                 tglLahirValue: this.state.tanggalValue+'-'+bulanId+'-'+this.state.yearValue
             })
-            console.log("set item tglLahirValue", tanggalLahirValue);
             AsyncStorage.setItem('jkValue', this.state.jenis_kelaminValue);
             AsyncStorage.setItem('tglLahirValue', tanggalLahirValue);
             AsyncStorage.setItem('tempatLahirValue', this.state.tempatLahirValue);
@@ -215,61 +203,7 @@ class RegistPage2 extends React.Component {
             AsyncStorage.setItem('statusNikahId', '' + statusNikahId);
             AsyncStorage.setItem('agamaValue', this.state.agamaValue);
             AsyncStorage.setItem('agamaId', '' + agamaId);
-
-            let uploadData = new FormData();
-            var tgl = tanggalLahirValue.split('-');
-            var tgl_lahir = tgl[2] + '-' + tgl[1] + '-' + tgl[0];
-            uploadData.append('nama', this.state.namaValue);
-            uploadData.append('email', this.state.emailValue);
-            uploadData.append('phone', this.state.noHpValue);
-            uploadData.append('tempatLahir', this.state.tempatLahirValue);
-            uploadData.append('jenisKelamin', this.state.jenis_kelaminValue);
-            uploadData.append('tanggalLahir', tgl_lahir);
-            uploadData.append('statusNikah', statusNikahId);
-            uploadData.append('agama', agamaId);
-            uploadData.append('page', '2');
-            console.log("Upload Data Page 2", uploadData);
             this.props.navigation.navigate('Regist3')
-            // fetch(GLOBAL.register(), {
-            //     method: 'POST',
-            //     headers: {
-            //         'Accept': 'application/json',
-            //         'Content-Type': 'multipart/form-data',
-            //         'Authorization': this.state.myToken,
-            //     },
-            //     body: uploadData
-            // }).then((response) => {
-            //     console.log("Response Status Pendaftaran", response.status);
-            //     if (response.status == '201') {
-            //         this.setState({ isLoading: false });
-            //         let res;
-            //         return response.json().then(obj => {
-            //             res = obj;
-            //             // Alert.alert('Sukses', 'Registrasi berhasil, data sudah dilengkapi',
-            //             //     [{ text: 'OK', onPress: () => this.props.navigation.navigate('Home') }],
-            //             //     { cancelable: false },
-            //             // );
-            //         })
-            //     } else if (response.status == '401') {
-            //         this.setState({ isLoading: false });
-            //         this.Unauthorized()
-            //     } else if (response.status == '400') {
-            //         this.setState({ isLoading: false });
-            //         let res;
-            //         return response.json().then(obj => {
-            //             res = obj;
-            //             console.log("Res 400", res);
-            //             Alert.alert('Gagal', res.message,
-            //                 [{ text: 'OK', onPress: () => console.log('OK Pressed') }],
-            //                 { cancelable: false },
-            //             );
-            //         })
-            //     } else {
-            //         // console.log("Response Else", response);
-            //         // this.setState({ isLoading: false });
-            //         // GLOBAL.gagalKoneksi()
-            //     }
-            // })
         }
     }
     _getAgama(token) {
@@ -312,6 +246,43 @@ class RegistPage2 extends React.Component {
         var noHpStore = await AsyncStorage.getItem('noHpValue');
         var jkStore = await AsyncStorage.getItem('jkValue');
         var tglLahirStore = await AsyncStorage.getItem('tglLahirValue');
+        if(tglLahirStore) {
+            var splitTanggalLahir = tglLahirStore.split("-");
+            this.setState({
+                tanggalValue: splitTanggalLahir[0],
+                yearValue: splitTanggalLahir[2]
+            })
+            var bulanName = '';
+            if(splitTanggalLahir[1] == "01") {
+                bulanName = "Januari";
+            } else if (splitTanggalLahir[1] == "02") {
+                bulanName =  "Februari";
+            } else if (splitTanggalLahir[1] == "03") {
+                bulanName =  "Maret";
+            } else if (splitTanggalLahir[1] == "04") {
+                bulanName =  "April";
+            } else if (splitTanggalLahir[1] == "05") {
+                bulanName =  "Mei";
+            } else if (splitTanggalLahir[1] == "06") {
+                bulanName =  "Juni";
+            } else if (splitTanggalLahir[1] == "07") {
+                bulanName =  "Juli";
+            } else if (splitTanggalLahir[1] == "08") {
+                bulanName =  "Agustus";
+            } else if (splitTanggalLahir[1] == "09") {
+                bulanName =  "September";
+            } else if (splitTanggalLahir[1] == "10") {
+                bulanName =  "Oktober";
+            } else if (splitTanggalLahir[1] == "11") {
+                bulanName = "November";
+            } else if (splitTanggalLahir[1] == "12") {
+                bulanName =  "Desember";
+            }
+            this.setState({
+                bulanValue: bulanName
+            })
+
+        }
         var tempatLahirStore = await AsyncStorage.getItem('tempatLahirValue');
         var statusNikahStore = await AsyncStorage.getItem('statusNikahValue');
         var statusNikahIdStore = await AsyncStorage.getItem('statusNikahId');
@@ -360,7 +331,6 @@ class RegistPage2 extends React.Component {
         }
     }
     _getTanggal(token) {
-        console.log("masuk get tanggal");
         const data_tanggal = [];
         for(var i = 1; i <= 31; i++) {
             data_tanggal.push({
@@ -371,8 +341,6 @@ class RegistPage2 extends React.Component {
         this.setState({
             dataTanggal: data_tanggal
         })
-        console.log("State Data Tanggal", this.state.dataTanggal);
-
         fetch(GLOBAL.getMonths(), {
             method: 'GET',
             headers: {
@@ -396,7 +364,6 @@ class RegistPage2 extends React.Component {
                             })
                         }
                         this.setState({ dataBulan: data_bulan })
-                        console.log("State Data Bulan", this.state.dataBulan);
                     })
                 } else if (response.status == '401') {
                     this.Unauthorized()
@@ -422,7 +389,6 @@ class RegistPage2 extends React.Component {
     }
 
     checkBirthDateYear(yearValue) {
-        console.log("Year Value", yearValue);
         if(!this.state.tanggalValue || !this.state.bulanValue || !this.state.yearValue) {
             this.setState({
                 errTanggalValue: "Format Tanggal Tidak Valid"
@@ -436,7 +402,6 @@ class RegistPage2 extends React.Component {
     }
 
     checkBirthDateMonth(bulanValue) {
-        console.log("Bulan Value", bulanValue);
         if(!this.state.tanggalValue || !this.state.bulanValue || !this.state.yearValue) {
             this.setState({
                 errTanggalValue: "Format Tanggal Tidak Valid"

@@ -36,12 +36,8 @@ class RegistPage1 extends React.Component {
     await AsyncStorage.clear();
     this.props.navigation.navigate('Main')
   }
-  onNext = () => {
-    this.props.navigation.navigate('Regist2')
-    let continuePage = true;
-
-    continuePage ? ['test','test1'] : 'test2';
-
+  conditionOnNext = () => {
+    let continurPage = true
     if(this.state.eKtp.length == 0) {
       continuePage = false;
       this.setState({ 
@@ -75,79 +71,74 @@ class RegistPage1 extends React.Component {
         errImgTtd: 'Foto tanda tangan tidak boleh kosong'
       });
     }
+    return continurPage;
+  }
 
-    console.log('Continue Process', continuePage);
-    continuePage = true;
-    if(continuePage) {  
-      // AsyncStorage.setItem('eKtp', this.state.eKtp);
-      // AsyncStorage.setItem('imgEktp', this.state.imgKtpSource);
-      // AsyncStorage.setItem('imgSelfi', this.state.imgSelfiSource);
-      // AsyncStorage.setItem('imgTtd', this.state.imgTtdSource);
+  generateDataSave = () => {
+      var imgNameKTP = 'imageKTP_' + this.state.eKtp;
+      var imgNameSelfi = 'imageSelfi_' + this.state.eKtp;
+      var imgNameTtd = 'imageTtd_' + this.state.eKtp;
       
-      // var imgNameKTP = 'imageKTP_' + this.state.eKtp;
-      // var imgNameSelfi = 'imageSelfi_' + this.state.eKtp;
-      // var imgNameTtd = 'imageTtd_' + this.state.eKtp;
-      // console.log('test', 'test');
       let uploadData = new FormData();
-      // uploadData.append('foto_ktp', {
-      //     type: 'image/jpeg',
-      //     name: imgNameKTP,
-      //     uri: this.state.imgKtpSource,
-      // });
-      // uploadData.append('foto_selfi', {
-      //     type: 'image/jpeg',
-      //     name: imgNameSelfi,
-      //     uri: this.state.imgSelfiSource,
-      // });
-      // uploadData.append('foto_ttd', {
-      //     type: 'image/jpeg',
-      //     name: imgNameTtd,
-      //     uri: this.state.imgTtdSource,
-      // });
+      if(this.state.imgKtpSource != this.state.fotoKtp) {
+        uploadData.append('foto_ktp', {
+          type: 'image/jpeg',
+          name: imgNameKTP,
+          uri: this.state.imgKtpSource,
+        });
+      }
+
+      if(this.state.imgSelfiSource != this.state.fotoSelfi) {
+        uploadData.append('foto_selfi', {
+          type: 'image/jpeg',
+          name: imgNameSelfi,
+          uri: this.state.imgSelfiSource,
+        });
+      }
+
+      if(this.state.imgTtdSource != this.state.fotoTtd) {
+        uploadData.append('foto_ttd', {
+          type: 'image/jpeg',
+          name: imgNameTtd,
+          uri: this.state.imgTtdSource,
+        });
+      }
+
       uploadData.append('no_ktp', this.state.eKtp);
       uploadData.append('page', '1');
-      // fetch(GLOBAL.register(), {
-      //     method: 'POST',
-      //     headers: {
-      //         'Accept': 'application/json',
-      //         'Content-Type': 'multipart/form-data',
-      //         'Authorization': this.state.myToken,
-      //     },
-      //     body: uploadData
-      // }).then((response) => {
-      //     console.log("Response Status Pendaftaran", response.status);
-      //         if (response.status == '201') {
-      //             this.setState({ isLoading: false });
-      //             let res;
-      //             return response.json().then(obj => {
-      //                 res = obj;
-      //                 // Alert.alert('Sukses', 'Registrasi berhasil, data sudah dilengkapi',
-      //                 //     [{ text: 'OK', onPress: () => this.props.navigation.navigate('Home') }],
-      //                 //     { cancelable: false },
-      //                 // );
-      //             })
-      //         } else if (response.status == '401') {
-      //             this.setState({ isLoading: false });
-      //             this.Unauthorized()
-      //         } else if (response.status == '400') {
-      //             this.setState({ isLoading: false });
-      //             let res;
-      //             return response.json().then(obj => {
-      //                 res = obj;
-      //                 console.log("Res 400", res);
-      //                 Alert.alert('Gagal', res.message,
-      //                     [{ text: 'OK', onPress: () => console.log('OK Pressed') }],
-      //                     { cancelable: false },
-      //                 );
-      //             })
-      //         } else {
-      //             console.log("Response Else", response);
-      //             this.setState({ isLoading: false });
-      //             GLOBAL.gagalKoneksi()
-      //         }
-      //     })
 
-      this.props.navigation.navigate('Regist2')
+      return uploadData;
+  }
+
+  connectToBackend = (body) => {
+    fetch(GLOBAL.register(), {
+      method: 'POST',
+      headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'multipart/form-data',
+          'Authorization': this.state.myToken,
+      },
+      body: body
+    }).then((response) => {
+      if(response.status == 200) {
+        console.log("Response Status", response.status);
+        let res;
+        return response.json().then(obj => {
+            res = obj;
+            console.log("Response Success", res.success);
+            if(res.success) {
+              this.props.navigation.navigate('Regist2')
+            }
+        })
+      }
+    })
+  }
+
+  onNext = () => {
+    let continuePage = this.conditionOnNext();
+    if(continuePage) {  
+      let body = this.generateDataSave();
+      this.connectToBackend(body);
     }
   }
 
@@ -159,7 +150,6 @@ class RegistPage1 extends React.Component {
           errKtp: 'No E-KTP tidak valid, hanya diizinkan angka',
           errKtpMsg: 'No E-KTP tidak valid, hanya diizinkan angka'
         })
-        console.log('states', this.state);
       } else {
         this.setState({
           eKtp: ktpText, 
@@ -183,54 +173,31 @@ class RegistPage1 extends React.Component {
     var aksesToken = await AsyncStorage.getItem('aksesToken');
     if (aksesToken != null) {
       var eKtpStore = await AsyncStorage.getItem('eKtp');
-
-      // var imgKtpStore = await AsyncStorage.getItem('imgEktp');
-      // var imgSelfiStore = await AsyncStorage.getItem('imgSelfi');
-      // var imgTtdStore = await AsyncStorage.getItem('imgTtd');
       if (eKtpStore != null) {
         this.setState({ eKtp: eKtpStore })
       }
-      // if (imgKtpStore != null) {
-      //   this.setState({ imgKtpSource: imgKtpStore })
-      // }
-      // if (imgSelfiStore != null) {
-      //   this.setState({ imgSelfiSource: imgSelfiStore })
-      // }
-      // if (imgTtdStore != null) {
-      //   this.setState({ imgTtdSource: imgTtdStore })
-      // }
       this.setState({
         myToken: aksesToken
       })
     } else {
       this.Unauthorized()
     }
-
+    this.getNasabah(this.state.myToken);
   }
 
   selectImage(imgPress) {
-    console.log("masuk select image");
     var option = { title: 'Pilih Gambar',cancelButtonTitle:'Batal',maxWidth:GLOBAL.maxWidthUploadImage,maxHeight:GLOBAL.maxHeightUploadImage,quality:1, storageOption: { skipBackup: true, path: 'images'}, takePhotoButtonTitle: 'Kamera', chooseFromLibraryButtonTitle: 'Galeri' };
     ImagePicker.showImagePicker(option, (response) => {
-      console.log('Response Select Image = ', response);
-
       if (response.didCancel) {
-        console.log('User cancelled image picker');
       } else if (response.error) {
-        console.log('ImagePicker Error: ', response.error);
         alert(response.error)
       } else if (response.customButton) {
-        console.log('User tapped custom button: ', response.customButton);
       } else {
         var uri = response.uri;
         if(Platform.OS == 'android' && response.width > 720){
           var newWidth = response.width*50/100;
           var newHeight = response.height*50/100;
           ImageResizer.createResizedImage(uri, newWidth, newHeight, "JPEG", 100, rotation = 0).then((res) => {
-            // response.uri is the URI of the new image that can now be displayed, uploaded...
-            // response.path is the path of the new image
-            // response.name is the name of the new image with the extension
-            // response.size is the size of the new image
             switch (imgPress) {
               case 'ktp':
                 this.setState({ imgKtpSource: res.uri });
@@ -243,8 +210,6 @@ class RegistPage1 extends React.Component {
                 break;
             }
           }).catch((err) => {
-            // Oops, something went wrong. Check that the filename is correct and
-            // inspect err to get more details.
             alert(err)
           });
         }else{
@@ -259,8 +224,6 @@ class RegistPage1 extends React.Component {
               this.setState({ imgTtdSource: uri });
               break;
           }
-             // You can also display the image using data:
-            // const source = 'data:image/jpeg;base64,' + response.data;
         }
       }
     });
@@ -270,6 +233,39 @@ class RegistPage1 extends React.Component {
     this._getStore().then(() => {
       this.setState({ refreshing: false })
     });
+  }
+
+  getNasabah(token) {
+    fetch(GLOBAL.getNasabah(), {
+      method: 'GET',
+      headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'multipart/form-data',
+          'Authorization': token,
+      }
+    }).then((response) => {
+        let res;
+        return response.json().then(obj => {
+            res = obj;
+            if(res.success) {
+              if(res.data) {
+                this.setState({
+                  eKtp: res.data.no_ktp,
+                  imgKtpSource: GLOBAL.base_url+'/file/ktp/image/'+res.data.foto_ktp,
+                  imgSelfiSource: GLOBAL.base_url+'/file/selfi/image/'+res.data.foto_selfi,
+                  imgTtdSource: GLOBAL.base_url+'/file/ttd/image/'+res.data.foto_ttd,
+                  fotoKtp: GLOBAL.base_url+'/file/ktp/image/'+res.data.foto_ktp,
+                  fotoSelfi: GLOBAL.base_url+'/file/selfi/image/'+res.data.foto_selfi,
+                  fotoTtd: GLOBAL.base_url+'/file/ttd/image/'+res.data.foto_ttd
+                })
+
+                console.log("KTP", this.state.fotoKtp);
+                console.log("Selfi", this.state.fotoSelfi);
+                console.log("TTD", this.state.fotoTtd);
+              }
+            }
+        })
+      })
   }
 
   componentDidMount() {
@@ -354,7 +350,7 @@ class RegistPage1 extends React.Component {
                 </View>
                 <View style={{ justifyContent: "center", alignItems: "center", marginBottom: 10 }}>
                   <TouchableOpacity onPress={() => { this.selectImage('selfi') }}>
-                    <Image source={{ uri: this.state.imgSelfiSource }} onLoad={e => {[this.setState({ errImgSelfi: undefined, continueProses: true}), console.log('Image', this.state.imgSelfiSourcnoe)] }} style={{ width: 100, height: 100, resizeMode: "stretch", backgroundColor: '#e1e4e8' }} />
+                    <Image source={{ uri: this.state.imgSelfiSource }} onLoad={e => {[this.setState({ errImgSelfi: undefined, continueProses: true})] }} style={{ width: 100, height: 100, resizeMode: "stretch", backgroundColor: '#e1e4e8' }} />
                   </TouchableOpacity>
                 </View>
               </View>

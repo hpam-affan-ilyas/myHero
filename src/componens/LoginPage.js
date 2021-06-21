@@ -105,6 +105,7 @@ class LoginPage extends Component {
         {cancelable: false},
       );
     } else {
+      console.log("masuk sini dong");
       this.setState({ isLoading: true });
       fetch(GLOBAL.login(), {
         method: 'POST',
